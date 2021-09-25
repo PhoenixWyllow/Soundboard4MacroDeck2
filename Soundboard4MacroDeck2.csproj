@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+		<!--<LangVersion>latest</LangVersion>-->
+        <RootNamespace>MacroDeckSoundboard</RootNamespace>
+        <UseWindowsForms>true</UseWindowsForms>
+        <AssemblyName>Soundboard4MacroDeck2</AssemblyName>
+        <ApplicationIcon>Resources\Soundboard.ico</ApplicationIcon>
+        <Win32Resource />
+        <NeutralLanguage>en</NeutralLanguage>
+        <Authors>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Authors>
+        <Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
+        <AssemblyVersion>0.0.1.0</AssemblyVersion>
+        <FileVersion>0.0.1.0</FileVersion>
+        <Version>0.0.1</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="soundboard.xcf" />
+    </ItemGroup>
+		
+    <ItemGroup>
+      <PackageReference Include="Mime-Detective.Definitions.Condensed" Version="22.7.15" />
+      <PackageReference Include="NAudio" Version="2.0.1" />
+      <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    </ItemGroup>
+		
+    <ItemGroup>
+      <Reference Include="Macro Deck 2">
+        <HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+	
+    <ItemGroup>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+	
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="xcopy /y /r /s &quot;$(OutDir)\$(TargetFileName)&quot; &quot;%25AppData%25\Macro Deck\plugins\&quot;" />
+    </Target>
+</Project>
