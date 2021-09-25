@@ -1,7 +1,6 @@
 # About Soundboard4MacroDeck2 
-<img src="Resources/SoundboardIcon.png" alt="[Soundboard Icon" height="128px" align="center"/>
-<code></code>
-<img href="https://macrodeck.org" src="https://macrodeck.org/images/works_with_macrodeck2.png" alt="Works with Macro Deck 2" height="80px" align="center"/>
+<img alt="[Soundboard Icon" height="128px" align="center" src="Resources/SoundboardIcon.png"/>  <img alt="Works with Macro Deck 2" height="64px" align="center" href="https://macrodeck.org" src="https://macrodeck.org/images/works_with_macrodeck2.png"/>
+
 
 ***
 *This is a plugin for Macro Deck 2, it does NOT function as a standalone app*
