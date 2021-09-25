@@ -1,5 +1,5 @@
 # About Soundboard4MacroDeck2 
-<img alt="[Soundboard Icon" height="128px" align="center" src="Resources/SoundboardIcon.png"/>  <img alt="Works with Macro Deck 2" height="64px" align="center" href="https://macrodeck.org" src="https://macrodeck.org/images/works_with_macrodeck2.png"/>
+<img alt="Soundboard Icon" height="128px" align="center" src="Resources/SoundboardIcon.png"/>  <img alt="Works with Macro Deck 2" height="64px" align="center" href="https://macrodeck.org" src="https://macrodeck.org/images/works_with_macrodeck2.png"/>
 
 
 ***
