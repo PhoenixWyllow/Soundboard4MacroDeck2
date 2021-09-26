@@ -2,7 +2,7 @@
 using System.IO;
 using NAudio.Wave;
 
-namespace MacroDeckSoundboard.Lib
+namespace MacroDeckSoundboard.Services
 {
     public sealed class SoundFileHandler : IDisposable
     {
@@ -11,13 +11,11 @@ namespace MacroDeckSoundboard.Lib
         private BinaryReader Reader { get; set; }
         public RawSourceWaveStream RawSource { get; set; }
 
-        internal static SoundFileHandler Init(byte[] fileData)
+        public SoundFileHandler(byte[] fileData)
         {
-            SoundFileHandler sfh = new SoundFileHandler();
-            sfh.InStream = new MemoryStream(fileData);
-            sfh.Reader = new BinaryReader(sfh.InStream);
-            sfh.RawSource = new RawSourceWaveStream(sfh.InStream, new WaveFormat(sfh.Reader));
-            return sfh;
+            InStream = new MemoryStream(fileData);
+            Reader = new BinaryReader(InStream);
+            RawSource = new RawSourceWaveStream(InStream, new WaveFormat(Reader));
         }
 
         private void Dispose(bool disposing)

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace MacroDeckSoundboard.Views
 {
-    partial class SoundboardActionConfig : ActionConfigControl
+    partial class SoundboardActionConfigView : ActionConfigControl
     {
         /// <summary>
         /// Required designer variable.

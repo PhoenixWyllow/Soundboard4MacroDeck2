@@ -15,6 +15,7 @@ namespace MacroDeckSoundboard.Models
 
         public string Serialize() => 
             JsonSerializer.Serialize(this);
+
         public static ActionParameters Deserialize(string configuration) => 
             !string.IsNullOrWhiteSpace(configuration) ? JsonSerializer.Deserialize<ActionParameters>(configuration) : new ActionParameters();
     }

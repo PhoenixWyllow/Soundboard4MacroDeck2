@@ -43,14 +43,14 @@ namespace MacroDeckSoundboard
         /// <summary>
         /// Can the plugin be configured? E.g. accounts
         /// </summary>
-        public bool CanConfigure => true;
+        public bool CanConfigure => false; //TODO
 
         /// <summary>
         /// Gets called when Macro Deck enables the plugin
         /// </summary>
         public void Enable()
         {
-            _ = Lib.SoundPlayer.Instance;
+            _ = Services.SoundPlayer.Instance;
 
             Actions = new List<IMacroDeckAction>{
                 new SoundboardPlayAction(),
@@ -62,8 +62,9 @@ namespace MacroDeckSoundboard
         /// </summary>
         public void OpenConfigurator()
         {
-            using var pluginConfig = new Views.SoundboardGlobalConfig();
-            pluginConfig.ShowDialog();
+            //TODO
+            //using var pluginConfig = new Views.SoundboardGlobalConfig();
+            //pluginConfig.ShowDialog();
         }
     }
 }

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
 using MacroDeckSoundboard.Models;
 using MimeDetective;
 using MimeDetective.Storage;
-using NAudio;
 using NAudio.Wave;
 
-namespace MacroDeckSoundboard.Lib
+namespace MacroDeckSoundboard.Services
 {
     public sealed class SoundPlayer
     {
@@ -112,7 +109,7 @@ namespace MacroDeckSoundboard.Lib
 
             if (_fileHandler is null)
             {
-                _fileHandler = SoundFileHandler.Init(Parameters.FileData);
+                _fileHandler = new SoundFileHandler(Parameters.FileData);
                 _outputDevice.Init(_fileHandler.RawSource);
             }
             _outputDevice.Play();

@@ -1,7 +1,7 @@
 ﻿
 namespace MacroDeckSoundboard.Views
 {
-    partial class SoundboardGlobalConfig
+    partial class SoundboardGlobalConfigView
     {
         /// <summary>
         /// Required designer variable.

@@ -1,12 +1,7 @@
-﻿using SuchByte.MacroDeck;
-using SuchByte.MacroDeck.ActionButton;
+﻿using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
-using SuchByte.MacroDeck.Server;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MacroDeckSoundboard.Actions
 {
@@ -44,7 +39,7 @@ namespace MacroDeckSoundboard.Actions
         /// <returns></returns>
         public ActionConfigControl GetActionConfigurator(ActionConfigurator actionConfigurator)
         {
-            return new Views.SoundboardActionConfig(this, actionConfigurator);
+            return new Views.SoundboardActionConfigView(this, actionConfigurator);
         }
 
         /// <summary>
@@ -61,17 +56,10 @@ namespace MacroDeckSoundboard.Actions
             
             try
             {
-                //if (Main.Sinusbot == null || Main.Sinusbot.LoggedIn == false) return;
-                //string instanceId = JObject.Parse(this.Configuration)["instanceId"].ToString();
-                //string fileId = JObject.Parse(this.Configuration)["fileId"].ToString();
-                //int volume = Int32.Parse(JObject.Parse(this.Configuration)["volume"].ToString());
-                //if (volume > -1)
-                //{
-                //    Main.Sinusbot.SetVolume(instanceId, volume);
-                //}
-                //Main.Sinusbot.PlayFile(instanceId, fileId);
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
 }

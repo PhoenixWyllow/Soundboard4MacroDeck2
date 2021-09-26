@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace MacroDeckSoundboard.Lib
+namespace MacroDeckSoundboard.Services
 {
     public static class Retry
     {
