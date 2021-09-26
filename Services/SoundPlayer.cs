@@ -1,51 +1,44 @@
-﻿using System;
-using System.Collections.Immutable;
-using MacroDeckSoundboard.Models;
-using MimeDetective;
-using MimeDetective.Storage;
-using NAudio.Wave;
+﻿using NAudio.Wave;
+using Soundboard4MacroDeck.Models;
+using System;
 
-namespace MacroDeckSoundboard.Services
+namespace Soundboard4MacroDeck.Services
 {
     public sealed class SoundPlayer
     {
-        public static readonly ImmutableArray<string> Extensions = new[]{
-            "aif","m4a","mid","midi","mp3","ogg","wav","wma",
-            }.ToImmutableArray();
+        public static string[] Extensions { get; } = {
+            "mid", "midi", "m4a", "mp4a", "mpga", "mp3", "m3a", "ogg", "weba", "aac", "aif", "aiff", "flac", "m3u", "wma", "wav",
+            };
 
-        public static SoundPlayer Instance => _instance.Value;
-        private static readonly Lazy<SoundPlayer> _instance = new Lazy<SoundPlayer>(() => new SoundPlayer());
-        private ContentInspector Inspector { get; }
+        public static void CreateInstance()
+        {
+            if (Instance is null)
+            {
+                lock (load)
+                {
+                    Instance = new SoundPlayer();
+                }
+            }
+        }
+        private static readonly object load = new object();
+
+        public static SoundPlayer Instance { get; private set; }// => _instance.Value;
+        //private static readonly Lazy<SoundPlayer> _instance = new Lazy<SoundPlayer>(() => new SoundPlayer());
+
         private SoundPlayer()
         {
-            var AllDefinitions = new MimeDetective.Definitions.CondensedBuilder()
-            {
-                UsageType = MimeDetective.Definitions.Licensing.UsageType.PersonalNonCommercial
-            }.Build();
-            
-            var ScopedDefinitions = AllDefinitions
-                .ScopeExtensions(Extensions) //Limit results to only the extensions provided
-                .TrimMeta() //don't care about the meta information (definition author, creation date, etc)
-                .TrimDescription() //don't care about the description
-                .TrimMimeType() //don't care about the mime type
-                .ToImmutableArray();
-
-            Inspector = new ContentInspectorBuilder()
-            {
-                Definitions = ScopedDefinitions,
-            }.Build();
         }
 
         public bool IsValidFile(byte[] data)
         {
-            var results = Inspector.Inspect(data.ToImmutableArray());
-            return !results.IsDefaultOrEmpty;
+            return Array.Exists(Extensions, ext => ext == HeyRed.Mime.MimeGuesser.GuessExtension(data));
         }
 
         private WaveOutEvent _outputDevice;
         private SoundFileHandler _fileHandler;
 
         private ActionParameters Parameters { get; set; }
+
 
         public void Execute(string config)
         {
@@ -115,4 +108,5 @@ namespace MacroDeckSoundboard.Services
             _outputDevice.Play();
         }
     }
+    
 }

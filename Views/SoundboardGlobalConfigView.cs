@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MacroDeckSoundboard.Views
+namespace Soundboard4MacroDeck.Views
 {
     public partial class SoundboardGlobalConfigView : DialogForm
     {

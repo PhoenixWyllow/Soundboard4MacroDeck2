@@ -2,7 +2,7 @@
 using System.IO;
 using NAudio.Wave;
 
-namespace MacroDeckSoundboard.Services
+namespace Soundboard4MacroDeck.Services
 {
     public sealed class SoundFileHandler : IDisposable
     {

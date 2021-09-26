@@ -1,4 +1,4 @@
-﻿using MacroDeckSoundboard.Models;
+﻿using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.Plugins;
 using System;
@@ -7,14 +7,15 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MacroDeckSoundboard.ViewModels
+namespace Soundboard4MacroDeck.ViewModels
 {
-    internal class SoundboardActionConfigViewModel
+    public class SoundboardActionConfigViewModel
     {
         private readonly IMacroDeckAction _action;
         private readonly ActionParameters _parameters;
+        public string LastCheckedPath => _parameters.FilePath;
 
-        public SoundboardActionConfigViewModel(IMacroDeckAction action, ActionConfigurator actionConfigurator)
+        public SoundboardActionConfigViewModel(IMacroDeckAction action)
         {
             _action = action;
             _parameters = ActionParameters.Deserialize(_action.Configuration);
@@ -25,44 +26,40 @@ namespace MacroDeckSoundboard.ViewModels
             try
             {
                 _action.Configuration = _parameters.Serialize();
-                Debug.WriteLine($"{nameof(SoundboardActionConfigViewModel)} saved");
+                Debug.WriteLine($"{nameof(SoundboardActionConfigViewModel)} config saved");
             }
             catch (Exception ex)
             {
-                Debug.Fail($"{nameof(SoundboardActionConfigViewModel)} NOT saved");
+                Debug.Fail($"{nameof(SoundboardActionConfigViewModel)} config NOT saved");
                 Debug.WriteLine(ex.Message);
             }
         }
 
-        public async Task<bool> GetBytesFrom(string fileOrURL, System.Windows.Forms.ProgressBar progressBar)
+        public async Task<bool> GetBytesFromFile(string filePath)
         {
             byte[] data = null;
-            Uri uri = new Uri(fileOrURL);
-            if (uri.IsWellFormedOriginalString())
+            if (System.IO.File.Exists(filePath))
             {
-                if (uri.IsFile)
-                {
-                    data = await System.IO.File.ReadAllBytesAsync(fileOrURL);
-                }
-                else
-                {
-                    data = await GetFromUrl(uri, progressBar);
-                }
-
+                data = await System.IO.File.ReadAllBytesAsync(filePath);
+                
                 if (data != null && !Services.SoundPlayer.Instance.IsValidFile(data))
                 {
                     data = null;
                 }
             }
-            _parameters.FileData = data;
-
+            if (data != null)
+            {
+                _parameters.FileData = data;
+                _parameters.FilePath = filePath;
+            }
             return data != null;
         }
 
-        private Task<byte[]> GetFromUrl(Uri uri, System.Windows.Forms.ProgressBar progressBar)
+        public async Task<bool> GetFromUrl(string urlPath, System.Windows.Forms.ProgressBar progressBar)
         {
+            byte[] data = null;
             try
-            {
+            {            
                 progressBar.Visible = true;
 
                 using var webClient = new System.Net.WebClient();
@@ -75,7 +72,12 @@ namespace MacroDeckSoundboard.ViewModels
                     progressBar.Visible = false;
                 };
 
-                return webClient.DownloadDataTaskAsync(uri);
+                data = await webClient.DownloadDataTaskAsync(urlPath);
+
+                if (data != null && !Services.SoundPlayer.Instance.IsValidFile(data))
+                {
+                    data = null;
+                }
             }
             catch (Exception ex)
             {
@@ -84,9 +86,15 @@ namespace MacroDeckSoundboard.ViewModels
             finally
             {
                 progressBar.Visible = false;
+
+                if (data != null)
+                {
+                    _parameters.FileData = data;
+                    _parameters.FilePath = urlPath;
+                }
             }
 
-            return null;
+            return data != null;
         }
     }
 }

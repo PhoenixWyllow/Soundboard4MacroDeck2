@@ -2,10 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-		<!--<LangVersion>latest</LangVersion>-->
-        <RootNamespace>MacroDeckSoundboard</RootNamespace>
+        <RootNamespace>Soundboard4MacroDeck</RootNamespace>
         <UseWindowsForms>true</UseWindowsForms>
-        <AssemblyName>Soundboard4MacroDeck2</AssemblyName>
+        <AssemblyName>Soundboard4MacroDeck</AssemblyName>
         <ApplicationIcon>Resources\Soundboard.ico</ApplicationIcon>
         <Win32Resource />
         <NeutralLanguage>en</NeutralLanguage>
@@ -14,6 +13,8 @@
         <AssemblyVersion>0.0.1.0</AssemblyVersion>
         <FileVersion>0.0.1.0</FileVersion>
         <Version>0.0.1</Version>
+        <OutputType>Library</OutputType>
+        <StartupObject />
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +22,7 @@
     </ItemGroup>
 		
     <ItemGroup>
-      <PackageReference Include="Mime-Detective.Definitions.Condensed" Version="22.7.15" />
+      <PackageReference Include="Mime" Version="3.2.3" />
       <PackageReference Include="NAudio" Version="2.0.1" />
       <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     </ItemGroup>

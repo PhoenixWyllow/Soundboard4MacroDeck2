@@ -1,24 +1,21 @@
 ﻿using SuchByte.MacroDeck.Plugins;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Reflection;
-using MacroDeckSoundboard.Actions;
+using Soundboard4MacroDeck.Actions;
 
-namespace MacroDeckSoundboard
+namespace Soundboard4MacroDeck
 {
     public class Main : IMacroDeckPlugin
     {
         /// <summary>
         /// Name of the plugin
-        /// Please don't change
         /// </summary>
-        public string Name => Assembly.GetExecutingAssembly().GetName().Name;
+        public string Name => typeof(Main).Assembly.GetName().Name;
 
         /// <summary>
         /// Version of the plugin
-        /// Please don't change
         /// </summary>
-        public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public string Version => typeof(Main).Assembly.GetName().Version.ToString();
 
         /// <summary>
         /// Author of the plugin
@@ -50,9 +47,10 @@ namespace MacroDeckSoundboard
         /// </summary>
         public void Enable()
         {
-            _ = Services.SoundPlayer.Instance;
+            Services.SoundPlayer.CreateInstance();
 
-            Actions = new List<IMacroDeckAction>{
+            Actions = new List<IMacroDeckAction>
+            {
                 new SoundboardPlayAction(),
             };
         }

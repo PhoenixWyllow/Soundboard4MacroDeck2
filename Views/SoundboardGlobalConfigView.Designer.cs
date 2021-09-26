@@ -1,5 +1,5 @@
 ﻿
-namespace MacroDeckSoundboard.Views
+namespace Soundboard4MacroDeck.Views
 {
     partial class SoundboardGlobalConfigView
     {

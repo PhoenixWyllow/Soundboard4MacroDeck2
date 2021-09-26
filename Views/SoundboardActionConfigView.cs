@@ -1,60 +1,78 @@
-﻿using MacroDeckSoundboard.Models;
-using MacroDeckSoundboard.ViewModels;
+﻿using Soundboard4MacroDeck.ViewModels;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 using System;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MacroDeckSoundboard.Views
+namespace Soundboard4MacroDeck.Views
 {
     public partial class SoundboardActionConfigView : ActionConfigControl
     {
         private readonly SoundboardActionConfigViewModel _viewModel;
+        private bool checkedFile = false;
 
         public SoundboardActionConfigView(IMacroDeckAction action, ActionConfigurator actionConfigurator)
         {
-            _viewModel = new SoundboardActionConfigViewModel(action, actionConfigurator);
+            _viewModel = new SoundboardActionConfigViewModel(action);
 
             InitializeComponent();
             InitMore();
-            this.Load += SoundboardActionConfig_Load;
-            this.filePath.TextChanged += FilePath_TextChanged;
+
             actionConfigurator.ActionSave += OnActionSave;
         }
 
         private void InitMore()
         {
             // openFileDialog
-            var types = $"*.{string.Join(";*.",Services.SoundPlayer.Extensions)};*.aac";
+            var types = $"*.{string.Join(";*.", Services.SoundPlayer.Extensions)}";
             this.openFileDialog.Filter = $"Audio File ({types})|{types}";
             this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            // filePath
+            filePath.Text = _viewModel.LastCheckedPath;
+            checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
-
-        private void SoundboardActionConfig_Load(object sender, EventArgs e)
+        private async void OnActionSave(object sender, EventArgs e)
         {
+            if (!checkedFile)
+            {
+                await CheckFile();
+            }
+
+            _viewModel.SaveConfig();
         }
 
-        private async void FilePath_TextChanged(object sender, EventArgs e)
+        private async Task CheckFile()
         {
-            bool hasFile = await _viewModel.GetBytesFrom(((TextBox)sender).Text, fileProgressBar);
+            bool hasFile = !checkedFile
+                && (filePath.Text.Equals(_viewModel.LastCheckedPath)
+                || await _viewModel.GetBytesFromFile(filePath.Text));
             if (!hasFile)
             {
-                ((TextBox)sender).Text = "";
+                filePath.Text = _viewModel.LastCheckedPath;
                 using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
                 messageBox.ShowDialog("InvalidFile", "CouldNotUseFile", MessageBoxButtons.OK);
                 return;
             }
+            checkedFile = true;
         }
 
-        private void OnActionSave(object sender, EventArgs e)
+        private async void FileBrowse_Click(object sender, EventArgs e)
         {
-            _viewModel.SaveConfig();
+            if (openFileDialog.ShowDialog(this.ParentForm).Equals(DialogResult.OK))
+            {
+                checkedFile = false;
+                filePath.Text = openFileDialog.FileName;
+                await CheckFile();
+            }
         }
 
+        private void FilePath_TextChanged(object sender, EventArgs e)
+        {
+            checkedFile = false;
+        }
     }
 }

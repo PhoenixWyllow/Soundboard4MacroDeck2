@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soundboard4MacroDeck2", "Soundboard4MacroDeck2.csproj", "{2879CD36-47AA-4083-9102-20A54752C093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soundboard4MacroDeck", "Soundboard4MacroDeck.csproj", "{2879CD36-47AA-4083-9102-20A54752C093}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

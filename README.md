@@ -10,8 +10,9 @@ Create a button and configure your audio file.
 ***
 ## Third party licenses
 This plugin makes use of:
-- Macro Deck by SuchByte
-- NAudio by Mark Heath (MIT license)
+- [Macro Deck 2 by SuchByte](https://macrodeck.org)
+- [NAudio by Mark Heath (MIT license)](https://github.com/naudio/NAudio)
+- [Mime by red (MIT license)](https://github.com/hey-red/Mime)
 
 Icon is a merge of the Macro Deck 2 icon by SuchByte and sound blaster by Anatolii Babii from the Noun Project.
 ***

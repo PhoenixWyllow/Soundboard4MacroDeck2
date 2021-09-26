@@ -3,11 +3,10 @@ using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 
-namespace MacroDeckSoundboard.Actions
+namespace Soundboard4MacroDeck.Actions
 {
     public class SoundboardPlayAction : IMacroDeckAction
     {
-
         /// <summary>
         /// Name of the action
         /// </summary>
@@ -24,7 +23,7 @@ namespace MacroDeckSoundboard.Actions
         public string DisplayName { get; set; } = "Play sound";
 
         /// <summary>
-        /// Configuration of the action. Just leave it how it is.
+        /// Configuration of the action.
         /// </summary>
         public string Configuration { get; set; } = string.Empty;
 
