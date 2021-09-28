@@ -1,4 +1,5 @@
-﻿using NAudio.Wave;
+﻿using MimeGuesser = HeyRed.Mime.MimeGuesser;
+using NAudio.Wave;
 using Soundboard4MacroDeck.Models;
 using System;
 
@@ -29,9 +30,10 @@ namespace Soundboard4MacroDeck.Services
         {
         }
 
-        public bool IsValidFile(byte[] data)
+        public static bool IsValidFile(byte[] data)
         {
-            return Array.Exists(Extensions, ext => ext == HeyRed.Mime.MimeGuesser.GuessExtension(data));
+            string dataExt = MimeGuesser.GuessExtension(data);
+            return Array.Exists(Extensions, ext => ext == dataExt);
         }
 
         private WaveOutEvent _outputDevice;

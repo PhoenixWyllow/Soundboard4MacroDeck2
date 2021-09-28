@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using SystemIOFile = System.IO.File;
+using SystemNetWebClient = System.Net.WebClient;
 
 namespace Soundboard4MacroDeck.ViewModels
 {
@@ -38,11 +40,11 @@ namespace Soundboard4MacroDeck.ViewModels
         public async Task<bool> GetBytesFromFile(string filePath)
         {
             byte[] data = null;
-            if (System.IO.File.Exists(filePath))
+            if (SystemIOFile.Exists(filePath))
             {
-                data = await System.IO.File.ReadAllBytesAsync(filePath);
+                data = await SystemIOFile.ReadAllBytesAsync(filePath);
                 
-                if (data != null && !Services.SoundPlayer.Instance.IsValidFile(data))
+                if (data != null && !Services.SoundPlayer.IsValidFile(data))
                 {
                     data = null;
                 }
@@ -62,7 +64,7 @@ namespace Soundboard4MacroDeck.ViewModels
             {            
                 progressBar.Visible = true;
 
-                using var webClient = new System.Net.WebClient();
+                using var webClient = new SystemNetWebClient();
                 webClient.DownloadProgressChanged += (s, e) =>
                 {
                     progressBar.Value = e.ProgressPercentage;
@@ -74,7 +76,7 @@ namespace Soundboard4MacroDeck.ViewModels
 
                 data = await webClient.DownloadDataTaskAsync(urlPath);
 
-                if (data != null && !Services.SoundPlayer.Instance.IsValidFile(data))
+                if (data != null && !Services.SoundPlayer.IsValidFile(data))
                 {
                     data = null;
                 }

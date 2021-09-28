@@ -74,5 +74,15 @@ namespace Soundboard4MacroDeck.Views
         {
             checkedFile = false;
         }
+
+        private void ButtonGetFromURL_Click(object sender, EventArgs e)
+        {
+            using var getFromURLDialog = new GetFileFromWebView(_viewModel);
+            if (getFromURLDialog.ShowDialog(this.ParentForm) == DialogResult.OK)
+            {
+                filePath.Text = _viewModel.LastCheckedPath;
+                checkedFile = true;
+            }
+        }
     }
 }
