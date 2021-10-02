@@ -26,12 +26,13 @@ namespace Soundboard4MacroDeck.Views
         private void InitMore()
         {
             // openFileDialog
-            var types = $"*.{string.Join(";*.", Services.SoundPlayer.Extensions)}";
+            string types = $"{string.Join(";", Models.AudioFileTypes.Extensions)}";
             this.openFileDialog.Filter = $"Audio File ({types})|{types}";
             this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             // filePath
             filePath.Text = _viewModel.LastCheckedPath;
+            volumeBar.Value = _viewModel.PlayVolume;
             checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
@@ -39,17 +40,17 @@ namespace Soundboard4MacroDeck.Views
         {
             if (!checkedFile)
             {
-                await CheckFile();
+                await CheckFileAsync();
             }
 
             _viewModel.SaveConfig();
         }
 
-        private async Task CheckFile()
+        private async Task CheckFileAsync()
         {
             bool hasFile = !checkedFile
                 && (filePath.Text.Equals(_viewModel.LastCheckedPath)
-                || await _viewModel.GetBytesFromFile(filePath.Text));
+                || await _viewModel.GetBytesFromFileAsync(filePath.Text));
             if (!hasFile)
             {
                 filePath.Text = _viewModel.LastCheckedPath;
@@ -66,7 +67,7 @@ namespace Soundboard4MacroDeck.Views
             {
                 checkedFile = false;
                 filePath.Text = openFileDialog.FileName;
-                await CheckFile();
+                await CheckFileAsync();
             }
         }
 
@@ -82,6 +83,23 @@ namespace Soundboard4MacroDeck.Views
             {
                 filePath.Text = _viewModel.LastCheckedPath;
                 checkedFile = true;
+            }
+        }
+
+        private void VolumeBar_ValueChanged(object sender, EventArgs e)
+        {
+            if (volumeNum.Value != volumeBar.Value)
+            {
+                volumeNum.Value = volumeBar.Value;
+            }
+            _viewModel.PlayVolume = volumeBar.Value;
+        }
+
+        private void VolumeNum_ValueChanged(object sender, EventArgs e)
+        {
+            if (volumeBar.Value != volumeNum.Value)
+            {
+                volumeBar.Value = (int)volumeNum.Value;
             }
         }
     }

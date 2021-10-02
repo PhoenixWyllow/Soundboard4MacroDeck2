@@ -26,8 +26,8 @@ namespace Soundboard4MacroDeck.Views
 
         private async void ButtonOK_Click(object sender, EventArgs e)
         {
-            bool hasFile = !checkedFile 
-                && (urlBox.Text.Equals(_viewModel.LastCheckedPath) 
+            bool hasFile = !checkedFile
+                && (urlBox.Text.Equals(_viewModel.LastCheckedPath)
                 || await _viewModel.GetFromUrl(urlBox.Text, fileProgressBar));
             if (!hasFile)
             {
@@ -36,7 +36,9 @@ namespace Soundboard4MacroDeck.Views
                 messageBox.ShowDialog("InvalidFile", "CouldNotUseFile", MessageBoxButtons.OK);
                 return;
             }
-            checkedFile = true;
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void UrlBox_TextChanged(object sender, EventArgs e)

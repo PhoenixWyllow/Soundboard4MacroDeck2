@@ -1,16 +1,14 @@
-﻿using MimeGuesser = HeyRed.Mime.MimeGuesser;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using Soundboard4MacroDeck.Models;
 using System;
+using Myrmec;
+using System.IO;
+using System.Linq;
 
 namespace Soundboard4MacroDeck.Services
 {
     public sealed class SoundPlayer
     {
-        public static string[] Extensions { get; } = {
-            "mid", "midi", "m4a", "mp4a", "mpga", "mp3", "m3a", "ogg", "weba", "aac", "aif", "aiff", "flac", "m3u", "wma", "wav",
-            };
-
         public static void CreateInstance()
         {
             if (Instance is null)
@@ -30,14 +28,27 @@ namespace Soundboard4MacroDeck.Services
         {
         }
 
-        public static bool IsValidFile(byte[] data)
+        public static bool IsValidFile(byte[] data, out string extension)
         {
-            string dataExt = MimeGuesser.GuessExtension(data);
-            return Array.Exists(Extensions, ext => ext == dataExt);
+            byte[] fileHead = new byte[100];
+
+            Array.Copy(data, fileHead, fileHead.Length);
+
+            Sniffer sniffer = new Sniffer();
+            sniffer.Populate(AudioFileTypes.Records);
+
+            var matches = sniffer.Match(fileHead);
+            if (matches.Count > 0)
+            {
+                extension = matches[0];
+                return true;
+            }
+            extension = string.Empty;
+            return false;
         }
 
         private WaveOutEvent _outputDevice;
-        private SoundFileHandler _fileHandler;
+        private AudioBytesReader _fileReader;
 
         private ActionParameters Parameters { get; set; }
 
@@ -86,10 +97,10 @@ namespace Soundboard4MacroDeck.Services
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs args)
         {
-            _outputDevice.Dispose();
+            _outputDevice?.Dispose();
             _outputDevice = null;
-            _fileHandler?.Dispose();
-            _fileHandler = null;
+            _fileReader?.Dispose();
+            _fileReader = null;
         }
 
         private void PlaySingle()
@@ -102,13 +113,14 @@ namespace Soundboard4MacroDeck.Services
 
             _outputDevice.Volume = Math.Min(Parameters.Volume / 100f, 1f);
 
-            if (_fileHandler is null)
+            if (_fileReader is null || !_fileReader.FileName.Equals(Parameters.FileName))
             {
-                _fileHandler = new SoundFileHandler(Parameters.FileData);
-                _outputDevice.Init(_fileHandler.RawSource);
+                _fileReader = new AudioBytesReader(Parameters.FileName, Parameters.FileData);
+                _outputDevice.Init(_fileReader);
             }
+
             _outputDevice.Play();
         }
     }
-    
+
 }

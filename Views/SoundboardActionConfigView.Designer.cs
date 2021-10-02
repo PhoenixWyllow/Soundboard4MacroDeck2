@@ -37,9 +37,13 @@ namespace Soundboard4MacroDeck.Views
             this.filePath = new System.Windows.Forms.TextBox();
             this.fileBrowse = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.buttonGetFromURL = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.volumeBar = new System.Windows.Forms.TrackBar();
             this.labelOr = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.labelFile = new System.Windows.Forms.Label();
+            this.labelVolume = new System.Windows.Forms.Label();
+            this.volumeNum = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeNum)).BeginInit();
             this.SuspendLayout();
             // 
             // filePath
@@ -51,6 +55,7 @@ namespace Soundboard4MacroDeck.Views
             this.filePath.Location = new System.Drawing.Point(13, 40);
             this.filePath.Margin = new System.Windows.Forms.Padding(0);
             this.filePath.Name = "filePath";
+            this.filePath.PlaceholderText = "Get file locally";
             this.filePath.Size = new System.Drawing.Size(380, 30);
             this.filePath.TabIndex = 0;
             this.filePath.TextChanged += new System.EventHandler(this.FilePath_TextChanged);
@@ -87,15 +92,16 @@ namespace Soundboard4MacroDeck.Views
             this.buttonGetFromURL.UseVisualStyleBackColor = true;
             this.buttonGetFromURL.Click += new System.EventHandler(this.ButtonGetFromURL_Click);
             // 
-            // trackBar1
+            // volumeBar
             // 
-            this.trackBar1.Location = new System.Drawing.Point(13, 100);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(285, 45);
-            this.trackBar1.TabIndex = 4;
-            this.trackBar1.TickFrequency = 10;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.volumeBar.Location = new System.Drawing.Point(13, 119);
+            this.volumeBar.Maximum = 100;
+            this.volumeBar.Name = "volumeBar";
+            this.volumeBar.Size = new System.Drawing.Size(285, 45);
+            this.volumeBar.TabIndex = 4;
+            this.volumeBar.TickFrequency = 10;
+            this.volumeBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.volumeBar.ValueChanged += new System.EventHandler(this.VolumeBar_ValueChanged);
             // 
             // labelOr
             // 
@@ -107,19 +113,58 @@ namespace Soundboard4MacroDeck.Views
             this.labelOr.Text = "or";
             this.labelOr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // labelFile
+            // 
+            this.labelFile.AutoSize = true;
+            this.labelFile.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelFile.Location = new System.Drawing.Point(13, 24);
+            this.labelFile.Name = "labelFile";
+            this.labelFile.Size = new System.Drawing.Size(56, 16);
+            this.labelFile.TabIndex = 6;
+            this.labelFile.Text = "File path";
+            // 
+            // labelVolume
+            // 
+            this.labelVolume.AutoSize = true;
+            this.labelVolume.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelVolume.Location = new System.Drawing.Point(13, 100);
+            this.labelVolume.Name = "labelVolume";
+            this.labelVolume.Size = new System.Drawing.Size(50, 16);
+            this.labelVolume.TabIndex = 7;
+            this.labelVolume.Text = "Volume";
+            // 
+            // volumeNum
+            // 
+            this.volumeNum.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.volumeNum.Location = new System.Drawing.Point(304, 129);
+            this.volumeNum.Name = "volumeNum";
+            this.volumeNum.Size = new System.Drawing.Size(58, 23);
+            this.volumeNum.TabIndex = 8;
+            this.volumeNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.volumeNum.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.volumeNum.ValueChanged += new System.EventHandler(this.VolumeNum_ValueChanged);
+            // 
             // SoundboardActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.volumeNum);
+            this.Controls.Add(this.labelVolume);
+            this.Controls.Add(this.labelFile);
             this.Controls.Add(this.labelOr);
-            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.volumeBar);
             this.Controls.Add(this.buttonGetFromURL);
             this.Controls.Add(this.fileBrowse);
             this.Controls.Add(this.filePath);
             this.Margin = new System.Windows.Forms.Padding(10);
             this.Name = "SoundboardActionConfigView";
             this.Padding = new System.Windows.Forms.Padding(10);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeNum)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,7 +175,10 @@ namespace Soundboard4MacroDeck.Views
         private System.Windows.Forms.TextBox filePath;
         private SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary fileBrowse;
         private ButtonPrimary buttonGetFromURL;
-        private TrackBar trackBar1;
+        private TrackBar volumeBar;
         private Label labelOr;
+        private Label labelFile;
+        private Label labelVolume;
+        private NumericUpDown volumeNum;
     }
 }

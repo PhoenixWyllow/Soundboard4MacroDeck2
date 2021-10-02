@@ -1,9 +1,11 @@
-﻿using Soundboard4MacroDeck.Models;
+﻿using Soundboard4MacroDeck.Actions;
+using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SystemIOFile = System.IO.File;
@@ -17,10 +19,17 @@ namespace Soundboard4MacroDeck.ViewModels
         private readonly ActionParameters _parameters;
         public string LastCheckedPath => _parameters.FilePath;
 
+        public int PlayVolume
+        {
+            get => _parameters.Volume;
+            set => _parameters.Volume = value;
+        }
+
         public SoundboardActionConfigViewModel(IMacroDeckAction action)
         {
             _action = action;
-            _parameters = ActionParameters.Deserialize(_action.Configuration);
+            _parameters = ActionParameters.Deserialize(action.Configuration);
+            _parameters.ActionType = (SoundboardActions)((_action as ISoundboardPlayAction)?.ActionType);
         }
 
         public void SaveConfig()
@@ -37,14 +46,14 @@ namespace Soundboard4MacroDeck.ViewModels
             }
         }
 
-        public async Task<bool> GetBytesFromFile(string filePath)
+        public async Task<bool> GetBytesFromFileAsync(string filePath)
         {
             byte[] data = null;
             if (SystemIOFile.Exists(filePath))
             {
                 data = await SystemIOFile.ReadAllBytesAsync(filePath);
-                
-                if (data != null && !Services.SoundPlayer.IsValidFile(data))
+
+                if (data != null && !Services.SoundPlayer.IsValidFile(data, out string extension))
                 {
                     data = null;
                 }
@@ -60,8 +69,9 @@ namespace Soundboard4MacroDeck.ViewModels
         public async Task<bool> GetFromUrl(string urlPath, System.Windows.Forms.ProgressBar progressBar)
         {
             byte[] data = null;
+            string extension = string.Empty;
             try
-            {            
+            {
                 progressBar.Visible = true;
 
                 using var webClient = new SystemNetWebClient();
@@ -76,7 +86,7 @@ namespace Soundboard4MacroDeck.ViewModels
 
                 data = await webClient.DownloadDataTaskAsync(urlPath);
 
-                if (data != null && !Services.SoundPlayer.IsValidFile(data))
+                if (data != null && !Services.SoundPlayer.IsValidFile(data, out extension))
                 {
                     data = null;
                 }
@@ -89,10 +99,11 @@ namespace Soundboard4MacroDeck.ViewModels
             {
                 progressBar.Visible = false;
 
-                if (data != null)
+                if (data != null && !string.IsNullOrWhiteSpace(extension))
                 {
                     _parameters.FileData = data;
                     _parameters.FilePath = urlPath;
+                    _parameters.FileExt = AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
                 }
             }
 

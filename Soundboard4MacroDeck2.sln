@@ -21,5 +21,30 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40215FF3-FD92-4527-BA1A-4351A96723C5}
+		BuildVersion_BuildVersioningStyle = None.None.YearDayOfYearStamp.Increment
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_StartDate = 2000/1/1
+		BuildVersion_ConfigurationName = Release
+		BuildVersion_UseUniversalClock = True
+	EndGlobalSection
+	GlobalSection(AutomaticVersions) = postSolution
+		PrimaryVersionType = AssemblyVersionAttribute
+		UpdateAssemblyVersion = True
+		UpdateAssemblyFileVersion = True
+		UpdateAssemblyInfoVersion = True
+		AdvancedSettingsExpanded = True
+		AssemblyVersionSettings = None.IncrementOnDemand.DateStamp.IncrementWithResetOnIncrease
+		AssemblyFileVersionSettings = None.IncrementOnDemand.DateStamp.IncrementWithResetOnIncrease
+		AssemblyInfoVersionSettings = None.IncrementOnDemand.DateStamp.IncrementWithResetOnIncrease
+		UpdatePackageVersion = False
+		AssemblyInfoVersionType = SettingsVersion
+		InheritWinAppVersionFrom = None
+		UpdateAssemblyVersion.Release|Any CPU = False
+		UpdateAssemblyFileVersion.Release|Any CPU = False
+		UpdateAssemblyInfoVersion.Release|Any CPU = False
+		UpdatePackageVersion.Release|Any CPU = False
+		AssemblyInfoVersionType.Release|Any CPU = SettingsVersion
+		InheritWinAppVersionFrom.Release|Any CPU = None
 	EndGlobalSection
 EndGlobal

@@ -1,11 +1,13 @@
-﻿using SuchByte.MacroDeck.ActionButton;
+﻿using Soundboard4MacroDeck.Models;
+using Soundboard4MacroDeck.Services;
+using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Actions
 {
-    public class SoundboardPlayAction : IMacroDeckAction
+    public class SoundboardPlayAction : IMacroDeckAction, ISoundboardPlayAction
     {
         /// <summary>
         /// Name of the action
@@ -32,6 +34,8 @@ namespace Soundboard4MacroDeck.Actions
         /// </summary>
         public bool CanConfigure => true;
 
+        public SoundboardActions ActionType => SoundboardActions.Play;
+
         /// <summary>
         /// Return the ActionConfigControl for this action, if action can be configured. Return null if plugin cannot be configured and you set CanConfigure to false.
         /// </summary>
@@ -52,12 +56,14 @@ namespace Soundboard4MacroDeck.Actions
             {
                 return;
             }
-            
+
             try
             {
+                SoundPlayer.Instance.Execute(Configuration);
             }
             catch
             {
+                SoundPlayer.Instance.StopAll();
             }
         }
     }
