@@ -7,10 +7,15 @@
 ***
 ## Create your own soundboard
 Create a button and configure your audio file.
+
+You may choose either a local file or one from the web (please check you have permission, first!)
+
+More features/actions coming soon...
+
 ***
 ## Third party licenses
 This plugin makes use of:
-- [Macro Deck 2 by SuchByte](https://macrodeck.org)
+- [Macro Deck 2 by SuchByte (Apache License 2.0)](https://macrodeck.org)
 - [NAudio by Mark Heath (MIT License)](https://github.com/naudio/NAudio)
 - [Myrmec by rocketRobin (forked) (Apache License 2.0)](https://github.com/PhoenixWyllow/myrmec/)
 

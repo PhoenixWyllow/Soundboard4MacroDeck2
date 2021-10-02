@@ -19,6 +19,11 @@
 		<IsPublishable>False</IsPublishable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>E:\Code\source\repos\PhoenixWyllow\Soundboard4MacroDeck2\LICENSE</PackageLicenseFile>
+		<Description>Create a button in Macro Deck and configure your audio file.
+
+You may choose either a local file or one from the web (please check you have permission, first!)</Description>
+		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
