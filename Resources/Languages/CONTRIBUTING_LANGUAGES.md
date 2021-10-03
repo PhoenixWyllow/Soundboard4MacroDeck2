@@ -4,8 +4,8 @@ This plugin has its own localization files, independent of Macro Deck.
 These are in a json format and are parsed at application load.
 
 If your language is not available, the plugin will default to English.
-
-**If your language is missing or incomplete, please consider helping me out by creating a pull request with the translated file!**
+***
+### If your language is missing or incomplete, please consider helping me out by creating a pull request with the translated file!
 
 To contribute your language, create a new file in your own fork, starting with a copy of English.json.
 
@@ -18,7 +18,6 @@ The content of your file should now look something like this:
   "_attribution_": "PhoenixWyllow",
   "_language_": "English",
   "Soundboard4MacroDeckDescription": "A soundboard plugin for Macro Deck 2",
-  ...
 }
 ```
 
