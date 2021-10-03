@@ -41,7 +41,7 @@ namespace Soundboard4MacroDeck
         /// <summary>
         /// Can the plugin be configured? E.g. accounts
         /// </summary>
-        public bool CanConfigure => false; //TODO
+        public bool CanConfigure => true;
 
         /// <summary>
         /// Gets called when Macro Deck enables the plugin
@@ -49,7 +49,7 @@ namespace Soundboard4MacroDeck
         public void Enable()
         {
             Localization.CreateInstance();
-            SoundPlayer.CreateInstance();
+            SoundPlayer.CreateInstance(this);
 
             Actions = new List<IMacroDeckAction>
             {
@@ -62,9 +62,8 @@ namespace Soundboard4MacroDeck
         /// </summary>
         public void OpenConfigurator()
         {
-            //TODO
-            //using var pluginConfig = new Views.SoundboardGlobalConfig();
-            //pluginConfig.ShowDialog();
+            using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
+            pluginConfig.ShowDialog();
         }
     }
 }

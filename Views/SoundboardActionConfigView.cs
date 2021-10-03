@@ -37,7 +37,7 @@ namespace Soundboard4MacroDeck.Views
         private void InitMore()
         {
             // openFileDialog
-            string types = $"{string.Join(";", Models.AudioFileTypes.Extensions)}";
+            string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
             this.openFileDialog.Filter = $"Audio File ({types})|{types}";
             this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 

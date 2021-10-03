@@ -1,10 +1,11 @@
-﻿using System.Text.Json;
+﻿using Soundboard4MacroDeck.Base;
+using System.Text.Json;
 
 namespace Soundboard4MacroDeck.Models
 {
     public enum SoundboardActions { None, Play, Overlap };
 
-    internal class ActionParameters
+    public class ActionParameters : SerializableConfiguration<ActionParameters>
     {
         public string FilePath { get; set; }
         public byte[] FileData { get; set; } = null;
@@ -12,10 +13,8 @@ namespace Soundboard4MacroDeck.Models
         public SoundboardActions ActionType { get; set; }
         public string FileExt { get; set; }
         public string FileName => FilePath + FileExt;
-        public string Serialize() =>
-            JsonSerializer.Serialize(this);
 
-        public static ActionParameters Deserialize(string configuration) =>
-            !string.IsNullOrWhiteSpace(configuration) ? JsonSerializer.Deserialize<ActionParameters>(configuration) : new ActionParameters();
+        public override string Serialize() =>
+            JsonSerializer.Serialize(this);
     }
 }

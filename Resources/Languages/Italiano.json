@@ -14,5 +14,6 @@
   "ActionPlaySoundInvalidFile": "File non valido",
   "ActionPlaySoundFileCouldNotUseFile": "Impossibile utilizzare il file. Per favore controlla che il percorso sia valido e riprova",
   "ActionPlaySoundURLCouldNotUseFile": "Impossibile utilizzare il file. Per favore controlla il link e la tua connessione e riprova",
-  "GenericLabelOr": "o"
+  "GenericLabelOr": "o",
+  "OutputDevicesGlobal": "Dispositivo di uscita audio preferito"
 }
