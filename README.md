@@ -13,6 +13,18 @@ You may choose either a local file or one from the web (please check you have pe
 More features/actions coming soon...
 
 ***
+## Need this in your language?
+This plugin has its own localization files, independent of Macro Deck.
+If your language is not available, the plugin will default to English.
+
+Check the files available in source under [Resources/Languages](Resources/Languages).
+If your language is missing or incomplete, please consider helping me out by creating a pull request with the translated file!
+
+Currently available languages:
+- English
+- Italiano
+
+***
 ## Third party licenses
 This plugin makes use of:
 - [Macro Deck 2 by SuchByte (Apache License 2.0)](https://macrodeck.org)

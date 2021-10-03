@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Soundboard4MacroDeck.Actions;
-using System;
+using Soundboard4MacroDeck.Services;
 
 namespace Soundboard4MacroDeck
 {
@@ -26,7 +26,7 @@ namespace Soundboard4MacroDeck
         /// <summary>
         /// Short description what the plugin can do
         /// </summary>
-        public string Description => "A soundboard plugin for Macro Deck 2";
+        public string Description => "(Beta) " + Localization.Instance.Soundboard4MacroDeckDescription;
 
         /// <summary>
         /// List of all the actions of the plugin
@@ -48,7 +48,8 @@ namespace Soundboard4MacroDeck
         /// </summary>
         public void Enable()
         {
-            Services.SoundPlayer.CreateInstance();
+            Localization.CreateInstance();
+            SoundPlayer.CreateInstance();
 
             Actions = new List<IMacroDeckAction>
             {

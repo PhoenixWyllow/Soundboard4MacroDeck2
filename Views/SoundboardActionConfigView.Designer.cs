@@ -78,6 +78,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             // buttonGetFromURL
             // 
+            this.buttonGetFromURL.AutoSize = true;
             this.buttonGetFromURL.BackColor = System.Drawing.Color.DodgerBlue;
             this.buttonGetFromURL.BorderRadius = 8;
             this.buttonGetFromURL.Cursor = System.Windows.Forms.Cursors.Hand;

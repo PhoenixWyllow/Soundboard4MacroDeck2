@@ -12,17 +12,17 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// Name of the action
         /// </summary>
-        public string Name => "Play sound";
+        public string Name => Localization.Instance.ActionPlaySoundName;
 
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public string Description => "Plays the configured file";
+        public string Description => Localization.Instance.ActionPlaySoundDescription;
 
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
         /// </summary>
-        public string DisplayName { get; set; } = "Play sound";
+        public string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundDisplayName;
 
         /// <summary>
         /// Configuration of the action.

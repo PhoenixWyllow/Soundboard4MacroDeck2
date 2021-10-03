@@ -2,8 +2,6 @@
 using Soundboard4MacroDeck.Models;
 using System;
 using Myrmec;
-using System.IO;
-using System.Linq;
 
 namespace Soundboard4MacroDeck.Services
 {

@@ -1,7 +1,5 @@
 ﻿using Myrmec;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Soundboard4MacroDeck.Models
 {

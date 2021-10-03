@@ -1,4 +1,5 @@
-﻿using Soundboard4MacroDeck.ViewModels;
+﻿using Soundboard4MacroDeck.Services;
+using Soundboard4MacroDeck.ViewModels;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
@@ -19,8 +20,18 @@ namespace Soundboard4MacroDeck.Views
 
             InitializeComponent();
             InitMore();
+            ApplyLocalization();
 
             actionConfigurator.ActionSave += OnActionSave;
+        }
+        private void ApplyLocalization()
+        {
+            this.buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
+            this.fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
+            this.filePath.PlaceholderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
+            this.labelFile.Text = Localization.Instance.ActionPlaySoundFilePath;
+            this.labelVolume.Text = Localization.Instance.ActionPlaySoundVolume;
+            this.labelOr.Text = Localization.Instance.GenericLabelOr;
         }
 
         private void InitMore()
@@ -55,7 +66,7 @@ namespace Soundboard4MacroDeck.Views
             {
                 filePath.Text = _viewModel.LastCheckedPath;
                 using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
-                messageBox.ShowDialog("InvalidFile", "CouldNotUseFile", MessageBoxButtons.OK);
+                messageBox.ShowDialog(Localization.Instance.ActionPlaySoundInvalidFile, Localization.Instance.ActionPlaySoundFileCouldNotUseFile, MessageBoxButtons.OK);
                 return;
             }
             checkedFile = true;

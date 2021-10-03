@@ -1,0 +1,18 @@
+{
+  "_attribution_": "PhoenixWyllow",
+  "_language_": "Italiano",
+  "Soundboard4MacroDeckDescription": "Un plugin con funzionalità da soundboard per Macro Deck 2",
+  "ActionPlaySoundName": "Riproduci audio",
+  "ActionPlaySoundDescription": "Riproduce il file configurato",
+  "ActionPlaySoundDisplayName": "Riproduci suono",
+  "ActionPlaySoundVolume": "Volume",
+  "ActionPlaySoundFilePath": "Percorso del file",
+  "ActionPlaySoundFilePathPlaceholder": "Ottieni file locale",
+  "ActionPlaySoundFileBrowse": "Sfoglia",
+  "ActionPlaySoundURLGet": "Ottieni da URL",
+  "ActionPlaySoundURLFile": "URL diretto del file audio",
+  "ActionPlaySoundInvalidFile": "File non valido",
+  "ActionPlaySoundFileCouldNotUseFile": "Impossibile utilizzare il file. Per favore controlla che il percorso sia valido e riprova",
+  "ActionPlaySoundURLCouldNotUseFile": "Impossibile utilizzare il file. Per favore controlla il link e la tua connessione e riprova",
+  "GenericLabelOr": "o"
+}
