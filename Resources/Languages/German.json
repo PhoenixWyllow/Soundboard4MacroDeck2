@@ -1,0 +1,18 @@
+﻿{
+	"_attribution_": "SuchByte",
+	"_language_": "German",
+	"Soundboard4MacroDeckDescription": "Ein Soundboard Plugin für Macro Deck 2",
+	"ActionPlaySoundName": "Sound abspielen",
+	"ActionPlaySoundDescription": "Spielt die eingestellte Datei ab",
+	"ActionPlaySoundDisplayName": "Sound abspielen",
+	"ActionPlaySoundVolume": "Lautstärke",
+	"ActionPlaySoundFilePath": "Dateipfad",
+	"ActionPlaySoundFilePathPlaceholder": "Lokale Datei",
+	"ActionPlaySoundFileBrowse": "Durchsuchen",
+	"ActionPlaySoundURLGet": "Von URL hinzufügen",
+	"ActionPlaySoundURLFile": "Direkte URL der Audiodatei",
+	"ActionPlaySoundInvalidFile": "Ungültige Datei",
+	"ActionPlaySoundFileCouldNotUseFile": "Fehler beim Laden der Datei. Bitte Dateipfad überprüfen und erneut versuchen.",
+	"ActionPlaySoundURLCouldNotUseFile": "Fehler beim Herunterladen der Datei. Bitte URL und Internetverbindung überprüfen und erneut versuchen.",
+	"GenericLabelOr": "oder"
+}
