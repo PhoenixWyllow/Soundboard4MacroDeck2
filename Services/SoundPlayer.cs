@@ -1,31 +1,15 @@
 ﻿using NAudio.Wave;
+using Soundboard4MacroDeck.Base;
 using Soundboard4MacroDeck.Models;
 using System;
 using Myrmec;
+using SuchByte.MacroDeck.Plugins;
+using NAudio.CoreAudioApi;
 
 namespace Soundboard4MacroDeck.Services
 {
     public sealed class SoundPlayer
     {
-        public static void CreateInstance()
-        {
-            if (Instance is null)
-            {
-                lock (load)
-                {
-                    Instance = new SoundPlayer();
-                }
-            }
-        }
-        private static readonly object load = new object();
-
-        public static SoundPlayer Instance { get; private set; }// => _instance.Value;
-        //private static readonly Lazy<SoundPlayer> _instance = new Lazy<SoundPlayer>(() => new SoundPlayer());
-
-        private SoundPlayer()
-        {
-        }
-
         public static bool IsValidFile(byte[] data, out string extension)
         {
             byte[] fileHead = new byte[100];
@@ -45,22 +29,42 @@ namespace Soundboard4MacroDeck.Services
             return false;
         }
 
-        private WaveOutEvent _outputDevice;
-        private AudioBytesReader _fileReader;
+        public static void CreateInstance(IMacroDeckPlugin plugin)
+        {
+            if (Instance is null)
+            {
+                lock (load)
+                {
+                    Instance = new SoundPlayer(plugin);
+                }
+            }
+        }
+        private static readonly object load = new object();
 
-        private ActionParameters Parameters { get; set; }
+        public static SoundPlayer Instance { get; private set; }// => _instance.Value;
+        //private static readonly Lazy<SoundPlayer> _instance = new Lazy<SoundPlayer>(() => new SoundPlayer());
 
+        private SoundPlayer(IMacroDeckPlugin plugin)
+        {
+            _plugin = plugin;
+        }
+
+        private readonly IMacroDeckPlugin _plugin;
+
+        private IWavePlayer outputDevice;
+        private AudioBytesReader fileReader;
+        private ActionParameters actionParameters;
+
+        public IOutputConfiguration GetGlobalConfiguration() => GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
         public void Execute(string config)
         {
-            var parameters = ActionParameters.Deserialize(config);
+            actionParameters = ActionParameters.Deserialize(config);
 
-            if (parameters.FileData is null)
+            if (actionParameters.FileData is null)
             {
                 return;
             }
-
-            Parameters = parameters;
 
             Retry.Do(Play, retryInterval: TimeSpan.FromSeconds(1.0), maxAttemptCount: 3);
         }
@@ -72,7 +76,7 @@ namespace Soundboard4MacroDeck.Services
 
         private void Play()
         {
-            switch (Parameters.ActionType)
+            switch (actionParameters.ActionType)
             {
                 case SoundboardActions.Play:
                     StopAll();
@@ -90,34 +94,53 @@ namespace Soundboard4MacroDeck.Services
 
         private void StopAudio()
         {
-            _outputDevice?.Stop();
+            outputDevice?.Stop();
         }
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs args)
         {
-            _outputDevice?.Dispose();
-            _outputDevice = null;
-            _fileReader?.Dispose();
-            _fileReader = null;
+            outputDevice?.Dispose();
+            outputDevice = null;
+            fileReader?.Dispose();
+            fileReader = null;
+        }
+
+        private MMDevice GetDevice()
+        {
+            using var devices = new MMDeviceEnumerator();
+            if (actionParameters.MustGetDefaultDevice())
+            {
+                IOutputConfiguration globalParameters = GetGlobalConfiguration();
+                return !globalParameters.MustGetDefaultDevice() //if
+                    ? devices.GetDevice(globalParameters.OutputDeviceId)
+                    : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
+            }
+            return devices.GetDevice(actionParameters.OutputDeviceId);
+        }
+
+        private void SetFile()
+        {
+            fileReader = new AudioBytesReader(actionParameters.FileName, actionParameters.FileData)
+            {
+                Volume = Math.Min(actionParameters.Volume / 100f, 1f)
+            };
+            outputDevice.Init(fileReader);
         }
 
         private void PlaySingle()
         {
-            if (_outputDevice == null)
+            if (outputDevice == null)
             {
-                _outputDevice = new WaveOutEvent();
-                _outputDevice.PlaybackStopped += OnPlaybackStopped;
+                outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200); //setting only the device, others should be as default.
+                outputDevice.PlaybackStopped += OnPlaybackStopped;
             }
 
-            _outputDevice.Volume = Math.Min(Parameters.Volume / 100f, 1f);
-
-            if (_fileReader is null || !_fileReader.FileName.Equals(Parameters.FileName))
+            if (fileReader is null || !fileReader.FileName.Equals(actionParameters.FileName))
             {
-                _fileReader = new AudioBytesReader(Parameters.FileName, Parameters.FileData);
-                _outputDevice.Init(_fileReader);
+                SetFile();
             }
 
-            _outputDevice.Play();
+            outputDevice.Play();
         }
     }
 

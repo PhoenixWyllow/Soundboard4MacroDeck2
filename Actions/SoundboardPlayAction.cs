@@ -7,7 +7,7 @@ using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Actions
 {
-    public class SoundboardPlayAction : IMacroDeckAction, ISoundboardPlayAction
+    public class SoundboardPlayAction : IMacroDeckAction, ISoundboardAction
     {
         /// <summary>
         /// Name of the action

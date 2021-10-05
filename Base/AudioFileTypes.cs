@@ -1,7 +1,7 @@
 ﻿using Myrmec;
 using System.Collections.Generic;
 
-namespace Soundboard4MacroDeck.Models
+namespace Soundboard4MacroDeck.Base
 {
     internal class AudioFileTypes
     {

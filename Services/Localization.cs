@@ -31,6 +31,10 @@ namespace Soundboard4MacroDeck.Services
         public string ActionPlaySoundFileCouldNotUseFile { get; set; } = "Could not use file. Please check the path is valid and try again.";
         public string ActionPlaySoundURLCouldNotUseFile { get; set; } = "Could not use file. Please check the link and your connection and try again.";
         public string GenericLabelOr { get; set; } = "or";
+        public string OutputDevicesGlobal { get; set; } = "Default output device";
+        public string OutputDevicesAction { get; set; } = "Default output device for button";
+        public string UseSystemDefaultDevice { get; set; } = "Use system default device";
+        public string OverrideDefaultDevice { get; set; }
 
         #endregion
 
@@ -94,7 +98,7 @@ namespace Soundboard4MacroDeck.Services
             using var resourceStream = assembly.GetManifestResourceStream(languageFileName);
             using var streamReader = new StreamReader(resourceStream);
             return streamReader.ReadToEnd();
-        } 
+        }
         #endregion
     }
 }
