@@ -23,6 +23,7 @@ If your language is missing or incomplete, please consider helping me out by cre
 Currently available languages:
 - English
 - Italiano
+- German
 
 ***
 ## Third party licenses
