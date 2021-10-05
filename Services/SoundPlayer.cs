@@ -54,7 +54,8 @@ namespace Soundboard4MacroDeck.Services
         private IWavePlayer outputDevice;
         private AudioBytesReader fileReader;
         private ActionParameters actionParameters;
-        private GlobalParameters globalParameters;
+
+        public IOutputConfiguration GetGlobalConfiguration() => GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
         public void Execute(string config)
         {
@@ -64,8 +65,6 @@ namespace Soundboard4MacroDeck.Services
             {
                 return;
             }
-
-            globalParameters = GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
             Retry.Do(Play, retryInterval: TimeSpan.FromSeconds(1.0), maxAttemptCount: 3);
         }
@@ -109,12 +108,14 @@ namespace Soundboard4MacroDeck.Services
         private MMDevice GetDevice()
         {
             using var devices = new MMDeviceEnumerator();
-
-            return !actionParameters.MustGetDefaultDevice() //if
-                ? devices.GetDevice(actionParameters.OutputDeviceId)
-                : !globalParameters.MustGetDefaultDevice() //else if
-                ? devices.GetDevice(globalParameters.OutputDeviceId)
-                : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
+            if (actionParameters.MustGetDefaultDevice())
+            {
+                IOutputConfiguration globalParameters = GetGlobalConfiguration();
+                return !globalParameters.MustGetDefaultDevice() //if
+                    ? devices.GetDevice(globalParameters.OutputDeviceId)
+                    : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
+            }
+            return devices.GetDevice(actionParameters.OutputDeviceId);
         }
 
         private void SetFile()

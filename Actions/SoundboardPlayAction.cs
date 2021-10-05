@@ -9,8 +9,6 @@ namespace Soundboard4MacroDeck.Actions
 {
     public class SoundboardPlayAction : IMacroDeckAction, ISoundboardAction
     {
-        private readonly IMacroDeckPlugin _plugin;
-
         /// <summary>
         /// Name of the action
         /// </summary>
@@ -44,7 +42,7 @@ namespace Soundboard4MacroDeck.Actions
         /// <returns></returns>
         public ActionConfigControl GetActionConfigurator(ActionConfigurator actionConfigurator)
         {
-            return new Views.SoundboardActionConfigView(this, actionConfigurator, _plugin);
+            return new Views.SoundboardActionConfigView(this, actionConfigurator);
         }
 
         /// <summary>
@@ -67,11 +65,6 @@ namespace Soundboard4MacroDeck.Actions
             {
                 SoundPlayer.Instance.StopAll();
             }
-        }
-
-        public SoundboardPlayAction(IMacroDeckPlugin plugin)
-        {
-            _plugin = plugin;
         }
     }
 }

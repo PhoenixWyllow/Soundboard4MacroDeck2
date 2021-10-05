@@ -9,14 +9,16 @@ namespace Soundboard4MacroDeck.ViewModels
 {
     public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewModel
     {
-        public SoundboardGlobalConfigViewModel(IMacroDeckPlugin plugin) : base(plugin)
+        private readonly IMacroDeckPlugin _plugin;
+        public SoundboardGlobalConfigViewModel(IMacroDeckPlugin plugin) 
+            : base(GlobalParameters.Deserialize(PluginConfiguration.GetValue(plugin, nameof(SoundboardGlobalConfigViewModel))))
         {
         }
 
 
         public override void SetConfig()
         {
-            PluginConfiguration.SetValue(_plugin, nameof(SoundboardGlobalConfigViewModel), _outputConfiguration.Serialize());
+            PluginConfiguration.SetValue(_plugin, nameof(SoundboardGlobalConfigViewModel), OutputConfiguration.Serialize());
         }
     }
 }

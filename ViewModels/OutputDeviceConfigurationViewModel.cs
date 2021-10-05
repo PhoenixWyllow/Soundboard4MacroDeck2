@@ -5,96 +5,86 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Linq;
 
 namespace Soundboard4MacroDeck.ViewModels
 {
     public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfigViewModel
     {
-        protected readonly IMacroDeckPlugin _plugin;
+        private readonly IOutputConfiguration _globalOutputConfiguration;
+        protected IOutputConfiguration OutputConfiguration { get; }
+        public List<MMDevice> Devices { get; private set; }
+        public int DevicesIndex { get; private set; }
 
+        public bool IsDefaultDevice() => OutputConfiguration.UseDefaultDevice;
 
-        protected IOutputConfiguration _outputConfiguration;
-        protected IOutputConfiguration GlobalOutputConfiguration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(SoundboardGlobalConfigViewModel)));
-        public List<MMDevice> Devices { get; set; }
-        public int DevicesIndex { get; set; }
+        public event EventHandler OnSetDeviceIndex;
 
-        ISerializableConfiguration ISoundboardBaseConfigViewModel.SerializableConfiguration => _outputConfiguration;
+        ISerializableConfiguration ISoundboardBaseConfigViewModel.SerializableConfiguration => OutputConfiguration;
 
-        protected OutputDeviceConfigurationViewModel(IMacroDeckPlugin plugin)
+        protected OutputDeviceConfigurationViewModel(IOutputConfiguration parameters)
         {
-            _plugin = plugin;
-            _outputConfiguration = GlobalOutputConfiguration;
+            OutputConfiguration = parameters;
+            _globalOutputConfiguration = parameters as GlobalParameters ?? Services.SoundPlayer.Instance.GetGlobalConfiguration();
         }
 
-        protected OutputDeviceConfigurationViewModel(IMacroDeckPlugin plugin, IOutputConfiguration parameters)
+        public void LoadDevices()
         {
-            _plugin = plugin;
-            _outputConfiguration = parameters;
-        }
-
-        public void Load()
-        {
-            if (_outputConfiguration.MustGetDefaultDevice())
+            if (OutputConfiguration.MustGetDefaultDevice())
             {
-                _outputConfiguration.OutputDeviceId = GlobalOutputConfiguration.OutputDeviceId;
+                OutputConfiguration.OutputDeviceId = _globalOutputConfiguration.OutputDeviceId;
             }
             FetchAvailableDevices();
         }
 
-        public abstract void SetConfig();
-
-        public void SetDevice(int selectedIndex)
+        private void FetchAvailableDevices()
         {
-            DevicesIndex = selectedIndex;
-            _outputConfiguration.OutputDeviceId = Devices[selectedIndex].ID;
-            _outputConfiguration.UseDefaultDevice = false;
+            using var enumerator = new MMDeviceEnumerator();
+            Devices = new List<MMDevice>(enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active));
+        }
+
+        public void LoadDeviceIndex()
+        {
+            SetDeviceIndex(OutputConfiguration.MustGetDefaultDevice(), OutputConfiguration.OutputDeviceId);
         }
 
         public void ResetDevice()
         {
-            if (_outputConfiguration is GlobalParameters)
+            SetDeviceIndex(OutputConfiguration is GlobalParameters, _globalOutputConfiguration.OutputDeviceId);
+            OutputConfiguration.UseDefaultDevice = true;
+        }
+
+        private void SetDeviceIndex(bool getDefault, string deviceId)
+        {
+            if (getDefault)
             {
                 using var enumerator = new MMDeviceEnumerator();
-                SetDefaultDevice(enumerator);
+                SetDeviceById(enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).ID);
             }
             else
             {
-                _outputConfiguration.OutputDeviceId = GlobalOutputConfiguration.OutputDeviceId;
-                DevicesIndex = Devices.FindIndex(d => d.ID.Equals(GlobalOutputConfiguration.OutputDeviceId));
+                SetDeviceById(deviceId);
             }
-            _outputConfiguration.UseDefaultDevice = true;
+            OnSetDeviceIndex?.Invoke(DevicesIndex, null);
         }
 
-
-        private void FetchAvailableDevices()
+        private void SetDeviceById(string deviceId)
         {
-            bool needsDefault = _outputConfiguration.MustGetDefaultDevice();
-            List<MMDevice> devices = new List<MMDevice>();
-
-            int idx = 0;
-            using var enumerator = new MMDeviceEnumerator();
-            foreach (var device in enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
-            {
-                devices.Add(device);
-                if (!needsDefault && device.ID.Equals(_outputConfiguration.OutputDeviceId))
-                {
-                    DevicesIndex = idx;
-                }
-                idx++;
-            }
-            Devices = new List<MMDevice>(devices);
-
-            if (needsDefault)
-            {
-                SetDefaultDevice(enumerator);
-            }
+            DevicesIndex = Devices.FindIndex(d => d.ID.Equals(deviceId));
+            OutputConfiguration.OutputDeviceId = deviceId;
         }
 
-        private void SetDefaultDevice(MMDeviceEnumerator enumerator)
+        public void SetDevice(int selectedIndex)
         {
-            var device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            SetDevice(Devices.FindIndex(d => d.ID.Equals(device.ID)));
+            if (DevicesIndex != selectedIndex)
+            {
+                DevicesIndex = selectedIndex;
+                OutputConfiguration.OutputDeviceId = Devices[selectedIndex].ID;
+                OutputConfiguration.UseDefaultDevice = false;
+            }
         }
+
+        public abstract void SetConfig();
 
         public void SaveConfig()
         {

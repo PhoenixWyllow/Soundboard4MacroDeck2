@@ -14,12 +14,14 @@ namespace Soundboard4MacroDeck.Views
         private readonly SoundboardActionConfigViewModel _viewModel;
         private bool checkedFile = false;
 
-        public SoundboardActionConfigView(IMacroDeckAction action, ActionConfigurator actionConfigurator, IMacroDeckPlugin plugin)
+        public SoundboardActionConfigView(IMacroDeckAction action, ActionConfigurator actionConfigurator)
         {
-            _viewModel = new SoundboardActionConfigViewModel(action, plugin);
+            _viewModel = new SoundboardActionConfigViewModel(action);
 
             InitializeComponent();
             ApplyLocalization();
+
+            _viewModel.OnSetDeviceIndex += (_, __) => { this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
 
             actionConfigurator.ActionSave += OnActionSave;
         }
@@ -47,10 +49,10 @@ namespace Soundboard4MacroDeck.Views
 
         private void SoundboardActionConfigView_Load(object sender, EventArgs e)
         {
-            _viewModel.Load();
-
+            _viewModel.LoadDevices();
             this.comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
-            this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex;
+            checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
+            _viewModel.LoadDeviceIndex();
 
             // openFileDialog
             string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
@@ -127,7 +129,15 @@ namespace Soundboard4MacroDeck.Views
 
         private void ComboBoxDevices_EnabledChanged(object sender, EventArgs e)
         {
-            _viewModel.ResetDevice();
+            if (!comboBoxDevices.Enabled)
+            {
+                _viewModel.ResetDevice();
+            }
+        }
+
+        private void ComboBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _viewModel.SetDevice(comboBoxDevices.SelectedIndex);
         }
     }
 }

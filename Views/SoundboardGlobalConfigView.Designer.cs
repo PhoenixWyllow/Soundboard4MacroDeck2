@@ -37,8 +37,10 @@ namespace Soundboard4MacroDeck.Views
             // 
             // comboBoxDevices
             // 
+            this.comboBoxDevices.BackColor = System.Drawing.Color.DimGray;
+            this.comboBoxDevices.ForeColor = System.Drawing.Color.White;
             this.comboBoxDevices.FormattingEnabled = true;
-            this.comboBoxDevices.Location = new System.Drawing.Point(23, 43);
+            this.comboBoxDevices.Location = new System.Drawing.Point(23, 50);
             this.comboBoxDevices.Name = "comboBoxDevices";
             this.comboBoxDevices.Size = new System.Drawing.Size(404, 24);
             this.comboBoxDevices.TabIndex = 3;
@@ -64,9 +66,10 @@ namespace Soundboard4MacroDeck.Views
             // labelDevices
             // 
             this.labelDevices.AutoSize = true;
+            this.labelDevices.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelDevices.Location = new System.Drawing.Point(24, 24);
             this.labelDevices.Name = "labelDevices";
-            this.labelDevices.Size = new System.Drawing.Size(127, 16);
+            this.labelDevices.Size = new System.Drawing.Size(190, 23);
             this.labelDevices.TabIndex = 5;
             this.labelDevices.Text = "Default output device";
             // 
@@ -74,7 +77,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             this.linkLabelResetDevice.AutoSize = true;
             this.linkLabelResetDevice.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.linkLabelResetDevice.Location = new System.Drawing.Point(272, 24);
+            this.linkLabelResetDevice.Location = new System.Drawing.Point(272, 30);
             this.linkLabelResetDevice.Name = "linkLabelResetDevice";
             this.linkLabelResetDevice.Size = new System.Drawing.Size(155, 16);
             this.linkLabelResetDevice.TabIndex = 6;

@@ -12,8 +12,11 @@ namespace Soundboard4MacroDeck.Views
         public SoundboardGlobalConfigView(IMacroDeckPlugin plugin)
         {
             _viewModel = new SoundboardGlobalConfigViewModel(plugin);
+
             InitializeComponent();
             ApplyLocalization();
+
+            _viewModel.OnSetDeviceIndex += (_, __) => { this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
         }
         private void ApplyLocalization()
         {
@@ -24,9 +27,9 @@ namespace Soundboard4MacroDeck.Views
 
         private void SoundboardGlobalConfigView_Load(object sender, System.EventArgs e)
         {
-            _viewModel.Load();
+            _viewModel.LoadDevices();
             this.comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
-            this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex;
+            _viewModel.LoadDeviceIndex();
         }
 
         private void ComboBoxDevices_SelectedIndexChanged(object sender, System.EventArgs e)
