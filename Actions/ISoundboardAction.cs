@@ -2,7 +2,7 @@
 
 namespace Soundboard4MacroDeck.Actions
 {
-    public interface ISoundboardPlayAction
+    public interface ISoundboardAction
     {
         SoundboardActions ActionType { get; }
     }

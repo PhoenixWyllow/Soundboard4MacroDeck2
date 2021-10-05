@@ -5,7 +5,7 @@ namespace Soundboard4MacroDeck.Models
 {
     public enum SoundboardActions { None, Play, Overlap };
 
-    public class ActionParameters : SerializableConfiguration<ActionParameters>
+    public class ActionParameters : IOutputConfiguration
     {
         public string FilePath { get; set; }
         public byte[] FileData { get; set; } = null;
@@ -13,8 +13,13 @@ namespace Soundboard4MacroDeck.Models
         public SoundboardActions ActionType { get; set; }
         public string FileExt { get; set; }
         public string FileName => FilePath + FileExt;
+        public string OutputDeviceId { get; set; }
+        public bool UseDefaultDevice { get; set; }
 
-        public override string Serialize() =>
+        public string Serialize() =>
             JsonSerializer.Serialize(this);
+
+        public static ActionParameters Deserialize(string configuration) =>
+            ISerializableConfiguration.Deserialize<ActionParameters>(configuration);
     }
 }

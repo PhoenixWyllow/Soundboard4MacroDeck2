@@ -3,11 +3,15 @@ using System.Text.Json;
 
 namespace Soundboard4MacroDeck.Models
 {
-    internal class GlobalParameters : SerializableConfiguration<GlobalParameters>
+    internal class GlobalParameters : IOutputConfiguration 
     {
         public string OutputDeviceId { get; set; }
+        public bool UseDefaultDevice { get; set; }
 
-        public override string Serialize() =>
+        public string Serialize() =>
             JsonSerializer.Serialize(this);
+
+        public static GlobalParameters Deserialize(string configuration) =>
+            ISerializableConfiguration.Deserialize<GlobalParameters>(configuration);
     }
 }

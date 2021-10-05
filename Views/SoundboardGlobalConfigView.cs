@@ -14,23 +14,34 @@ namespace Soundboard4MacroDeck.Views
             _viewModel = new SoundboardGlobalConfigViewModel(plugin);
             InitializeComponent();
             ApplyLocalization();
-            this.comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
-            this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex;
         }
         private void ApplyLocalization()
         {
+            this.linkLabelResetDevice.Text = Localization.Instance.UseSystemDefaultDevice;
             this.labelDevices.Text = Localization.Instance.OutputDevicesGlobal;
             this.buttonOK.Text = LanguageManager.Strings.Ok;
         }
 
+        private void SoundboardGlobalConfigView_Load(object sender, System.EventArgs e)
+        {
+            _viewModel.Load();
+            this.comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
+            this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex;
+        }
+
         private void ComboBoxDevices_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-             _viewModel.SetDevice(comboBoxDevices.SelectedIndex);
+            _viewModel.SetDevice(comboBoxDevices.SelectedIndex);
         }
 
         private void ButtonOK_Click(object sender, System.EventArgs e)
         {
             _viewModel.SaveConfig();
+        }
+
+        private void LinkLabelResetDevice_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            _viewModel.ResetDevice();
         }
     }
 }

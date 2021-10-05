@@ -14,37 +14,25 @@ namespace Soundboard4MacroDeck.Views
         private readonly SoundboardActionConfigViewModel _viewModel;
         private bool checkedFile = false;
 
-        public SoundboardActionConfigView(IMacroDeckAction action, ActionConfigurator actionConfigurator)
+        public SoundboardActionConfigView(IMacroDeckAction action, ActionConfigurator actionConfigurator, IMacroDeckPlugin plugin)
         {
-            _viewModel = new SoundboardActionConfigViewModel(action);
+            _viewModel = new SoundboardActionConfigViewModel(action, plugin);
 
             InitializeComponent();
-            InitMore();
             ApplyLocalization();
 
             actionConfigurator.ActionSave += OnActionSave;
         }
         private void ApplyLocalization()
         {
+            this.checkBoxOverrideDevice.Text = Localization.Instance.OverrideDefaultDevice;
+            this.labelDevices.Text = Localization.Instance.OutputDevicesAction;
             this.buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
             this.fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
             this.filePath.PlaceholderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
             this.labelFile.Text = Localization.Instance.ActionPlaySoundFilePath;
             this.labelVolume.Text = Localization.Instance.ActionPlaySoundVolume;
             this.labelOr.Text = Localization.Instance.GenericLabelOr;
-        }
-
-        private void InitMore()
-        {
-            // openFileDialog
-            string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
-            this.openFileDialog.Filter = $"Audio File ({types})|{types}";
-            this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-            // filePath
-            filePath.Text = _viewModel.LastCheckedPath;
-            volumeBar.Value = _viewModel.PlayVolume;
-            checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
         private async void OnActionSave(object sender, EventArgs e)
@@ -55,6 +43,24 @@ namespace Soundboard4MacroDeck.Views
             }
 
             _viewModel.SaveConfig();
+        }
+
+        private void SoundboardActionConfigView_Load(object sender, EventArgs e)
+        {
+            _viewModel.Load();
+
+            this.comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
+            this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex;
+
+            // openFileDialog
+            string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
+            this.openFileDialog.Filter = $"Audio File ({types})|{types}";
+            this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            // filePath
+            filePath.Text = _viewModel.LastCheckedPath;
+            volumeBar.Value = _viewModel.PlayVolume;
+            checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
         private async Task CheckFileAsync()
@@ -112,6 +118,16 @@ namespace Soundboard4MacroDeck.Views
             {
                 volumeBar.Value = (int)volumeNum.Value;
             }
+        }
+
+        private void CheckBoxOverrideDevice_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBoxDevices.Enabled = checkBoxOverrideDevice.Checked;
+        }
+
+        private void ComboBoxDevices_EnabledChanged(object sender, EventArgs e)
+        {
+            _viewModel.ResetDevice();
         }
     }
 }

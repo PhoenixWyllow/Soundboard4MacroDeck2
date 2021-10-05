@@ -53,7 +53,7 @@ namespace Soundboard4MacroDeck
 
             Actions = new List<IMacroDeckAction>
             {
-                new SoundboardPlayAction(),
+                new SoundboardPlayAction(this),
             };
         }
 

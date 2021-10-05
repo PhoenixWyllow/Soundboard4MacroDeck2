@@ -7,8 +7,10 @@ using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Actions
 {
-    public class SoundboardPlayAction : IMacroDeckAction, ISoundboardPlayAction
+    public class SoundboardPlayAction : IMacroDeckAction, ISoundboardAction
     {
+        private readonly IMacroDeckPlugin _plugin;
+
         /// <summary>
         /// Name of the action
         /// </summary>
@@ -42,7 +44,7 @@ namespace Soundboard4MacroDeck.Actions
         /// <returns></returns>
         public ActionConfigControl GetActionConfigurator(ActionConfigurator actionConfigurator)
         {
-            return new Views.SoundboardActionConfigView(this, actionConfigurator);
+            return new Views.SoundboardActionConfigView(this, actionConfigurator, _plugin);
         }
 
         /// <summary>
@@ -65,6 +67,11 @@ namespace Soundboard4MacroDeck.Actions
             {
                 SoundPlayer.Instance.StopAll();
             }
+        }
+
+        public SoundboardPlayAction(IMacroDeckPlugin plugin)
+        {
+            _plugin = plugin;
         }
     }
 }

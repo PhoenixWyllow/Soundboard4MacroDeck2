@@ -32,6 +32,7 @@ namespace Soundboard4MacroDeck.Views
             this.comboBoxDevices = new System.Windows.Forms.ComboBox();
             this.buttonOK = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.labelDevices = new System.Windows.Forms.Label();
+            this.linkLabelResetDevice = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // comboBoxDevices
@@ -69,20 +70,35 @@ namespace Soundboard4MacroDeck.Views
             this.labelDevices.TabIndex = 5;
             this.labelDevices.Text = "Default output device";
             // 
+            // linkLabelResetDevice
+            // 
+            this.linkLabelResetDevice.AutoSize = true;
+            this.linkLabelResetDevice.LinkColor = System.Drawing.Color.DodgerBlue;
+            this.linkLabelResetDevice.Location = new System.Drawing.Point(272, 24);
+            this.linkLabelResetDevice.Name = "linkLabelResetDevice";
+            this.linkLabelResetDevice.Size = new System.Drawing.Size(155, 16);
+            this.linkLabelResetDevice.TabIndex = 6;
+            this.linkLabelResetDevice.TabStop = true;
+            this.linkLabelResetDevice.Text = "Use system default device";
+            this.linkLabelResetDevice.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelResetDevice_LinkClicked);
+            // 
             // SoundboardGlobalConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(450, 236);
+            this.Controls.Add(this.linkLabelResetDevice);
             this.Controls.Add(this.labelDevices);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.comboBoxDevices);
             this.Name = "SoundboardGlobalConfigView";
             this.Padding = new System.Windows.Forms.Padding(20);
             this.Text = "GlobalConfig";
+            this.Load += new System.EventHandler(this.SoundboardGlobalConfigView_Load);
             this.Controls.SetChildIndex(this.comboBoxDevices, 0);
             this.Controls.SetChildIndex(this.buttonOK, 0);
             this.Controls.SetChildIndex(this.labelDevices, 0);
+            this.Controls.SetChildIndex(this.linkLabelResetDevice, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +108,6 @@ namespace Soundboard4MacroDeck.Views
         private System.Windows.Forms.ComboBox comboBoxDevices;
         private SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary buttonOK;
         private System.Windows.Forms.Label labelDevices;
+        private System.Windows.Forms.LinkLabel linkLabelResetDevice;
     }
 }

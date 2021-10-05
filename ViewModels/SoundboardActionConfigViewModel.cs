@@ -10,37 +10,29 @@ using SystemNetWebClient = System.Net.WebClient;
 
 namespace Soundboard4MacroDeck.ViewModels
 {
-    public class SoundboardActionConfigViewModel
+    public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewModel
     {
         private readonly IMacroDeckAction _action;
-        private readonly ActionParameters _parameters;
-        public string LastCheckedPath => _parameters.FilePath;
+        private ActionParameters Parameters => _outputConfiguration as ActionParameters;
+        public string LastCheckedPath => Parameters.FilePath;
 
         public int PlayVolume
         {
-            get => _parameters.Volume;
-            set => _parameters.Volume = value;
+            get => Parameters.Volume;
+            set => Parameters.Volume = value;
         }
 
-        public SoundboardActionConfigViewModel(IMacroDeckAction action)
+        public SoundboardActionConfigViewModel(IMacroDeckAction action, IMacroDeckPlugin plugin)
+            : base(plugin, ActionParameters.Deserialize(action.Configuration))
         {
             _action = action;
-            _parameters = ActionParameters.Deserialize(action.Configuration);
-            _parameters.ActionType = (SoundboardActions)((_action as ISoundboardPlayAction)?.ActionType);
+            //_parameters = _outputConfiguration as ActionParameters;
+            Parameters.ActionType = (SoundboardActions)((_action as ISoundboardAction)?.ActionType);
         }
-
-        public void SaveConfig()
+        
+        public override void SetConfig()
         {
-            try
-            {
-                _action.Configuration = _parameters.Serialize();
-                Debug.WriteLine($"{nameof(SoundboardActionConfigViewModel)} config saved");
-            }
-            catch (Exception ex)
-            {
-                Debug.Fail($"{nameof(SoundboardActionConfigViewModel)} config NOT saved");
-                Debug.WriteLine(ex.Message);
-            }
+            _action.Configuration = Parameters.Serialize();
         }
 
         public async Task<bool> GetBytesFromFileAsync(string filePath)
@@ -49,16 +41,13 @@ namespace Soundboard4MacroDeck.ViewModels
             if (SystemIOFile.Exists(filePath))
             {
                 data = await SystemIOFile.ReadAllBytesAsync(filePath);
-
-                if (data != null && !Services.SoundPlayer.IsValidFile(data, out string extension))
-                {
-                    data = null;
-                }
             }
-            if (data != null)
+
+            if (data != null && Services.SoundPlayer.IsValidFile(data, out string extension))
             {
-                _parameters.FileData = data;
-                _parameters.FilePath = filePath;
+                Parameters.FileData = data;
+                Parameters.FilePath = filePath;
+                Parameters.FileExt = extension;
             }
             return data != null;
         }
@@ -98,9 +87,9 @@ namespace Soundboard4MacroDeck.ViewModels
 
                 if (data != null && !string.IsNullOrWhiteSpace(extension))
                 {
-                    _parameters.FileData = data;
-                    _parameters.FilePath = urlPath;
-                    _parameters.FileExt = Base.AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
+                    Parameters.FileData = data;
+                    Parameters.FilePath = urlPath;
+                    Parameters.FileExt = Base.AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
                 }
             }
 

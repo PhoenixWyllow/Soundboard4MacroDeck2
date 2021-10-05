@@ -53,19 +53,18 @@ namespace Soundboard4MacroDeck.Services
 
         private IWavePlayer outputDevice;
         private AudioBytesReader fileReader;
-        private ActionParameters parameters;
+        private ActionParameters actionParameters;
         private GlobalParameters globalParameters;
 
         public void Execute(string config)
         {
-            var actionParameters = ActionParameters.Deserialize(config);
+            actionParameters = ActionParameters.Deserialize(config);
 
             if (actionParameters.FileData is null)
             {
                 return;
             }
 
-            parameters = actionParameters;
             globalParameters = GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
             Retry.Do(Play, retryInterval: TimeSpan.FromSeconds(1.0), maxAttemptCount: 3);
@@ -78,7 +77,7 @@ namespace Soundboard4MacroDeck.Services
 
         private void Play()
         {
-            switch (parameters.ActionType)
+            switch (actionParameters.ActionType)
             {
                 case SoundboardActions.Play:
                     StopAll();
@@ -110,18 +109,19 @@ namespace Soundboard4MacroDeck.Services
         private MMDevice GetDevice()
         {
             using var devices = new MMDeviceEnumerator();
-            if (!string.IsNullOrWhiteSpace(globalParameters.OutputDeviceId))
-            {
-                return devices.GetDevice(globalParameters.OutputDeviceId);
-            }
-            return devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+
+            return !actionParameters.MustGetDefaultDevice() //if
+                ? devices.GetDevice(actionParameters.OutputDeviceId)
+                : !globalParameters.MustGetDefaultDevice() //else if
+                ? devices.GetDevice(globalParameters.OutputDeviceId)
+                : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
         }
 
         private void SetFile()
         {
-            fileReader = new AudioBytesReader(parameters.FileName, parameters.FileData)
+            fileReader = new AudioBytesReader(actionParameters.FileName, actionParameters.FileData)
             {
-                Volume = Math.Min(parameters.Volume / 100f, 1f)
+                Volume = Math.Min(actionParameters.Volume / 100f, 1f)
             };
             outputDevice.Init(fileReader);
         }
@@ -134,7 +134,7 @@ namespace Soundboard4MacroDeck.Services
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
             }
 
-            if (fileReader is null || !fileReader.FileName.Equals(parameters.FileName))
+            if (fileReader is null || !fileReader.FileName.Equals(actionParameters.FileName))
             {
                 SetFile();
             }
