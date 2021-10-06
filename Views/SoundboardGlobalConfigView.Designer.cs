@@ -77,7 +77,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             this.linkLabelResetDevice.AutoSize = true;
             this.linkLabelResetDevice.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.linkLabelResetDevice.Location = new System.Drawing.Point(272, 30);
+            this.linkLabelResetDevice.Location = new System.Drawing.Point(272, 77);
             this.linkLabelResetDevice.Name = "linkLabelResetDevice";
             this.linkLabelResetDevice.Size = new System.Drawing.Size(155, 16);
             this.linkLabelResetDevice.TabIndex = 6;
