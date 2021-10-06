@@ -14,5 +14,9 @@
 	"ActionPlaySoundInvalidFile": "Ungültige Datei",
 	"ActionPlaySoundFileCouldNotUseFile": "Fehler beim Laden der Datei. Bitte Dateipfad überprüfen und erneut versuchen.",
 	"ActionPlaySoundURLCouldNotUseFile": "Fehler beim Herunterladen der Datei. Bitte URL und Internetverbindung überprüfen und erneut versuchen.",
-	"GenericLabelOr": "oder"
+	"GenericLabelOr": "oder",
+	"OutputDevicesGlobal": "Standardausgabegerät",
+	"OutputDevicesAction": "Standardausgabegerät für Taste",
+	"UseSystemDefaultDevice": "Systemstandard",
+	"OverrideDefaultDevice": "Systemstandard"
 }
