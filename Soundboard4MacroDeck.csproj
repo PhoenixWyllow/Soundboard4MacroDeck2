@@ -10,9 +10,9 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>0.2.21279.5</AssemblyVersion>
-		<FileVersion>0.2.21279.5</FileVersion>
-		<Version>0.2.1-beta</Version>
+		<AssemblyVersion>0.2.21280.4</AssemblyVersion>
+		<FileVersion>0.2.21280.4</FileVersion>
+		<Version>0.2.1-beta-06</Version>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

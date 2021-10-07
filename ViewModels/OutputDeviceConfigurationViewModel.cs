@@ -1,11 +1,8 @@
 ﻿using NAudio.CoreAudioApi;
 using Soundboard4MacroDeck.Models;
-using SuchByte.MacroDeck.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Linq;
 
 namespace Soundboard4MacroDeck.ViewModels
 {

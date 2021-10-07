@@ -65,6 +65,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             // fileBrowse
             // 
+            this.fileBrowse.AutoSize = true;
             this.fileBrowse.BackColor = System.Drawing.Color.DodgerBlue;
             this.fileBrowse.BorderRadius = 8;
             this.fileBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
