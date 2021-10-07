@@ -78,6 +78,7 @@ namespace Soundboard4MacroDeck.Services
         {
             switch (actionParameters.ActionType)
             {
+                case SoundboardActions.PlayStop:
                 case SoundboardActions.Play:
                     StopAll();
                     PlaySingle();

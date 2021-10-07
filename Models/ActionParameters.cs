@@ -1,10 +1,7 @@
-﻿using Soundboard4MacroDeck.Base;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Soundboard4MacroDeck.Models
 {
-    public enum SoundboardActions { None, Play, Overlap };
-
     public class ActionParameters : IOutputConfiguration
     {
         public string FilePath { get; set; }
