@@ -12,17 +12,17 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// Name of the action
         /// </summary>
-        public string Name => Localization.Instance.ActionPlaySoundName;
+        public string Name => Localization.Instance.ActionPlayStopSoundName;
 
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public string Description => Localization.Instance.ActionPlaySoundDescription;
+        public string Description => Localization.Instance.ActionPlayStopSoundDescription;
 
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
         /// </summary>
-        public string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundDisplayName;
+        public string DisplayName { get; set; } = Localization.Instance.ActionPlayStopSoundDisplayName;
 
         /// <summary>
         /// Configuration of the action.

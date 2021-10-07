@@ -34,7 +34,10 @@ namespace Soundboard4MacroDeck.Services
         public string OutputDevicesGlobal { get; set; } = "Default output device";
         public string OutputDevicesAction { get; set; } = "Default output device for button";
         public string UseSystemDefaultDevice { get; set; } = "Use system default device";
-        public string OverrideDefaultDevice { get; set; }
+        public string OverrideDefaultDevice { get; set; } = "Use custom output device";
+        public string ActionPlayStopSoundName { get; set; } = "Play/Stop sound";
+        public string ActionPlayStopSoundDescription { get; set; } = "Play the configured file on first tap and Stop on second tap";
+        public string ActionPlayStopSoundDisplayName { get; set; } = "Play/Stop sound";
 
         #endregion
 
