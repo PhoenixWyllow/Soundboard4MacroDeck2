@@ -17,6 +17,6 @@
 	"GenericLabelOr": "oder",
 	"OutputDevicesGlobal": "Standardausgabegerät",
 	"OutputDevicesAction": "Standardausgabegerät für Taste",
-	"UseSystemDefaultDevice": "Systemstandard",
-	"OverrideDefaultDevice": "Systemstandard"
+	"UseSystemDefaultDevice": "Nutze Systemstandard",
+	"OverrideDefaultDevice": "Benutzerdefiniert"
 }
