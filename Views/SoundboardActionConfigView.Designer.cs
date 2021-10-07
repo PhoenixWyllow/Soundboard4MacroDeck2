@@ -191,6 +191,8 @@ namespace Soundboard4MacroDeck.Views
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonGetFromURL);
+            this.Controls.Add(this.fileBrowse);
             this.Controls.Add(this.checkBoxOverrideDevice);
             this.Controls.Add(this.labelDevices);
             this.Controls.Add(this.comboBoxDevices);
@@ -199,8 +201,6 @@ namespace Soundboard4MacroDeck.Views
             this.Controls.Add(this.labelFile);
             this.Controls.Add(this.labelOr);
             this.Controls.Add(this.volumeBar);
-            this.Controls.Add(this.buttonGetFromURL);
-            this.Controls.Add(this.fileBrowse);
             this.Controls.Add(this.filePath);
             this.Name = "SoundboardActionConfigView";
             this.Load += new System.EventHandler(this.SoundboardActionConfigView_Load);
