@@ -3,7 +3,6 @@ using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Plugins;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemIOFile = System.IO.File;

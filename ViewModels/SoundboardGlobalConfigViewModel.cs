@@ -1,9 +1,5 @@
-﻿using NAudio.CoreAudioApi;
-using Soundboard4MacroDeck.Models;
+﻿using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Plugins;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Soundboard4MacroDeck.ViewModels
 {
@@ -13,6 +9,7 @@ namespace Soundboard4MacroDeck.ViewModels
         public SoundboardGlobalConfigViewModel(IMacroDeckPlugin plugin) 
             : base(GlobalParameters.Deserialize(PluginConfiguration.GetValue(plugin, nameof(SoundboardGlobalConfigViewModel))))
         {
+            _plugin = plugin;
         }
 
 
