@@ -35,7 +35,6 @@ namespace Soundboard4MacroDeck.Views
             this.buttonOK = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.labelURLFile = new System.Windows.Forms.Label();
             this.urlBox = new System.Windows.Forms.TextBox();
-            this.fileProgressBar = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -48,6 +47,8 @@ namespace Soundboard4MacroDeck.Views
             this.buttonOK.ForeColor = System.Drawing.Color.White;
             this.buttonOK.Location = new System.Drawing.Point(387, 71);
             this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Progress = 0;
+            this.buttonOK.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(46)))), ((int)(((byte)(94)))));
             this.buttonOK.Size = new System.Drawing.Size(75, 25);
             this.buttonOK.TabIndex = 2;
             this.buttonOK.Text = "Ok";
@@ -73,23 +74,12 @@ namespace Soundboard4MacroDeck.Views
             this.urlBox.TabIndex = 4;
             this.urlBox.TextChanged += new System.EventHandler(this.UrlBox_TextChanged);
             // 
-            // fileProgressBar
-            // 
-            this.fileProgressBar.Location = new System.Drawing.Point(14, 60);
-            this.fileProgressBar.Margin = new System.Windows.Forms.Padding(0);
-            this.fileProgressBar.Name = "fileProgressBar";
-            this.fileProgressBar.Size = new System.Drawing.Size(448, 5);
-            this.fileProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.fileProgressBar.TabIndex = 5;
-            this.fileProgressBar.Visible = false;
-            // 
             // GetFileFromWebView
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(475, 109);
-            this.Controls.Add(this.fileProgressBar);
             this.Controls.Add(this.urlBox);
             this.Controls.Add(this.labelURLFile);
             this.Controls.Add(this.buttonOK);
@@ -101,7 +91,6 @@ namespace Soundboard4MacroDeck.Views
             this.Controls.SetChildIndex(this.buttonOK, 0);
             this.Controls.SetChildIndex(this.labelURLFile, 0);
             this.Controls.SetChildIndex(this.urlBox, 0);
-            this.Controls.SetChildIndex(this.fileProgressBar, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,6 +101,5 @@ namespace Soundboard4MacroDeck.Views
         private ButtonPrimary buttonOK;
         private System.Windows.Forms.Label labelURLFile;
         private System.Windows.Forms.TextBox urlBox;
-        private System.Windows.Forms.ProgressBar fileProgressBar;
     }
 }

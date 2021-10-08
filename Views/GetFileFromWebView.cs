@@ -32,7 +32,7 @@ namespace Soundboard4MacroDeck.Views
         {
             bool hasFile = !checkedFile
                 && (urlBox.Text.Equals(_viewModel.LastCheckedPath)
-                || await _viewModel.GetFromUrl(urlBox.Text, fileProgressBar));
+                || await _viewModel.GetFromUrl(urlBox.Text, (progress) => buttonOK.Progress = progress)); //using Macro Deck PrimaryButton as numeric progress bar/indicator
             if (!hasFile)
             {
                 urlBox.Text = _viewModel.LastCheckedPath;

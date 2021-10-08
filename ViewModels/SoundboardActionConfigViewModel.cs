@@ -45,30 +45,26 @@ namespace Soundboard4MacroDeck.ViewModels
             return TryApplyFile(data, filePath);
         }
 
-        public async Task<bool> GetFromUrl(string urlPath, System.Windows.Forms.ProgressBar progressBar)
+        public async Task<bool> GetFromUrl(string urlPath, Action<int> progressCallback)
         {
             bool success = false;
             try
             {
-                progressBar.Visible = true;
-
                 using var webClient = new SystemNetWebClient();
                 webClient.DownloadProgressChanged += (s, e) =>
                 {
-                    progressBar.Value = e.ProgressPercentage;
+                    progressCallback?.Invoke(e.ProgressPercentage);
                 };
                 webClient.DownloadDataCompleted += (s, e) =>
                 {
                     success = TryApplyFile(e.Result, urlPath);
-                    progressBar.Visible = false;
                 };
 
-                await webClient.DownloadDataTaskAsync(urlPath);
+                await webClient.DownloadDataTaskAsync(urlPath).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 //forbidden, proxy issues, file not found (404) etc
-                progressBar.Visible = false;
             }
 
             return success;
