@@ -7,6 +7,15 @@ namespace Soundboard4MacroDeck.Services
     public static class Retry
     {
         /// <summary>
+        /// Perform the given action and retry it at most 3 times at 1 sec intervals if necessary
+        /// </summary>
+        /// <param name="action">The action to perform; a method to call</param>
+        public static void Do(Action action)
+        {
+            Do(action, retryInterval: TimeSpan.FromSeconds(1.0));
+        }
+
+        /// <summary>
         /// Perform the given action and retry it if necessary
         /// </summary>
         /// <param name="action">The action to perform; a method to call</param>

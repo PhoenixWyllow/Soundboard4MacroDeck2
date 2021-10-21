@@ -7,40 +7,33 @@ using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Actions
 {
-    public class SoundboardPlayAction : IMacroDeckAction, ISoundboardAction
+    public class SoundboardPlayAction : PluginAction
     {
         /// <summary>
         /// Name of the action
         /// </summary>
-        public string Name => Localization.Instance.ActionPlaySoundName;
+        public override string Name => Localization.Instance.ActionPlaySoundName;
 
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public string Description => Localization.Instance.ActionPlaySoundDescription;
+        public override string Description => Localization.Instance.ActionPlaySoundDescription;
 
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
         /// </summary>
-        public string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundDisplayName;
-
-        /// <summary>
-        /// Configuration of the action.
-        /// </summary>
-        public string Configuration { get; set; } = string.Empty;
+        public override string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundDisplayName;
 
         /// <summary>
         /// Set true if the plugin can be configured.
         /// </summary>
-        public bool CanConfigure => true;
-
-        public SoundboardActions ActionType => SoundboardActions.Play;
+        public override bool CanConfigure => true;
 
         /// <summary>
         /// Return the ActionConfigControl for this action, if action can be configured. Return null if plugin cannot be configured and you set CanConfigure to false.
         /// </summary>
         /// <returns></returns>
-        public ActionConfigControl GetActionConfigurator(ActionConfigurator actionConfigurator)
+        public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)
         {
             return new Views.SoundboardActionConfigView(this, actionConfigurator);
         }
@@ -50,7 +43,7 @@ namespace Soundboard4MacroDeck.Actions
         /// </summary>
         /// <param name="clientId">Returns the client id</param>
         /// <param name="actionButton">Returns the pressed action button</param>
-        public void Trigger(string clientId, ActionButton actionButton)
+        public override void Trigger(string clientId, ActionButton actionButton)
         {
             if (string.IsNullOrWhiteSpace(Configuration))
             {
@@ -59,7 +52,7 @@ namespace Soundboard4MacroDeck.Actions
 
             try
             {
-                SoundPlayer.Instance.Execute(Configuration);
+                SoundPlayer.Instance.Execute(SoundboardActions.Play, Configuration);
             }
             catch
             {

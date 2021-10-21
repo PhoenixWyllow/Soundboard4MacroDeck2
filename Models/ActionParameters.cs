@@ -10,7 +10,6 @@ namespace Soundboard4MacroDeck.Models
         public string FilePath { get; set; }
         public byte[] FileData { get; set; } = null;
         public int Volume { get; set; } = 50;
-        public SoundboardActions ActionType { get; set; }
         public string FileExt { get; set; }
         public string FileName => FilePath + FileExt;
         public string OutputDeviceId { get; set; }

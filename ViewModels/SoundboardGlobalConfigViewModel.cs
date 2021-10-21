@@ -5,8 +5,8 @@ namespace Soundboard4MacroDeck.ViewModels
 {
     public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewModel
     {
-        private readonly IMacroDeckPlugin _plugin;
-        public SoundboardGlobalConfigViewModel(IMacroDeckPlugin plugin) 
+        private readonly MacroDeckPlugin _plugin;
+        public SoundboardGlobalConfigViewModel(MacroDeckPlugin plugin) 
             : base(GlobalParameters.Deserialize(PluginConfiguration.GetValue(plugin, nameof(SoundboardGlobalConfigViewModel))))
         {
             _plugin = plugin;

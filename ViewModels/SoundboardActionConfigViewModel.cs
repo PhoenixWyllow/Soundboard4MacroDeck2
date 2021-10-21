@@ -12,7 +12,7 @@ namespace Soundboard4MacroDeck.ViewModels
 {
     public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewModel
     {
-        private readonly IMacroDeckAction _action;
+        private readonly PluginAction _action;
         private ActionParameters Parameters => OutputConfiguration as ActionParameters;
         public string LastCheckedPath => Parameters.FilePath;
 
@@ -22,15 +22,15 @@ namespace Soundboard4MacroDeck.ViewModels
             set => Parameters.Volume = value;
         }
 
-        public SoundboardActionConfigViewModel(IMacroDeckAction action)
+        public SoundboardActionConfigViewModel(PluginAction action)
             : base(ActionParameters.Deserialize(action.Configuration))
         {
             _action = action;
-            Parameters.ActionType = (SoundboardActions)((_action as ISoundboardAction)?.ActionType);
         }
         
         public override void SetConfig()
         {
+            _action.DisplayName = $"{_action.Name}: {Parameters.FileName}";
             _action.Configuration = Parameters.Serialize();
         }
 

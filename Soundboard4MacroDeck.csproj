@@ -10,106 +10,107 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>0.2.21280.6</AssemblyVersion>
-		<FileVersion>0.2.21280.6</FileVersion>
-		<Version>0.2.1-beta-08</Version>
+		<AssemblyVersion>0.2.21294.6</AssemblyVersion>
+		<FileVersion>0.2.21294.6</FileVersion>
+		<Version>0.2.4</Version>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<IsPublishable>False</IsPublishable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>E:\Code\source\repos\PhoenixWyllow\Soundboard4MacroDeck2\LICENSE</PackageLicenseFile>
-		<Description>Create a button in Macro Deck and configure your audio file.
-
-You may choose either a local file or one from the web (please check you have permission, first!)</Description>
+		<Description>A soundboard plugin for Macro Deck 2</Description>
 		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <ShouldCreateLogs>True</ShouldCreateLogs>
-	  <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-	  <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
-	  <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
-	  <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-	  <UpdatePackageVersion>True</UpdatePackageVersion>
-	  <PackageVersionSettings>AssemblyVersion.NoneWithAutoReset.Beta</PackageVersionSettings>
-	  <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-	  <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+		<ShouldCreateLogs>True</ShouldCreateLogs>
+		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+		<UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+		<UpdatePackageVersion>True</UpdatePackageVersion>
+		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+		<PackageVersionSettings>AssemblyVersion.IncrementWithAutoReset.None</PackageVersionSettings>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <ShouldCreateLogs>True</ShouldCreateLogs>
-	  <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-	  <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
-	  <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
-	  <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-	  <UpdatePackageVersion>True</UpdatePackageVersion>
-	  <PackageVersionSettings>AssemblyVersion.NoneWithAutoReset.Alpha</PackageVersionSettings>
-	  <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-	  <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+		<ShouldCreateLogs>True</ShouldCreateLogs>
+		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+		<UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+		<UpdatePackageVersion>True</UpdatePackageVersion>
+		<PackageVersionSettings>AssemblyVersion.IncrementOnce.Beta</PackageVersionSettings>
+		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Languages\*.json" />
+		<None Remove="Resources\Languages\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Languages\*.json" />
+		<EmbeddedResource Include="Resources\Languages\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="NAudio" Version="1.10.0" />
-	  <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+		<PackageReference Include="NAudio" Version="1.10.0" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Reference Include="Macro Deck 2">
-		<HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Myrmec">
-		<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Myrmec.Mime">
-		<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.Mime.dll</HintPath>
-	  </Reference>
+		<Reference Include="Macro Deck 2">
+			<HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
+		</Reference>
+		<Reference Include="Myrmec">
+			<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.dll</HintPath>
+		</Reference>
+		<Reference Include="Myrmec.Mime">
+			<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.Mime.dll</HintPath>
+		</Reference>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-		<DesignTime>True</DesignTime>
-		<AutoGen>True</AutoGen>
-		<DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <EmbeddedResource Update="Properties\Resources.resx">
-		<Generator>PublicResXFileCodeGenerator</Generator>
-		<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <None Update="README.md">
-		<Pack>True</Pack>
-	  </None>
-	  <None Update="Resources\Languages\CONTRIBUTING_LANGUAGES.md">
-	    <Pack>True</Pack>
-	  </None>
+		<None Update="README.md">
+			<Pack>True</Pack>
+		</None>
+		<None Update="Resources\Languages\CONTRIBUTING_LANGUAGES.md">
+			<Pack>True</Pack>
+		</None>
+		<None Update="Plugin.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="(robocopy $(OutDir) &quot;%25AppData%25\Macro Deck\plugins\ &quot; $(TargetFileName) Naudio*.dll Myrmec*.dll /im)  ^&amp; IF %25ERRORLEVEL%25 LSS 8 SET ERRORLEVEL = 0" />
+		<Exec Command="(robocopy $(OutDir) &quot;%25AppData%25\Macro Deck\plugins\PhoenixWyllow.$(TargetName)\ &quot; $(TargetFileName) Naudio*.dll Myrmec*.dll Plugin.xml /im)  ^&amp; IF %25ERRORLEVEL%25 LSS 8 SET ERRORLEVEL = 0" />
 	</Target>
 
 	<Target Name="PostBuildZipRelease" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Release'">
-		<Exec Command="(robocopy $(OutDir) &quot;$(SolutionDir)releases\temp\ &quot; $(TargetFileName) Naudio*.dll Myrmec*.dll /im)  ^&amp; IF %25ERRORLEVEL%25 LSS 8 SET ERRORLEVEL = 0" />
-		<ZipDirectory SourceDirectory="$(SolutionDir)releases\temp\" DestinationFile="$(SolutionDir)releases\$(TargetName)_$(Version).zip" Overwrite="true" />
+		<Exec Command="(robocopy $(OutDir) &quot;$(SolutionDir)releases\temp\ &quot; $(TargetFileName) Naudio*.dll Myrmec*.dll Plugin.xml /im)  ^&amp; IF %25ERRORLEVEL%25 LSS 8 SET ERRORLEVEL = 0" />
+		<ZipDirectory SourceDirectory="$(SolutionDir)releases\temp\" DestinationFile="$(SolutionDir)releases\$(TargetName)_$(AssemblyVersion).zip" Overwrite="true" />
 		<RemoveDir Directories="$(SolutionDir)releases\temp\" />
 	</Target>
 </Project>

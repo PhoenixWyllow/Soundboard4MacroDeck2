@@ -6,52 +6,32 @@ using Soundboard4MacroDeck.Services;
 
 namespace Soundboard4MacroDeck
 {
-    public class Main : IMacroDeckPlugin
+    public class Main : MacroDeckPlugin
     {
-        /// <summary>
-        /// Name of the plugin
-        /// </summary>
-        public string Name => typeof(Main).Assembly.GetName().Name;
-
-        /// <summary>
-        /// Version of the plugin
-        /// </summary>
-        public string Version => typeof(Main).Assembly.GetName().Version.ToString();
-
-        /// <summary>
-        /// Author of the plugin
-        /// </summary>
-        public string Author => "PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)";
-
         /// <summary>
         /// Short description what the plugin can do
         /// </summary>
-        public string Description => "(Beta) " + Localization.Instance.Soundboard4MacroDeckDescription;
-
-        /// <summary>
-        /// List of all the actions of the plugin
-        /// </summary>
-        public List<IMacroDeckAction> Actions { get; set; }
+        public override string Description => "(Beta) " + Localization.Instance.Soundboard4MacroDeckDescription;
 
         /// <summary>
         /// Icon for the plugin
         /// </summary>
-        public Image Icon => Properties.Resources.SoundboardIcon;
+        public override Image Icon => Properties.Resources.SoundboardIcon;
 
         /// <summary>
         /// Can the plugin be configured? E.g. accounts
         /// </summary>
-        public bool CanConfigure => true;
+        public override bool CanConfigure => true;
 
         /// <summary>
         /// Gets called when Macro Deck enables the plugin
         /// </summary>
-        public void Enable()
+        public override void Enable()
         {
             Localization.CreateInstance();
             SoundPlayer.CreateInstance(this);
 
-            Actions = new List<IMacroDeckAction>
+            Actions = new List<PluginAction>
             {
                 new SoundboardPlayAction(),
             };
@@ -60,7 +40,7 @@ namespace Soundboard4MacroDeck
         /// <summary>
         /// Gets called when the user wants to configure the plugin
         /// </summary>
-        public void OpenConfigurator()
+        public override void OpenConfigurator()
         {
             using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
             pluginConfig.ShowDialog();

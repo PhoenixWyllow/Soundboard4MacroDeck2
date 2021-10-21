@@ -14,7 +14,7 @@ namespace Soundboard4MacroDeck.Views
         private readonly SoundboardActionConfigViewModel _viewModel;
         private bool checkedFile = false;
 
-        public SoundboardActionConfigView(IMacroDeckAction action, ActionConfigurator actionConfigurator)
+        public SoundboardActionConfigView(PluginAction action, ActionConfigurator actionConfigurator)
         {
             _viewModel = new SoundboardActionConfigViewModel(action);
 

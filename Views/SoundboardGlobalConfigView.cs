@@ -9,7 +9,7 @@ namespace Soundboard4MacroDeck.Views
     public partial class SoundboardGlobalConfigView : DialogForm
     {
         private readonly SoundboardGlobalConfigViewModel _viewModel;
-        public SoundboardGlobalConfigView(IMacroDeckPlugin plugin)
+        public SoundboardGlobalConfigView(MacroDeckPlugin plugin)
         {
             _viewModel = new SoundboardGlobalConfigViewModel(plugin);
 
