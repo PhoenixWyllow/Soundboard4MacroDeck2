@@ -29,7 +29,7 @@ namespace Soundboard4MacroDeck.Services
             return false;
         }
 
-        public static void CreateInstance(IMacroDeckPlugin plugin)
+        public static void CreateInstance(MacroDeckPlugin plugin)
         {
             if (Instance is null)
             {
@@ -44,12 +44,12 @@ namespace Soundboard4MacroDeck.Services
         public static SoundPlayer Instance { get; private set; }// => _instance.Value;
         //private static readonly Lazy<SoundPlayer> _instance = new Lazy<SoundPlayer>(() => new SoundPlayer());
 
-        private SoundPlayer(IMacroDeckPlugin plugin)
+        private SoundPlayer(MacroDeckPlugin plugin)
         {
             _plugin = plugin;
         }
 
-        private readonly IMacroDeckPlugin _plugin;
+        private readonly MacroDeckPlugin _plugin;
 
         private IWavePlayer outputDevice;
         private AudioBytesReader fileReader;
@@ -57,7 +57,7 @@ namespace Soundboard4MacroDeck.Services
 
         public IOutputConfiguration GetGlobalConfiguration() => GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
-        public void Execute(string config)
+        public void Execute(SoundboardActions action, string config)
         {
             actionParameters = ActionParameters.Deserialize(config);
 
@@ -66,7 +66,7 @@ namespace Soundboard4MacroDeck.Services
                 return;
             }
 
-            Retry.Do(Play, retryInterval: TimeSpan.FromSeconds(1.0), maxAttemptCount: 3);
+            Retry.Do(() => Play(action));
         }
 
         public void StopAll()
@@ -74,9 +74,9 @@ namespace Soundboard4MacroDeck.Services
             StopAudio();
         }
 
-        private void Play()
+        private void Play(SoundboardActions action)
         {
-            switch (actionParameters.ActionType)
+            switch (action)
             {
                 case SoundboardActions.PlayStop:
                 case SoundboardActions.Play:

@@ -10,9 +10,9 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>0.2.21281.0</AssemblyVersion>
-		<FileVersion>0.2.21281.0</FileVersion>
-		<Version>0.2.3-beta-07</Version>
+		<AssemblyVersion>0.2.21294.6</AssemblyVersion>
+		<FileVersion>0.2.21294.6</FileVersion>
+		<Version>0.2.4</Version>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -25,83 +25,83 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <ShouldCreateLogs>True</ShouldCreateLogs>
-	  <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-	  <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
-	  <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
-	  <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-	  <UpdatePackageVersion>True</UpdatePackageVersion>
-	  <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-	  <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-	  <PackageVersionSettings>AssemblyVersion.IncrementOnce.Preview</PackageVersionSettings>
+		<ShouldCreateLogs>True</ShouldCreateLogs>
+		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+		<UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+		<UpdatePackageVersion>True</UpdatePackageVersion>
+		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+		<PackageVersionSettings>AssemblyVersion.IncrementWithAutoReset.None</PackageVersionSettings>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <ShouldCreateLogs>True</ShouldCreateLogs>
-	  <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-	  <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
-	  <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
-	  <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-	  <UpdatePackageVersion>True</UpdatePackageVersion>
-	  <PackageVersionSettings>AssemblyVersion.NoneWithAutoReset.Beta</PackageVersionSettings>
-	  <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-	  <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+		<ShouldCreateLogs>True</ShouldCreateLogs>
+		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+		<UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+		<UpdatePackageVersion>True</UpdatePackageVersion>
+		<PackageVersionSettings>AssemblyVersion.NoneWithAutoReset.Beta</PackageVersionSettings>
+		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Languages\*.json" />
+		<None Remove="Resources\Languages\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Languages\*.json" />
+		<EmbeddedResource Include="Resources\Languages\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="NAudio" Version="1.10.0" />
-	  <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+		<PackageReference Include="NAudio" Version="1.10.0" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Reference Include="Macro Deck 2">
-		<HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Myrmec">
-		<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Myrmec.Mime">
-		<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.Mime.dll</HintPath>
-	  </Reference>
+		<Reference Include="Macro Deck 2">
+			<HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
+		</Reference>
+		<Reference Include="Myrmec">
+			<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.dll</HintPath>
+		</Reference>
+		<Reference Include="Myrmec.Mime">
+			<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.Mime.dll</HintPath>
+		</Reference>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-		<DesignTime>True</DesignTime>
-		<AutoGen>True</AutoGen>
-		<DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <EmbeddedResource Update="Properties\Resources.resx">
-		<Generator>PublicResXFileCodeGenerator</Generator>
-		<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <None Update="README.md">
-		<Pack>True</Pack>
-	  </None>
-	  <None Update="Resources\Languages\CONTRIBUTING_LANGUAGES.md">
-	    <Pack>True</Pack>
-	  </None>
-	  <None Update="Plugin.xml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="README.md">
+			<Pack>True</Pack>
+		</None>
+		<None Update="Resources\Languages\CONTRIBUTING_LANGUAGES.md">
+			<Pack>True</Pack>
+		</None>
+		<None Update="Plugin.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
