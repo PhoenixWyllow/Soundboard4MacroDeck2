@@ -1,5 +1,4 @@
 ﻿using Myrmec;
-using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Plugins;
 using System;

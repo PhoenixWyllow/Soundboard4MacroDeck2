@@ -31,7 +31,7 @@ namespace Soundboard4MacroDeck.Views
             this.labelDevices.Text = Localization.Instance.OutputDevicesAction;
             this.buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
             this.fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
-            this.filePath.PlaceholderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
+            this.filePath.PlaceHolderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
             this.labelFile.Text = Localization.Instance.ActionPlaySoundFilePath;
             this.labelVolume.Text = Localization.Instance.ActionPlaySoundVolume;
             this.labelOr.Text = Localization.Instance.GenericLabelOr;
@@ -60,7 +60,10 @@ namespace Soundboard4MacroDeck.Views
             this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             // filePath
-            filePath.Text = _viewModel.LastCheckedPath;
+            if (!string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath))
+            {
+                filePath.Text = _viewModel.LastCheckedPath;
+            }
             volumeBar.Value = _viewModel.PlayVolume;
             checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }

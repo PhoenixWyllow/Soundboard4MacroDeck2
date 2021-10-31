@@ -5,6 +5,8 @@ using System;
 using Myrmec;
 using SuchByte.MacroDeck.Plugins;
 using NAudio.CoreAudioApi;
+using SuchByte.MacroDeck.ActionButton;
+using SuchByte.MacroDeck.Server;
 
 namespace Soundboard4MacroDeck.Services
 {
@@ -57,7 +59,7 @@ namespace Soundboard4MacroDeck.Services
 
         public IOutputConfiguration GetGlobalConfiguration() => GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
-        public void Execute(SoundboardActions action, string config)
+        public void Execute(SoundboardActions action, string config, ActionButton actionButton)
         {
             actionParameters = ActionParameters.Deserialize(config);
 
@@ -65,32 +67,61 @@ namespace Soundboard4MacroDeck.Services
             {
                 return;
             }
-
-            Retry.Do(() => Play(action));
+            
+            Retry.Do(() => Play(action, actionButton));
         }
+        //public bool Execute(SoundboardActions action, string config, Action actionOnStop = null)
+        //{
+        //    actionParameters = ActionParameters.Deserialize(config);
+
+        //    if (actionParameters.FileData is null)
+        //    {
+        //        return false;
+        //    }
+
+        //    Retry.Do(() => Play(action, actionOnStop));
+        //    return outputDevice?.PlaybackState == PlaybackState.Playing;
+        //}
 
         public void StopAll()
         {
             StopAudio();
         }
 
-        private void Play(SoundboardActions action)
+        private void Play(SoundboardActions action, ActionButton actionButton)
         {
             switch (action)
             {
                 case SoundboardActions.PlayStop:
+                    PlayOrStop(actionButton);
+                    break;
+
                 case SoundboardActions.Play:
                     StopAll();
-                    PlaySingle();
+                    PlaySingle(actionButton);
                     break;
 
                 case SoundboardActions.Overlap:
-                    PlaySingle();
+                    PlaySingle(actionButton);
                     break;
                 default:
                     break;
             }
 
+        }
+
+        private void PlayOrStop(ActionButton actionButton)
+        {
+            if (outputDevice?.PlaybackState == PlaybackState.Playing)
+            {
+                bool currentlyPlaying = actionButton.State;
+                StopAudio();
+                if (currentlyPlaying)
+                {
+                    return;
+                }
+            }
+            PlaySingle(actionButton);
         }
 
         private void StopAudio()
@@ -128,11 +159,13 @@ namespace Soundboard4MacroDeck.Services
             outputDevice.Init(fileReader);
         }
 
-        private void PlaySingle()
+        private void PlaySingle(ActionButton actionButton)
         {
+            MacroDeckServer.SetState(actionButton, true);
             if (outputDevice == null)
             {
                 outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200); //setting only the device, others should be as default.
+                outputDevice.PlaybackStopped += (s, e) => MacroDeckServer.SetState(actionButton, false);
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
             }
 

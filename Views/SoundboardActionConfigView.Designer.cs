@@ -34,7 +34,7 @@ namespace Soundboard4MacroDeck.Views
         private void InitializeComponent()
         {
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.filePath = new System.Windows.Forms.TextBox();
+            this.filePath = new SuchByte.MacroDeck.GUI.CustomControls.RoundedTextBox();
             this.fileBrowse = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.buttonGetFromURL = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.volumeBar = new System.Windows.Forms.TrackBar();
@@ -43,7 +43,7 @@ namespace Soundboard4MacroDeck.Views
             this.labelVolume = new System.Windows.Forms.Label();
             this.volumeNum = new System.Windows.Forms.NumericUpDown();
             this.labelDevices = new System.Windows.Forms.Label();
-            this.comboBoxDevices = new System.Windows.Forms.ComboBox();
+            this.comboBoxDevices = new SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox();
             this.checkBoxOverrideDevice = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.volumeBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.volumeNum)).BeginInit();
@@ -51,16 +51,22 @@ namespace Soundboard4MacroDeck.Views
             // 
             // filePath
             // 
-            this.filePath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.filePath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.filePath.BackColor = System.Drawing.Color.DimGray;
             this.filePath.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.filePath.ForeColor = System.Drawing.Color.White;
+            this.filePath.Icon = null;
             this.filePath.Location = new System.Drawing.Point(44, 36);
+            this.filePath.Multiline = false;
             this.filePath.Name = "filePath";
-            this.filePath.PlaceholderText = "Get file locally";
-            this.filePath.Size = new System.Drawing.Size(380, 23);
+            this.filePath.Padding = new System.Windows.Forms.Padding(8, 5, 8, 5);
+            this.filePath.PasswordChar = false;
+            this.filePath.PlaceHolderColor = System.Drawing.Color.Gray;
+            this.filePath.PlaceHolderText = "Get file locally";
+            this.filePath.ReadOnly = false;
+            this.filePath.SelectionStart = 0;
+            this.filePath.Size = new System.Drawing.Size(380, 27);
             this.filePath.TabIndex = 0;
+            this.filePath.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.filePath.TextChanged += new System.EventHandler(this.FilePath_TextChanged);
             // 
             // fileBrowse
@@ -72,9 +78,13 @@ namespace Soundboard4MacroDeck.Views
             this.fileBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fileBrowse.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.fileBrowse.ForeColor = System.Drawing.Color.White;
-            this.fileBrowse.Location = new System.Drawing.Point(430, 32);
+            this.fileBrowse.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(89)))), ((int)(((byte)(184)))));
+            this.fileBrowse.Icon = null;
+            this.fileBrowse.Location = new System.Drawing.Point(430, 35);
             this.fileBrowse.Name = "fileBrowse";
-            this.fileBrowse.Size = new System.Drawing.Size(75, 30);
+            this.fileBrowse.Progress = 0;
+            this.fileBrowse.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(46)))), ((int)(((byte)(94)))));
+            this.fileBrowse.Size = new System.Drawing.Size(75, 28);
             this.fileBrowse.TabIndex = 1;
             this.fileBrowse.Text = "Browse";
             this.fileBrowse.UseVisualStyleBackColor = true;
@@ -89,9 +99,13 @@ namespace Soundboard4MacroDeck.Views
             this.buttonGetFromURL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGetFromURL.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonGetFromURL.ForeColor = System.Drawing.Color.White;
-            this.buttonGetFromURL.Location = new System.Drawing.Point(575, 32);
+            this.buttonGetFromURL.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(89)))), ((int)(((byte)(184)))));
+            this.buttonGetFromURL.Icon = null;
+            this.buttonGetFromURL.Location = new System.Drawing.Point(575, 35);
             this.buttonGetFromURL.Name = "buttonGetFromURL";
-            this.buttonGetFromURL.Size = new System.Drawing.Size(95, 30);
+            this.buttonGetFromURL.Progress = 0;
+            this.buttonGetFromURL.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(46)))), ((int)(((byte)(94)))));
+            this.buttonGetFromURL.Size = new System.Drawing.Size(95, 28);
             this.buttonGetFromURL.TabIndex = 3;
             this.buttonGetFromURL.Text = "Get from URL";
             this.buttonGetFromURL.UseVisualStyleBackColor = true;
@@ -111,9 +125,9 @@ namespace Soundboard4MacroDeck.Views
             // labelOr
             // 
             this.labelOr.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelOr.Location = new System.Drawing.Point(511, 32);
+            this.labelOr.Location = new System.Drawing.Point(511, 36);
             this.labelOr.Name = "labelOr";
-            this.labelOr.Size = new System.Drawing.Size(58, 30);
+            this.labelOr.Size = new System.Drawing.Size(58, 27);
             this.labelOr.TabIndex = 5;
             this.labelOr.Text = "or";
             this.labelOr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -121,29 +135,33 @@ namespace Soundboard4MacroDeck.Views
             // labelFile
             // 
             this.labelFile.AutoSize = true;
-            this.labelFile.Location = new System.Drawing.Point(20, 5);
+            this.labelFile.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelFile.Location = new System.Drawing.Point(20, 9);
             this.labelFile.Margin = new System.Windows.Forms.Padding(5);
             this.labelFile.Name = "labelFile";
-            this.labelFile.Size = new System.Drawing.Size(82, 23);
+            this.labelFile.Size = new System.Drawing.Size(69, 19);
             this.labelFile.TabIndex = 6;
             this.labelFile.Text = "File path";
             // 
             // labelVolume
             // 
             this.labelVolume.AutoSize = true;
-            this.labelVolume.Location = new System.Drawing.Point(20, 67);
+            this.labelVolume.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelVolume.Location = new System.Drawing.Point(20, 71);
             this.labelVolume.Margin = new System.Windows.Forms.Padding(5);
             this.labelVolume.Name = "labelVolume";
-            this.labelVolume.Size = new System.Drawing.Size(72, 23);
+            this.labelVolume.Size = new System.Drawing.Size(63, 19);
             this.labelVolume.TabIndex = 7;
             this.labelVolume.Text = "Volume";
             // 
             // volumeNum
             // 
+            this.volumeNum.BackColor = System.Drawing.Color.DimGray;
             this.volumeNum.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.volumeNum.ForeColor = System.Drawing.Color.White;
             this.volumeNum.Location = new System.Drawing.Point(366, 109);
             this.volumeNum.Name = "volumeNum";
-            this.volumeNum.Size = new System.Drawing.Size(58, 23);
+            this.volumeNum.Size = new System.Drawing.Size(60, 23);
             this.volumeNum.TabIndex = 8;
             this.volumeNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.volumeNum.ValueChanged += new System.EventHandler(this.VolumeNum_ValueChanged);
@@ -151,22 +169,27 @@ namespace Soundboard4MacroDeck.Views
             // labelDevices
             // 
             this.labelDevices.AutoSize = true;
-            this.labelDevices.Location = new System.Drawing.Point(20, 151);
+            this.labelDevices.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelDevices.Location = new System.Drawing.Point(20, 155);
             this.labelDevices.Margin = new System.Windows.Forms.Padding(5);
             this.labelDevices.Name = "labelDevices";
-            this.labelDevices.Size = new System.Drawing.Size(190, 23);
+            this.labelDevices.Size = new System.Drawing.Size(159, 19);
             this.labelDevices.TabIndex = 10;
             this.labelDevices.Text = "Default output device";
             // 
             // comboBoxDevices
             // 
             this.comboBoxDevices.BackColor = System.Drawing.Color.DimGray;
+            this.comboBoxDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBoxDevices.ForeColor = System.Drawing.Color.White;
-            this.comboBoxDevices.FormattingEnabled = true;
+            this.comboBoxDevices.Icon = null;
             this.comboBoxDevices.Location = new System.Drawing.Point(44, 217);
             this.comboBoxDevices.Name = "comboBoxDevices";
-            this.comboBoxDevices.Size = new System.Drawing.Size(380, 24);
+            this.comboBoxDevices.Padding = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.comboBoxDevices.SelectedIndex = -1;
+            this.comboBoxDevices.SelectedItem = null;
+            this.comboBoxDevices.Size = new System.Drawing.Size(380, 28);
             this.comboBoxDevices.TabIndex = 9;
             this.comboBoxDevices.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDevices_SelectedIndexChanged);
             this.comboBoxDevices.EnabledChanged += new System.EventHandler(this.ComboBoxDevices_EnabledChanged);
@@ -213,8 +236,8 @@ namespace Soundboard4MacroDeck.Views
         #endregion
 
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.TextBox filePath;
-        private SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary fileBrowse;
+        private RoundedTextBox filePath;
+        private ButtonPrimary fileBrowse;
         private ButtonPrimary buttonGetFromURL;
         private TrackBar volumeBar;
         private Label labelOr;
@@ -222,7 +245,7 @@ namespace Soundboard4MacroDeck.Views
         private Label labelVolume;
         private NumericUpDown volumeNum;
         private Label labelDevices;
-        private System.Windows.Forms.ComboBox comboBoxDevices;
+        private RoundedComboBox comboBoxDevices;
         private CheckBox checkBoxOverrideDevice;
     }
 }

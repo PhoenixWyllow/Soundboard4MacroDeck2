@@ -29,7 +29,7 @@ namespace Soundboard4MacroDeck.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBoxDevices = new System.Windows.Forms.ComboBox();
+            this.comboBoxDevices = new SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox();
             this.buttonOK = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
             this.labelDevices = new System.Windows.Forms.Label();
             this.linkLabelResetDevice = new System.Windows.Forms.LinkLabel();
@@ -38,11 +38,17 @@ namespace Soundboard4MacroDeck.Views
             // comboBoxDevices
             // 
             this.comboBoxDevices.BackColor = System.Drawing.Color.DimGray;
+            this.comboBoxDevices.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.comboBoxDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBoxDevices.ForeColor = System.Drawing.Color.White;
-            this.comboBoxDevices.FormattingEnabled = true;
-            this.comboBoxDevices.Location = new System.Drawing.Point(23, 50);
+            this.comboBoxDevices.Icon = null;
+            this.comboBoxDevices.Location = new System.Drawing.Point(24, 46);
             this.comboBoxDevices.Name = "comboBoxDevices";
-            this.comboBoxDevices.Size = new System.Drawing.Size(404, 24);
+            this.comboBoxDevices.Padding = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            this.comboBoxDevices.SelectedIndex = -1;
+            this.comboBoxDevices.SelectedItem = null;
+            this.comboBoxDevices.Size = new System.Drawing.Size(404, 26);
             this.comboBoxDevices.TabIndex = 3;
             this.comboBoxDevices.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDevices_SelectedIndexChanged);
             // 
@@ -55,9 +61,13 @@ namespace Soundboard4MacroDeck.Views
             this.buttonOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOK.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonOK.ForeColor = System.Drawing.Color.White;
+            this.buttonOK.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(89)))), ((int)(((byte)(184)))));
+            this.buttonOK.Icon = null;
             this.buttonOK.Location = new System.Drawing.Point(352, 188);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 25);
+            this.buttonOK.Progress = 0;
+            this.buttonOK.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(46)))), ((int)(((byte)(94)))));
+            this.buttonOK.Size = new System.Drawing.Size(75, 27);
             this.buttonOK.TabIndex = 4;
             this.buttonOK.Text = "Ok";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -66,10 +76,10 @@ namespace Soundboard4MacroDeck.Views
             // labelDevices
             // 
             this.labelDevices.AutoSize = true;
-            this.labelDevices.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelDevices.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelDevices.Location = new System.Drawing.Point(24, 24);
             this.labelDevices.Name = "labelDevices";
-            this.labelDevices.Size = new System.Drawing.Size(190, 23);
+            this.labelDevices.Size = new System.Drawing.Size(159, 19);
             this.labelDevices.TabIndex = 5;
             this.labelDevices.Text = "Default output device";
             // 
@@ -108,7 +118,7 @@ namespace Soundboard4MacroDeck.Views
         }
 
         #endregion
-        private System.Windows.Forms.ComboBox comboBoxDevices;
+        private SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox comboBoxDevices;
         private SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary buttonOK;
         private System.Windows.Forms.Label labelDevices;
         private System.Windows.Forms.LinkLabel linkLabelResetDevice;

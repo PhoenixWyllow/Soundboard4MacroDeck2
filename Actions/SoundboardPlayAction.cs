@@ -52,7 +52,7 @@ namespace Soundboard4MacroDeck.Actions
 
             try
             {
-                SoundPlayer.Instance.Execute(SoundboardActions.Play, Configuration);
+                SoundPlayer.Instance.Execute(SoundboardActions.Play, Configuration, actionButton);
             }
             catch
             {
