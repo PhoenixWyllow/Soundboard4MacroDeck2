@@ -10,6 +10,16 @@ Create a button and configure your audio file.
 
 You may choose either a local file or one from the web (please check you have permission, first!)
 
+***
+## Features
+
+| Action | Description | Function |
+| --- | --- | --- |
+| Play | Standard play action | Plays audio until finished or another has started. Pressing multiple times will restart playback. |
+| Play/Stop | Enhanced play action | Plays audio until the button is pressed again, or audio has finished or another file has started. |
+| Overlap | Overlapped audio playback | Plays audio over other currently playing sounds until finished or another non-overlapping file has started. |
+| Loop | Looped playback | Plays audio in loop until stopped or another file has started |
+
 More features/actions coming soon...
 
 ***
@@ -22,7 +32,7 @@ If your language is missing or incomplete, please consider helping me out by cre
 
 Currently available languages:
 - English
-- Italiano
+- Italian
 - German
 
 ***
