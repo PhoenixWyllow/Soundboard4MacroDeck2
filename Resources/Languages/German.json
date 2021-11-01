@@ -17,12 +17,12 @@
 	"OutputDevicesGlobal": "Standardausgabegerät",
 	"OutputDevicesAction": "Standardausgabegerät für Taste",
 	"UseSystemDefaultDevice": "Nutze Systemstandard",
-	"OverrideDefaultDevice": "Benutzerdefiniert"
+	"OverrideDefaultDevice": "Benutzerdefiniert",
 	"ActionPlayStopSoundName": "Play/Stop Sound",
 	"ActionPlayStopSoundDescription": "Die konfigurierte Datei beim ersten Auslösten abspielen und beim zweiten Auslösen stoppen",
 	"ActionOverlapSoundName": "Audio überlappen",
 	"ActionOverlapSoundDescription": "Die konfigurierte Datei beim Auslösen abspielen und andere Sounds überlappen",
 	"ActionLoopSoundName": "Schleife",
 	"ActionLoopSoundDescription": "Die konfigurierte Datei beim ersten Auslösten in einer Schleife abspielen und beim zweiten Auslösen stoppen",
-	"ActionSuggestButtonStates": "Für diese Aktion wird empfohlen, den aktiven und inaktiven Zustand der Taste zu konfigurieren"
+	"ActionSuggestButtonStates": "Für diese Aktion wird empfohlen, den aktiven und inaktiven Zustand der Taste zu konfigurieren",
 }
