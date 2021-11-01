@@ -4,7 +4,6 @@
   "Soundboard4MacroDeckDescription": "Un plugin con funzionalità da soundboard per Macro Deck 2",
   "ActionPlaySoundName": "Riproduci audio",
   "ActionPlaySoundDescription": "Riproduce il file configurato",
-  "ActionPlaySoundDisplayName": "Riproduci suono",
   "ActionPlaySoundVolume": "Volume",
   "ActionPlaySoundFilePath": "Percorso del file",
   "ActionPlaySoundFilePathPlaceholder": "Ottieni file locale",
@@ -18,5 +17,12 @@
   "OutputDevicesGlobal": "Dispositivo di uscita audio preferito",
   "OutputDevicesAction": "Dispositivo di uscita audio per questo bottone",
   "UseSystemDefaultDevice": "Usa dispositivo di sistema",
-  "OverrideDefaultDevice": "Usa dispositivo personalizzato"
+  "OverrideDefaultDevice": "Usa dispositivo personalizzato",
+  "ActionPlayStopSoundName": "Riproduci/Ferma audio",
+  "ActionPlayStopSoundDescription": "Riproduci il file configurato al primo tocco e Ferma al secondo tocco",
+  "ActionOverlapSoundName": "Audio sovrapposto",
+  "ActionOverlapSoundDescription": "Riproduci il file configurato e sovrapponi su altro audio",
+  "ActionLoopSoundName": "Audio in loop",
+  "ActionLoopSoundDescription": "Riproduci il file configurato in loop fino a quando non viene fermato al secondo tocco",
+  "ActionSuggestButtonStates": "La configurazione degli stati Attivo e Inattivo del pulsante è raccomandata per questa azione"
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Services;
+using Soundboard4MacroDeck.Models;
 
 namespace Soundboard4MacroDeck
 {
@@ -29,11 +30,14 @@ namespace Soundboard4MacroDeck
         public override void Enable()
         {
             Localization.CreateInstance();
-            SoundPlayer.CreateInstance(this);
+            Instance = this;
 
             Actions = new List<PluginAction>
             {
                 new SoundboardPlayAction(),
+                new SoundboardPlayStopAction(),
+                new SoundboardOverlapAction(),
+                new SoundboardLoopAction(),
             };
         }
 
@@ -45,5 +49,7 @@ namespace Soundboard4MacroDeck
             using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
             pluginConfig.ShowDialog();
         }
+        private static MacroDeckPlugin Instance { get; set; }
+        internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Instance, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
     }
 }

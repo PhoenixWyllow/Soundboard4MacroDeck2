@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Soundboard4MacroDeck.Models
+﻿namespace Soundboard4MacroDeck.Models
 {
     public static class OutputConfigurationExtensions
     {

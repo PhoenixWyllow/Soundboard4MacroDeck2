@@ -4,7 +4,6 @@
 	"Soundboard4MacroDeckDescription": "Ein Soundboard Plugin für Macro Deck 2",
 	"ActionPlaySoundName": "Sound abspielen",
 	"ActionPlaySoundDescription": "Spielt eine Datei ab",
-	"ActionPlaySoundDisplayName": "Sound abspielen",
 	"ActionPlaySoundVolume": "Lautstärke",
 	"ActionPlaySoundFilePath": "Dateipfad",
 	"ActionPlaySoundFilePathPlaceholder": "Lokale Datei",

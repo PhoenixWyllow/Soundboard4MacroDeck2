@@ -5,6 +5,9 @@ using System;
 using Myrmec;
 using SuchByte.MacroDeck.Plugins;
 using NAudio.CoreAudioApi;
+using SuchByte.MacroDeck.ActionButton;
+using SuchByte.MacroDeck.Server;
+using System.Collections.Generic;
 
 namespace Soundboard4MacroDeck.Services
 {
@@ -29,67 +32,63 @@ namespace Soundboard4MacroDeck.Services
             return false;
         }
 
-        public static void CreateInstance(MacroDeckPlugin plugin)
+        public static void Execute(SoundboardActions action, string config, ActionButton actionButton)
         {
-            if (Instance is null)
-            {
-                lock (load)
-                {
-                    Instance = new SoundPlayer(plugin);
-                }
-            }
-        }
-        private static readonly object load = new object();
-
-        public static SoundPlayer Instance { get; private set; }// => _instance.Value;
-        //private static readonly Lazy<SoundPlayer> _instance = new Lazy<SoundPlayer>(() => new SoundPlayer());
-
-        private SoundPlayer(MacroDeckPlugin plugin)
-        {
-            _plugin = plugin;
-        }
-
-        private readonly MacroDeckPlugin _plugin;
-
-        private IWavePlayer outputDevice;
-        private AudioBytesReader fileReader;
-        private ActionParameters actionParameters;
-
-        public IOutputConfiguration GetGlobalConfiguration() => GlobalParameters.Deserialize(PluginConfiguration.GetValue(_plugin, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
-
-        public void Execute(SoundboardActions action, string config)
-        {
-            actionParameters = ActionParameters.Deserialize(config);
-
+            var actionParameters = ActionParameters.Deserialize(config);
             if (actionParameters.FileData is null)
             {
                 return;
             }
 
-            Retry.Do(() => Play(action));
-        }
-
-        public void StopAll()
-        {
-            StopAudio();
-        }
-
-        private void Play(SoundboardActions action)
-        {
-            switch (action)
+            SoundPlayer soundPlayer = new SoundPlayer()
             {
-                case SoundboardActions.Play:
-                    StopAll();
-                    PlaySingle();
-                    break;
+                actionParameters = actionParameters,
+            };
+            SoundPlayers.Add(soundPlayer);
 
-                case SoundboardActions.Overlap:
-                    PlaySingle();
-                    break;
-                default:
-                    break;
+            Retry.Do(() => soundPlayer.Play(action, actionButton));
+        }
+
+        public static void StopAll()
+        {
+            lock (key)
+            {
+                if (SoundPlayers.Count != 0)
+                {
+                    foreach (var player in SoundPlayers.ToArray())
+                    {
+                        player.StopAudio();
+                    }
+                }
             }
+        }
 
+        private static readonly object key = new object();
+        private static List<SoundPlayer> SoundPlayers { get; } = new List<SoundPlayer>();
+
+        private IWavePlayer outputDevice;
+        private AudioBytesReader fileReader;
+        private ActionParameters actionParameters;
+        private Guid internalGuid;
+
+        private SoundPlayer()
+        {
+            internalGuid = Guid.NewGuid();
+        }
+
+        public bool Equals(SoundPlayer soundPlayer)
+        {
+            return internalGuid.Equals(soundPlayer.internalGuid);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SoundPlayer sp && Equals(sp);
+        }
+
+        public override int GetHashCode()
+        {
+            return internalGuid.GetHashCode();
         }
 
         private void StopAudio()
@@ -103,6 +102,83 @@ namespace Soundboard4MacroDeck.Services
             outputDevice = null;
             fileReader?.Dispose();
             fileReader = null;
+
+            SoundPlayers.Remove(this);
+        }
+
+        private void Play(SoundboardActions action, ActionButton actionButton)
+        {
+            switch (action)
+            {
+                case SoundboardActions.Overlap:
+                    PlayAudio(actionButton);
+                    break;
+
+                case SoundboardActions.PlayStop:
+                    PlayOrStop(actionButton);
+                    break;
+
+                case SoundboardActions.Play:
+                    StopAll();
+                    PlayAudio(actionButton);
+                    break;
+
+                case SoundboardActions.Loop:
+                    LoopOrStop(actionButton);
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
+
+        private void PlayOrStop(ActionButton actionButton)
+        {
+            bool currentlyPlaying = actionButton.State;
+            StopAll();
+            if (!currentlyPlaying)
+            {
+                PlayAudio(actionButton);
+            }
+        }
+
+        private void LoopOrStop(ActionButton actionButton)
+        {
+            bool currentlyPlaying = actionButton.State;
+            StopAll();
+            if (!currentlyPlaying)
+            {
+                PlayAudio(actionButton, enableLoop: true);
+            }
+        }
+
+        private void PlayAudio(ActionButton actionButton, bool enableLoop = false)
+        {
+            EnsureOutputDevice();
+            outputDevice.PlaybackStopped += (s, e) => MacroDeckServer.SetState(actionButton, false);
+            MacroDeckServer.SetState(actionButton, true);
+
+            if (fileReader is null || !fileReader.FileName.Equals(actionParameters.FileName))
+            {
+                fileReader = new AudioBytesReader(actionParameters.FileName, actionParameters.FileData)
+                {
+                    Volume = Math.Min(actionParameters.Volume / 100f, 1f),
+                    LoopingEnabled = enableLoop,
+                };
+                outputDevice.Init(fileReader);
+            }
+
+            outputDevice.Play();
+        }
+
+        private void EnsureOutputDevice()
+        {
+            if (outputDevice == null)
+            {
+                outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200); //setting only the device, others should be as default.
+                outputDevice.PlaybackStopped += OnPlaybackStopped;
+            }
         }
 
         private MMDevice GetDevice()
@@ -110,37 +186,12 @@ namespace Soundboard4MacroDeck.Services
             using var devices = new MMDeviceEnumerator();
             if (actionParameters.MustGetDefaultDevice())
             {
-                IOutputConfiguration globalParameters = GetGlobalConfiguration();
+                IOutputConfiguration globalParameters = Main.Configuration;
                 return !globalParameters.MustGetDefaultDevice() //if
                     ? devices.GetDevice(globalParameters.OutputDeviceId)
                     : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
             }
             return devices.GetDevice(actionParameters.OutputDeviceId);
-        }
-
-        private void SetFile()
-        {
-            fileReader = new AudioBytesReader(actionParameters.FileName, actionParameters.FileData)
-            {
-                Volume = Math.Min(actionParameters.Volume / 100f, 1f)
-            };
-            outputDevice.Init(fileReader);
-        }
-
-        private void PlaySingle()
-        {
-            if (outputDevice == null)
-            {
-                outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200); //setting only the device, others should be as default.
-                outputDevice.PlaybackStopped += OnPlaybackStopped;
-            }
-
-            if (fileReader is null || !fileReader.FileName.Equals(actionParameters.FileName))
-            {
-                SetFile();
-            }
-
-            outputDevice.Play();
         }
     }
 

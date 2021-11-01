@@ -1,6 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<VersionMajor>0</VersionMajor>
+		<VersionMinor>3</VersionMinor>
+		<VersionPatch>0</VersionPatch>
+		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString())</VersionRevision>
+		<VersionSuffix>beta</VersionSuffix>
+	</PropertyGroup>
+	
+	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Soundboard4MacroDeck</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -10,9 +18,9 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>0.2.21294.6</AssemblyVersion>
-		<FileVersion>0.2.21294.6</FileVersion>
-		<Version>0.2.4</Version>
+		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString(hMM))</AssemblyVersion>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)-$(VersionSuffix)</Version>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -22,30 +30,6 @@
 		<Description>A soundboard plugin for Macro Deck 2</Description>
 		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<ShouldCreateLogs>True</ShouldCreateLogs>
-		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-		<UpdateAssemblyVersion>False</UpdateAssemblyVersion>
-		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
-		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-		<UpdatePackageVersion>True</UpdatePackageVersion>
-		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-		<PackageVersionSettings>AssemblyVersion.IncrementWithAutoReset.None</PackageVersionSettings>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<ShouldCreateLogs>True</ShouldCreateLogs>
-		<AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-		<UpdateAssemblyVersion>False</UpdateAssemblyVersion>
-		<UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
-		<UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-		<UpdatePackageVersion>True</UpdatePackageVersion>
-		<PackageVersionSettings>AssemblyVersion.IncrementOnce.Beta</PackageVersionSettings>
-		<AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-		<InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -98,10 +82,6 @@
 		<None Update="Plugin.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

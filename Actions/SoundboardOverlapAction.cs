@@ -7,22 +7,22 @@ using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Actions
 {
-    public class SoundboardPlayAction : PluginAction
+    public class SoundboardOverlapAction : PluginAction
     {
         /// <summary>
         /// Name of the action
         /// </summary>
-        public override string Name => Localization.Instance.ActionPlaySoundName;
+        public override string Name => Localization.Instance.ActionOverlapSoundName;
 
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public override string Description => Localization.Instance.ActionPlaySoundDescription;
+        public override string Description => Localization.Instance.ActionOverlapSoundDescription;
 
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
         /// </summary>
-        public override string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundName;
+        public override string DisplayName { get; set; } = Localization.Instance.ActionOverlapSoundName;
 
         /// <summary>
         /// Set true if the plugin can be configured.
@@ -52,7 +52,7 @@ namespace Soundboard4MacroDeck.Actions
 
             try
             {
-                SoundPlayer.Execute(SoundboardActions.Play, Configuration, actionButton);
+                SoundPlayer.Execute(SoundboardActions.Overlap, Configuration, actionButton);
             }
             catch
             {

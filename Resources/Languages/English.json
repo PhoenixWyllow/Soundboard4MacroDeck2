@@ -2,9 +2,8 @@
 	"_attribution_": "PhoenixWyllow",
 	"_language_": "English",
 	"Soundboard4MacroDeckDescription": "A soundboard plugin for Macro Deck 2",
-	"ActionPlaySoundName": "Play sound",
+	"ActionPlaySoundName": "Play audio",
 	"ActionPlaySoundDescription": "Plays the configured file",
-	"ActionPlaySoundDisplayName": "Play sound",
 	"ActionPlaySoundVolume": "Volume",
 	"ActionPlaySoundFilePath": "File path",
 	"ActionPlaySoundFilePathPlaceholder": "Get local file",
@@ -18,5 +17,12 @@
 	"OutputDevicesGlobal": "Default audio output device",
 	"OutputDevicesAction": "Default output device for button",
 	"UseSystemDefaultDevice": "Use system default device",
-	"OverrideDefaultDevice": "Use custom output device"
+	"OverrideDefaultDevice": "Use custom output device",
+	"ActionPlayStopSoundName": "Play/Stop sound",
+	"ActionPlayStopSoundDescription": "Play the configured file on first tap and Stop on second tap",
+	"ActionOverlapSoundName": "Overlapping audio",
+	"ActionOverlapSoundDescription": "Play the configured file and overlap other audio",
+	"ActionLoopSoundName": "Looping audio",
+	"ActionLoopSoundDescription": "Play the configured file on loop until it is stopped on second tap",
+	"ActionSuggestButtonStates": "Setup of the button's Active and Inactive states is recommended for this action"
 }

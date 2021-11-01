@@ -16,7 +16,7 @@ namespace Soundboard4MacroDeck.Services
     /// </summary>
     public class AudioBytesReader : WaveStream, ISampleProvider
     {
-        private Stream inStream; // take the byte array and hold it here
+        private Stream sourceStream; // take the byte array and hold it here
         private WaveStream readerStream; // the waveStream which we will use for all positioning
         private readonly SampleChannel sampleChannel; // sample provider that gives us most stuff we need
         private readonly int destBytesPerSample;
@@ -32,7 +32,7 @@ namespace Soundboard4MacroDeck.Services
         {
             lockObject = new object();
             FileName = fileName;
-            inStream = new MemoryStream(fileData);
+            sourceStream = new MemoryStream(fileData);
             CreateReaderStream(fileName);
             sourceBytesPerSample = (readerStream.WaveFormat.BitsPerSample / 8) * readerStream.WaveFormat.Channels;
             sampleChannel = new SampleChannel(readerStream, false);
@@ -49,7 +49,7 @@ namespace Soundboard4MacroDeck.Services
         {
             if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
             {
-                readerStream = new WaveFileReader(inStream);
+                readerStream = new WaveFileReader(sourceStream);
                 if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
                 {
                     readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
@@ -58,16 +58,16 @@ namespace Soundboard4MacroDeck.Services
             }
             else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
             {
-                readerStream = new Mp3FileReader(inStream);
+                readerStream = new Mp3FileReader(sourceStream);
             }
             else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
             {
-                readerStream = new AiffFileReader(inStream);
+                readerStream = new AiffFileReader(sourceStream);
             }
             else
             {
                 // fall back to media foundation reader, see if that can play it
-                readerStream = new StreamMediaFoundationReader(inStream);
+                readerStream = new StreamMediaFoundationReader(sourceStream);
             }
         }
         /// <summary>
@@ -95,7 +95,7 @@ namespace Soundboard4MacroDeck.Services
         }
 
         /// <summary>
-        /// Reads from this wave stream
+        /// Reads from this wave stream, choosing whether to loop or read once
         /// </summary>
         /// <param name="buffer">Audio buffer</param>
         /// <param name="offset">Offset into buffer</param>
@@ -103,10 +103,12 @@ namespace Soundboard4MacroDeck.Services
         /// <returns>Number of bytes read</returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
-            var waveBuffer = new WaveBuffer(buffer);
-            int samplesRequired = count / 4;
-            int samplesRead = Read(waveBuffer.FloatBuffer, offset / 4, samplesRequired);
-            return samplesRead * 4;
+            if (!LoopingEnabled)
+            {
+                return ReadInt(buffer, offset, count);
+            }
+
+            return ReadLoop(buffer, offset, count);
         }
 
         /// <summary>
@@ -123,6 +125,37 @@ namespace Soundboard4MacroDeck.Services
                 return sampleChannel.Read(buffer, offset, count);
             }
         }
+
+        private int ReadInt(byte[] buffer, int offset, int count)
+        {
+            var waveBuffer = new WaveBuffer(buffer);
+            int samplesRequired = count / 4;
+            int samplesRead = Read(waveBuffer.FloatBuffer, offset / 4, samplesRequired);
+            return samplesRead * 4;
+        }
+
+        private int ReadLoop(byte[] buffer, int offset, int count)
+        {
+            int read = 0;
+            while (read < count)
+            {
+                int required = count - read;
+                int readThisTime = ReadInt(buffer, offset + read, required);
+                if (readThisTime < required)
+                {
+                    Position = 0;
+                }
+
+                if (Position >= Length)
+                {
+                    Position = 0;
+                }
+                read += readThisTime;
+            }
+            return read;
+        }
+
+        public bool LoopingEnabled { get; set; }
 
         /// <summary>
         /// Gets or Sets the Volume of this AudioFileReader. 1.0f is full volume
@@ -162,10 +195,10 @@ namespace Soundboard4MacroDeck.Services
                     readerStream.Dispose();
                     readerStream = null;
                 }
-                if (inStream != null)
+                if (sourceStream != null)
                 {
-                    inStream.Dispose();
-                    inStream = null;
+                    sourceStream.Dispose();
+                    sourceStream = null;
                 }
             }
             base.Dispose(disposing);
