@@ -5,7 +5,7 @@
 		<VersionMinor>3</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString())</VersionRevision>
-		<VersionSuffix>beta</VersionSuffix>
+		<VersionSuffix>-beta</VersionSuffix>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -18,9 +18,9 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString(hMM))</AssemblyVersion>
+		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString("Hmm"))</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
-		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)-$(VersionSuffix)</Version>
+		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)</Version>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
