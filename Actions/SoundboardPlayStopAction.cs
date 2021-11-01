@@ -4,6 +4,7 @@ using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
+using System;
 
 namespace Soundboard4MacroDeck.Actions
 {
@@ -17,12 +18,12 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public override string Description => Localization.Instance.ActionPlayStopSoundDescription;
+        public override string Description => $"{Localization.Instance.ActionPlayStopSoundDescription}.{Environment.NewLine}({Localization.Instance.ActionSuggestButtonsStates})";
 
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
         /// </summary>
-        public override string DisplayName { get; set; } = Localization.Instance.ActionPlayStopSoundDisplayName;
+        public override string DisplayName { get; set; } = Localization.Instance.ActionPlayStopSoundName;
 
         /// <summary>
         /// Set true if the plugin can be configured.
@@ -52,11 +53,11 @@ namespace Soundboard4MacroDeck.Actions
 
             try
             {
-                SoundPlayer.Instance.Execute(SoundboardActions.PlayStop, Configuration, actionButton);
+                SoundPlayer.Execute(SoundboardActions.PlayStop, Configuration, actionButton);
             }
             catch
             {
-                SoundPlayer.Instance.StopAll();
+                SoundPlayer.StopAll();
             }
         }
     }

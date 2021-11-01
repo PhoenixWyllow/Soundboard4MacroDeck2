@@ -4,7 +4,6 @@
 	"Soundboard4MacroDeckDescription": "A soundboard plugin for Macro Deck 2",
 	"ActionPlaySoundName": "Play audio",
 	"ActionPlaySoundDescription": "Plays the configured file",
-	"ActionPlaySoundDisplayName": "Play audio",
 	"ActionPlaySoundVolume": "Volume",
 	"ActionPlaySoundFilePath": "File path",
 	"ActionPlaySoundFilePathPlaceholder": "Get local file",
@@ -21,5 +20,9 @@
 	"OverrideDefaultDevice": "Use custom output device",
 	"ActionPlayStopSoundName": "Play/Stop sound",
 	"ActionPlayStopSoundDescription": "Play the configured file on first tap and Stop on second tap",
-	"ActionPlayStopSoundDisplayName": "Play/Stop sound"
+	"ActionOverlapSoundName": "Overlapping audio",
+	"ActionOverlapSoundDescription": "Play the configured file and overlap other audio",
+	"ActionLoopSoundName": "Looping audio",
+	"ActionLoopSoundDescription": "Play the configured file on loop until it is stopped on second tap",
+	"ActionSuggestButtonsStates": "Setup of the button's active and inactive states is recommended for this action"
 }

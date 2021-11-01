@@ -26,7 +26,7 @@ namespace Soundboard4MacroDeck.ViewModels
         {
             _action = action;
         }
-        
+
         public override void SetConfig()
         {
             _action.DisplayName = $"{_action.Name}: {Parameters.FileName}";
@@ -44,7 +44,7 @@ namespace Soundboard4MacroDeck.ViewModels
             return TryApplyFile(data, filePath);
         }
 
-        public async Task<bool> GetFromUrl(string urlPath, Action<int> progressCallback)
+        public async Task<bool> GetFromUrlAsync(string urlPath, Action<int> progressCallback)
         {
             bool success = false;
             try

@@ -9,18 +9,20 @@ using SuchByte.MacroDeck.Language;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Soundboard4MacroDeck.Services
 {
     public sealed class Localization
     {
         #region LocalizedStrings
-        public string _attribution_ { get; set; } = "built-in values";
-        public string _language_ { get; set; } = "English (default)";
+        [JsonPropertyName("_attribution_")]
+        public string Attribution { get; set; } = "built-in values";
+        [JsonPropertyName("_language_")]
+        public string Language { get; set; } = "English (default)";
         public string Soundboard4MacroDeckDescription { get; set; } = "A soundboard plugin for Macro Deck 2";
         public string ActionPlaySoundName { get; set; } = "Play sound";
         public string ActionPlaySoundDescription { get; set; } = "Plays the configured file";
-        public string ActionPlaySoundDisplayName { get; set; } = "Play sound";
         public string ActionPlaySoundVolume { get; set; } = "Volume";
         public string ActionPlaySoundFilePath { get; set; } = "File path";
         public string ActionPlaySoundFilePathPlaceholder { get; set; } = "Get local file";
@@ -37,7 +39,11 @@ namespace Soundboard4MacroDeck.Services
         public string OverrideDefaultDevice { get; set; } = "Use custom output device";
         public string ActionPlayStopSoundName { get; set; } = "Play/Stop sound";
         public string ActionPlayStopSoundDescription { get; set; } = "Play the configured file on first tap and Stop on second tap";
-        public string ActionPlayStopSoundDisplayName { get; set; } = "Play/Stop sound";
+        public string ActionOverlapSoundName { get; set; } = "Overlapping audio";
+        public string ActionOverlapSoundDescription { get; set; } = "Play the configured file and overlap other audio";
+        public string ActionLoopSoundName { get; set; } = "Looping audio";
+        public string ActionLoopSoundDescription { get; set; } = "Play the configured file on loop until it is stopped on second tap";
+        public string ActionSuggestButtonsStates { get; set; } = "Setup of the button's active and inactive states is recommended for this action";
 
         #endregion
 

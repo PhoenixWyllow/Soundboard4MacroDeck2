@@ -13,7 +13,7 @@ namespace Soundboard4MacroDeck.ViewModels
         public List<MMDevice> Devices { get; private set; }
         public int DevicesIndex { get; private set; }
 
-        public bool IsDefaultDevice() => OutputConfiguration.UseDefaultDevice;
+        public bool IsDefaultDevice() => OutputConfiguration.MustGetDefaultDevice();
 
         public event EventHandler OnSetDeviceIndex;
 
@@ -22,12 +22,12 @@ namespace Soundboard4MacroDeck.ViewModels
         protected OutputDeviceConfigurationViewModel(IOutputConfiguration parameters)
         {
             OutputConfiguration = parameters;
-            _globalOutputConfiguration = parameters as GlobalParameters ?? Services.SoundPlayer.Instance.GetGlobalConfiguration();
+            _globalOutputConfiguration = parameters as GlobalParameters ?? Main.Configuration;
         }
 
         public void LoadDevices()
         {
-            if (OutputConfiguration.MustGetDefaultDevice())
+            if (IsDefaultDevice())
             {
                 OutputConfiguration.OutputDeviceId = _globalOutputConfiguration.OutputDeviceId;
             }
@@ -42,7 +42,7 @@ namespace Soundboard4MacroDeck.ViewModels
 
         public void LoadDeviceIndex()
         {
-            SetDeviceIndex(OutputConfiguration.MustGetDefaultDevice(), OutputConfiguration.OutputDeviceId);
+            SetDeviceIndex(IsDefaultDevice(), OutputConfiguration.OutputDeviceId);
         }
 
         public void ResetDevice()

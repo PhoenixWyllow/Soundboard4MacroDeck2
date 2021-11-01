@@ -21,20 +21,20 @@ namespace Soundboard4MacroDeck.Views
             InitializeComponent();
             ApplyLocalization();
 
-            _viewModel.OnSetDeviceIndex += (_, __) => { this.comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
+            _viewModel.OnSetDeviceIndex += (_, __) => { comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
 
             actionConfigurator.ActionSave += OnActionSave;
         }
         private void ApplyLocalization()
         {
-            this.checkBoxOverrideDevice.Text = Localization.Instance.OverrideDefaultDevice;
-            this.labelDevices.Text = Localization.Instance.OutputDevicesAction;
-            this.buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
-            this.fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
-            this.filePath.PlaceHolderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
-            this.labelFile.Text = Localization.Instance.ActionPlaySoundFilePath;
-            this.labelVolume.Text = Localization.Instance.ActionPlaySoundVolume;
-            this.labelOr.Text = Localization.Instance.GenericLabelOr;
+            checkBoxOverrideDevice.Text = Localization.Instance.OverrideDefaultDevice;
+            labelDevices.Text = Localization.Instance.OutputDevicesAction;
+            buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
+            fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
+            filePath.PlaceHolderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
+            labelFile.Text = Localization.Instance.ActionPlaySoundFilePath;
+            labelVolume.Text = Localization.Instance.ActionPlaySoundVolume;
+            labelOr.Text = Localization.Instance.GenericLabelOr;
         }
 
         private async void OnActionSave(object sender, EventArgs e)
@@ -50,14 +50,14 @@ namespace Soundboard4MacroDeck.Views
         private void SoundboardActionConfigView_Load(object sender, EventArgs e)
         {
             _viewModel.LoadDevices();
-            this.comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
-            checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
+            comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
             _viewModel.LoadDeviceIndex();
+            checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
 
             // openFileDialog
             string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
-            this.openFileDialog.Filter = $"Audio File ({types})|{types}";
-            this.openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openFileDialog.Filter = $"Audio File ({types})|{types}";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             // filePath
             if (!string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath))
@@ -85,7 +85,7 @@ namespace Soundboard4MacroDeck.Views
 
         private async void FileBrowse_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog(this.ParentForm).Equals(DialogResult.OK))
+            if (openFileDialog.ShowDialog(ParentForm).Equals(DialogResult.OK))
             {
                 checkedFile = false;
                 filePath.Text = openFileDialog.FileName;
@@ -101,7 +101,7 @@ namespace Soundboard4MacroDeck.Views
         private void ButtonGetFromURL_Click(object sender, EventArgs e)
         {
             using var getFromURLDialog = new GetFileFromWebView(_viewModel);
-            if (getFromURLDialog.ShowDialog(this.ParentForm) == DialogResult.OK)
+            if (getFromURLDialog.ShowDialog(ParentForm) == DialogResult.OK)
             {
                 filePath.Text = _viewModel.LastCheckedPath;
                 checkedFile = true;

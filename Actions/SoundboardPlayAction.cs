@@ -22,7 +22,7 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
         /// </summary>
-        public override string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundDisplayName;
+        public override string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundName;
 
         /// <summary>
         /// Set true if the plugin can be configured.
@@ -52,11 +52,11 @@ namespace Soundboard4MacroDeck.Actions
 
             try
             {
-                SoundPlayer.Instance.Execute(SoundboardActions.Play, Configuration, actionButton);
+                SoundPlayer.Execute(SoundboardActions.Play, Configuration, actionButton);
             }
             catch
             {
-                SoundPlayer.Instance.StopAll();
+                SoundPlayer.StopAll();
             }
         }
     }

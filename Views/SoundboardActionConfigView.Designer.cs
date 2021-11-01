@@ -74,7 +74,6 @@ namespace Soundboard4MacroDeck.Views
             this.fileBrowse.AutoSize = true;
             this.fileBrowse.BackColor = System.Drawing.Color.DodgerBlue;
             this.fileBrowse.BorderRadius = 8;
-            this.fileBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.fileBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fileBrowse.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.fileBrowse.ForeColor = System.Drawing.Color.White;
@@ -95,7 +94,6 @@ namespace Soundboard4MacroDeck.Views
             this.buttonGetFromURL.AutoSize = true;
             this.buttonGetFromURL.BackColor = System.Drawing.Color.DodgerBlue;
             this.buttonGetFromURL.BorderRadius = 8;
-            this.buttonGetFromURL.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonGetFromURL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGetFromURL.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonGetFromURL.ForeColor = System.Drawing.Color.White;

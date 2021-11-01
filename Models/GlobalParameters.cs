@@ -2,7 +2,7 @@
 
 namespace Soundboard4MacroDeck.Models
 {
-    internal class GlobalParameters : IOutputConfiguration 
+    internal class GlobalParameters : IOutputConfiguration
     {
         public string OutputDeviceId { get; set; }
         public bool UseDefaultDevice { get; set; }
