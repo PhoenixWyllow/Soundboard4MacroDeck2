@@ -18,7 +18,7 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public override string Description => $"{Localization.Instance.ActionPlayStopSoundDescription}.{Environment.NewLine}({Localization.Instance.ActionSuggestButtonsStates})";
+        public override string Description => $"{Localization.Instance.ActionPlayStopSoundDescription}.{Environment.NewLine}({Localization.Instance.ActionSuggestButtonStates})";
 
         /// <summary>
         /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.

@@ -43,7 +43,7 @@ namespace Soundboard4MacroDeck.Services
         public string ActionOverlapSoundDescription { get; set; } = "Play the configured file and overlap other audio";
         public string ActionLoopSoundName { get; set; } = "Looping audio";
         public string ActionLoopSoundDescription { get; set; } = "Play the configured file on loop until it is stopped on second tap";
-        public string ActionSuggestButtonsStates { get; set; } = "Setup of the button's active and inactive states is recommended for this action";
+        public string ActionSuggestButtonStates { get; set; } = "Setup of the button's active and inactive states is recommended for this action";
 
         #endregion
 
