@@ -4,7 +4,7 @@ namespace Soundboard4MacroDeck.Models
 {
     public class ActionParameters : IOutputConfiguration
     {
-        public string FilePath { get; set; }
+        public string FilePath { get; set; } = string.Empty;
         public byte[] FileData { get; set; } = null;
         public string FileExt { get; set; }
         public int Volume { get; set; } = 50;

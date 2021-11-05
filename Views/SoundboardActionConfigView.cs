@@ -39,12 +39,12 @@ namespace Soundboard4MacroDeck.Views
         {
             if (!checkedFile)
             {
-                Task.WaitAll(CheckFileAsync());
+                CheckFileAsync();
             }
 
             _viewModel.SaveConfig();
 
-            return true;
+            return checkedFile;
         }
 
         private void SoundboardActionConfigView_Load(object sender, EventArgs e)
@@ -68,11 +68,11 @@ namespace Soundboard4MacroDeck.Views
             checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
-        private async Task CheckFileAsync()
+        private void CheckFileAsync()
         {
             bool hasFile = !checkedFile
                 && (filePath.Text.Equals(_viewModel.LastCheckedPath)
-                || await _viewModel.GetBytesFromFileAsync(filePath.Text));
+                || _viewModel.GetBytesFromFile(filePath.Text));
             if (!hasFile)
             {
                 filePath.Text = _viewModel.LastCheckedPath;
@@ -83,13 +83,13 @@ namespace Soundboard4MacroDeck.Views
             checkedFile = true;
         }
 
-        private async void FileBrowse_Click(object sender, EventArgs e)
+        private void FileBrowse_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog(ParentForm).Equals(DialogResult.OK))
             {
                 checkedFile = false;
                 filePath.Text = openFileDialog.FileName;
-                await CheckFileAsync();
+                CheckFileAsync();
             }
         }
 

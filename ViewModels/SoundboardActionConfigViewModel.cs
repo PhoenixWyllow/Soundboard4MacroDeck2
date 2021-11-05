@@ -33,12 +33,12 @@ namespace Soundboard4MacroDeck.ViewModels
             _action.Configuration = Parameters.Serialize();
         }
 
-        public async Task<bool> GetBytesFromFileAsync(string filePath)
+        public bool GetBytesFromFile(string filePath)
         {
             byte[] data = null;
             if (SystemIOFile.Exists(filePath))
             {
-                data = await SystemIOFile.ReadAllBytesAsync(filePath);
+                data = SystemIOFile.ReadAllBytes(filePath);
             }
 
             return TryApplyFile(data, filePath);
