@@ -1,6 +1,5 @@
 ﻿using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
-using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 using System;
@@ -14,7 +13,7 @@ namespace Soundboard4MacroDeck.Views
         private readonly SoundboardActionConfigViewModel _viewModel;
         private bool checkedFile = false;
 
-        public SoundboardActionConfigView(PluginAction action, ActionConfigurator actionConfigurator)
+        public SoundboardActionConfigView(PluginAction action)
         {
             _viewModel = new SoundboardActionConfigViewModel(action);
 
@@ -23,7 +22,6 @@ namespace Soundboard4MacroDeck.Views
 
             _viewModel.OnSetDeviceIndex += (_, __) => { comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
 
-            actionConfigurator.ActionSave += OnActionSave;
         }
         private void ApplyLocalization()
         {
@@ -37,14 +35,16 @@ namespace Soundboard4MacroDeck.Views
             labelOr.Text = Localization.Instance.GenericLabelOr;
         }
 
-        private async void OnActionSave(object sender, EventArgs e)
+        public override bool OnActionSave()
         {
             if (!checkedFile)
             {
-                await CheckFileAsync();
+                Task.WaitAll(CheckFileAsync());
             }
 
             _viewModel.SaveConfig();
+
+            return true;
         }
 
         private void SoundboardActionConfigView_Load(object sender, EventArgs e)

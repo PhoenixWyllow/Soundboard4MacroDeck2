@@ -29,7 +29,7 @@ namespace Soundboard4MacroDeck.ViewModels
 
         public override void SetConfig()
         {
-            _action.DisplayName = $"{_action.Name}: {Parameters.FileName}";
+            _action.ConfigurationSummary = Parameters.FileName;
             _action.Configuration = Parameters.Serialize();
         }
 

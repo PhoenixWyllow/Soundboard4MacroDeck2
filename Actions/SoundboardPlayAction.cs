@@ -20,22 +20,17 @@ namespace Soundboard4MacroDeck.Actions
         public override string Description => Localization.Instance.ActionPlaySoundDescription;
 
         /// <summary>
-        /// Displayname of the action. Can be changed later depending on the configuration, if plugin can be configured.
-        /// </summary>
-        public override string DisplayName { get; set; } = Localization.Instance.ActionPlaySoundName;
-
-        /// <summary>
         /// Set true if the plugin can be configured.
         /// </summary>
         public override bool CanConfigure => true;
 
         /// <summary>
-        /// Return the ActionConfigControl for this action, if action can be configured. Return null if plugin cannot be configured and you set CanConfigure to false.
+        /// Return the ActionConfigControl for this action.
         /// </summary>
         /// <returns></returns>
         public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)
         {
-            return new Views.SoundboardActionConfigView(this, actionConfigurator);
+            return new Views.SoundboardActionConfigView(this);
         }
 
         /// <summary>
