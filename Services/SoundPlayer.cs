@@ -3,7 +3,6 @@ using Soundboard4MacroDeck.Base;
 using Soundboard4MacroDeck.Models;
 using System;
 using Myrmec;
-using SuchByte.MacroDeck.Plugins;
 using NAudio.CoreAudioApi;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
