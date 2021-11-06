@@ -33,7 +33,8 @@ If your language is missing or incomplete, please consider helping me out by cre
 Currently available languages:
 - English
 - Italian
-- German
+- German (thanks to @SuchByte)
+- Spanish (seeking translator)
 
 ***
 ## Third party licenses
