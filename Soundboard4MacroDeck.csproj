@@ -18,7 +18,7 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString("Hmm"))</AssemblyVersion>
+		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision)</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)</Version>
 		<OutputType>Library</OutputType>
