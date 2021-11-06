@@ -4,7 +4,7 @@
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>4</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString())</VersionRevision>
+		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString()).$([System.DateTime]::UtcNow.ToString("Hmm"))</VersionRevision>
 		<VersionSuffix>-beta</VersionSuffix>
 	</PropertyGroup>
 	
@@ -18,7 +18,7 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString(hMM))</AssemblyVersion>
+		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString("Hmm"))</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)</Version>
 		<OutputType>Library</OutputType>
@@ -28,7 +28,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>E:\Code\source\repos\PhoenixWyllow\Soundboard4MacroDeck2\LICENSE</PackageLicenseFile>
 		<Description>A soundboard plugin for Macro Deck 2</Description>
-		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2/releases</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
 	</PropertyGroup>
 
