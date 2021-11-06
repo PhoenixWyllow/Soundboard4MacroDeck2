@@ -1,10 +1,6 @@
 {
-    "Your name or handle, as the author.": {
-        "_attribution_": "autotranslated"
-    },
-    "The language of the file": {
-        "_language_": "Español"
-    },
+    "_attribution_": "autotranslated",
+    "_language_": "Español",
     "Soundboard4MacroDeckDescription": "Un plugin con funcionalidad de consola para Macro Deck 2",
     "ActionPlaySoundName": "Reproducir audio",
     "ActionPlaySoundDescription": "Reproduce el archivo configurado",
