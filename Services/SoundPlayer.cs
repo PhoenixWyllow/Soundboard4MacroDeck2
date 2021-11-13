@@ -183,14 +183,14 @@ namespace Soundboard4MacroDeck.Services
         private MMDevice GetDevice()
         {
             using var devices = new MMDeviceEnumerator();
-            if (actionParameters.MustGetDefaultDevice())
+            if (!actionParameters.MustGetDefaultDevice())
             {
-                IOutputConfiguration globalParameters = Main.Configuration;
-                return !globalParameters.MustGetDefaultDevice() //if
-                    ? devices.GetDevice(globalParameters.OutputDeviceId)
-                    : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
+                return devices.GetDevice(actionParameters.OutputDeviceId);
             }
-            return devices.GetDevice(actionParameters.OutputDeviceId);
+            IOutputConfiguration globalParameters = Main.Configuration;
+            return !globalParameters.MustGetDefaultDevice() //if
+                ? devices.GetDevice(globalParameters.OutputDeviceId)
+                : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
         }
     }
 

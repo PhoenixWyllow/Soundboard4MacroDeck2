@@ -2,10 +2,9 @@
 
 	<PropertyGroup>
 		<VersionMajor>0</VersionMajor>
-		<VersionMinor>3</VersionMinor>
-		<VersionPatch>1</VersionPatch>
-		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString())</VersionRevision>
-		<VersionSuffix>-beta</VersionSuffix>
+		<VersionMinor>4</VersionMinor>
+		<VersionPatch>0</VersionPatch>
+		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString()).$([System.DateTime]::UtcNow.ToString("Hmm"))</VersionRevision>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -18,9 +17,9 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>PhoenixWyllow</Authors>
 		<Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
-		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision).$([System.DateTime]::UtcNow.ToString("Hmm"))</AssemblyVersion>
+		<AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision)</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
-		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)</Version>
+		<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -28,7 +27,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>E:\Code\source\repos\PhoenixWyllow\Soundboard4MacroDeck2\LICENSE</PackageLicenseFile>
 		<Description>A soundboard plugin for Macro Deck 2</Description>
-		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2/releases</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
 	</PropertyGroup>
 
@@ -41,7 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NAudio" Version="1.10.0" />
+		<PackageReference Include="NAudio" Version="2.0.1" />
 		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
 	</ItemGroup>
 
