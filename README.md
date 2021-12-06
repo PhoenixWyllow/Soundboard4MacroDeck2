@@ -34,7 +34,7 @@ Currently available languages:
 - English
 - Italian
 - German (thanks to @SuchByte)
-- Spanish (seeking translator)
+- Spanish (thanks to Duplino)
 
 ***
 ## Third party licenses
