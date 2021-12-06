@@ -7,6 +7,7 @@ using NAudio.CoreAudioApi;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Soundboard4MacroDeck.Services
 {
@@ -42,10 +43,11 @@ namespace Soundboard4MacroDeck.Services
             SoundPlayer soundPlayer = new SoundPlayer()
             {
                 actionParameters = actionParameters,
+                actionButton = actionButton,
+                internalGuid = actionParameters.InternalId,
             };
-            SoundPlayers.Add(soundPlayer);
 
-            Retry.Do(() => soundPlayer.Play(action, actionButton));
+            Retry.Do(() => soundPlayer.Play(action));
         }
 
         public static void StopAll()
@@ -55,6 +57,25 @@ namespace Soundboard4MacroDeck.Services
                 if (SoundPlayers.Count != 0)
                 {
                     foreach (var player in SoundPlayers.ToArray())
+                    {
+                        player.StopAudio();
+                    }
+                    SoundPlayers.Clear();
+                }
+            }
+        }
+        public void StopCurrent(bool stopThisOnly)
+        {
+            if (!stopThisOnly)
+            {
+                StopAll();
+                return;
+            }
+            lock (key)
+            {
+                if (SoundPlayers.Count != 0)
+                {
+                    foreach (var player in SoundPlayers.ToArray().Where(p => p.internalGuid.Equals(internalGuid)))
                     {
                         player.StopAudio();
                     }
@@ -68,11 +89,11 @@ namespace Soundboard4MacroDeck.Services
         private IWavePlayer outputDevice;
         private AudioBytesReader fileReader;
         private ActionParameters actionParameters;
+        private ActionButton actionButton;
         private Guid internalGuid;
 
         private SoundPlayer()
         {
-            internalGuid = Guid.NewGuid();
         }
 
         public bool Equals(SoundPlayer soundPlayer)
@@ -87,7 +108,7 @@ namespace Soundboard4MacroDeck.Services
 
         public override int GetHashCode()
         {
-            return internalGuid.GetHashCode();
+            return actionParameters.GetHashCode();
         }
 
         private void StopAudio()
@@ -105,25 +126,25 @@ namespace Soundboard4MacroDeck.Services
             SoundPlayers.Remove(this);
         }
 
-        private void Play(SoundboardActions action, ActionButton actionButton)
+        private void Play(SoundboardActions action)
         {
             switch (action)
             {
+                case SoundboardActions.Play:
+                    StopAll();
+                    PlayAudio();
+                    break;
+
                 case SoundboardActions.Overlap:
-                    PlayAudio(actionButton);
+                    PlayAudio();
                     break;
 
                 case SoundboardActions.PlayStop:
-                    PlayOrStop(actionButton);
-                    break;
-
-                case SoundboardActions.Play:
-                    StopAll();
-                    PlayAudio(actionButton);
+                    PlayOrStop();
                     break;
 
                 case SoundboardActions.Loop:
-                    LoopOrStop(actionButton);
+                    PlayOrStop(enableLoop: true);
                     break;
 
                 default:
@@ -132,31 +153,26 @@ namespace Soundboard4MacroDeck.Services
 
         }
 
-        private void PlayOrStop(ActionButton actionButton)
+        private void PlayOrStop(bool enableLoop = false)
         {
-            bool currentlyPlaying = actionButton.State;
-            StopAll();
+            //bool currentlyPlaying = actionButton.State;
+            bool currentlyPlaying = SoundPlayers.Any(p => p.internalGuid.Equals(internalGuid));
+            StopCurrent(currentlyPlaying);
             if (!currentlyPlaying)
             {
-                PlayAudio(actionButton);
+                PlayAudio(enableLoop);
             }
         }
 
-        private void LoopOrStop(ActionButton actionButton)
+        private void PlayAudio(bool enableLoop = false)
         {
-            bool currentlyPlaying = actionButton.State;
-            StopAll();
-            if (!currentlyPlaying)
-            {
-                PlayAudio(actionButton, enableLoop: true);
-            }
-        }
 
-        private void PlayAudio(ActionButton actionButton, bool enableLoop = false)
-        {
             EnsureOutputDevice();
-            outputDevice.PlaybackStopped += (s, e) => MacroDeckServer.SetState(actionButton, false);
-            MacroDeckServer.SetState(actionButton, true);
+            if (actionParameters.SyncButtonState)
+            {
+                outputDevice.PlaybackStopped += (s, e) => MacroDeckServer.SetState(actionButton, false);
+                MacroDeckServer.SetState(actionButton, true);
+            }
 
             if (fileReader is null || !fileReader.FileName.Equals(actionParameters.FileName))
             {
@@ -167,6 +183,8 @@ namespace Soundboard4MacroDeck.Services
                 };
                 outputDevice.Init(fileReader);
             }
+
+            SoundPlayers.Add(this);
 
             outputDevice.Play();
         }

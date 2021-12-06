@@ -38,6 +38,7 @@ namespace Soundboard4MacroDeck
                 new SoundboardPlayStopAction(),
                 new SoundboardOverlapAction(),
                 new SoundboardLoopAction(),
+                new SoundboardStopAction(),
             };
         }
 
