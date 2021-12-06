@@ -12,7 +12,7 @@ namespace Soundboard4MacroDeck
         /// <summary>
         /// Short description what the plugin can do
         /// </summary>
-        public override string Description => "(Beta) " + Localization.Instance.Soundboard4MacroDeckDescription;
+        public override string Description => Localization.Instance.Soundboard4MacroDeckDescription;
 
         /// <summary>
         /// Icon for the plugin
@@ -38,6 +38,7 @@ namespace Soundboard4MacroDeck
                 new SoundboardPlayStopAction(),
                 new SoundboardOverlapAction(),
                 new SoundboardLoopAction(),
+                new SoundboardStopAction(),
             };
         }
 

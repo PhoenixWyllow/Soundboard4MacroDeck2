@@ -28,12 +28,13 @@ This plugin has its own localization files, independent of Macro Deck.
 If your language is not available, the plugin will default to English.
 
 Check the files available in source under [Resources/Languages](Resources/Languages).
-If your language is missing or incomplete, please consider helping me out by creating a pull request with the translated file!
+If your language is missing or incomplete, please consider [helping me out by translating](https://poeditor.com/join/project?hash=T6WOz3ECo7)! 
 
 Currently available languages:
 - English
 - Italian
-- German
+- German (thanks to @SuchByte)
+- Spanish (thanks to Duplino)
 
 ***
 ## Third party licenses

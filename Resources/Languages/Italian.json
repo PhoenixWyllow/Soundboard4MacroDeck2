@@ -1,4 +1,4 @@
-﻿{
+{
   "_attribution_": "PhoenixWyllow",
   "_language_": "Italiano",
   "Soundboard4MacroDeckDescription": "Un plugin con funzionalità da soundboard per Macro Deck 2",
@@ -24,5 +24,8 @@
   "ActionOverlapSoundDescription": "Riproduci il file configurato e sovrapponi su altro audio",
   "ActionLoopSoundName": "Audio in loop",
   "ActionLoopSoundDescription": "Riproduci il file configurato in loop fino a quando non viene fermato al secondo tocco",
-  "ActionSuggestButtonStates": "La configurazione degli stati Attivo e Inattivo del pulsante è raccomandata per questa azione"
+  "ActionSuggestButtonStates": "La configurazione degli stati Attivo e Inattivo del bottone è raccomandata per questa azione",
+  "ActionStopSoundName": "Ferma audio",
+  "ActionStopSoundDescription": "Termina tutto l'audio attualmente in esecuzione",
+  "SyncButtonState": "Sincronizza stato del bottone con audio"
 }

@@ -1,6 +1,5 @@
 ﻿using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
-using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 using System;
@@ -14,7 +13,7 @@ namespace Soundboard4MacroDeck.Views
         private readonly SoundboardActionConfigViewModel _viewModel;
         private bool checkedFile = false;
 
-        public SoundboardActionConfigView(PluginAction action, ActionConfigurator actionConfigurator)
+        public SoundboardActionConfigView(PluginAction action)
         {
             _viewModel = new SoundboardActionConfigViewModel(action);
 
@@ -23,11 +22,11 @@ namespace Soundboard4MacroDeck.Views
 
             _viewModel.OnSetDeviceIndex += (_, __) => { comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
 
-            actionConfigurator.ActionSave += OnActionSave;
         }
         private void ApplyLocalization()
         {
             checkBoxOverrideDevice.Text = Localization.Instance.OverrideDefaultDevice;
+            checkBoxSyncButtonState.Text = Localization.Instance.SyncButtonState;
             labelDevices.Text = Localization.Instance.OutputDevicesAction;
             buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
             fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
@@ -37,21 +36,28 @@ namespace Soundboard4MacroDeck.Views
             labelOr.Text = Localization.Instance.GenericLabelOr;
         }
 
-        private async void OnActionSave(object sender, EventArgs e)
+        public override bool OnActionSave()
         {
             if (!checkedFile)
             {
-                await CheckFileAsync();
+                CheckFileAsync();
             }
 
             _viewModel.SaveConfig();
+
+            return checkedFile;
         }
 
         private void SoundboardActionConfigView_Load(object sender, EventArgs e)
         {
+            checkBoxSyncButtonState.Checked = _viewModel.SyncButtonState;
+            volumeBar.Value = _viewModel.PlayVolume;
+
+            //devices
             _viewModel.LoadDevices();
             comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
             _viewModel.LoadDeviceIndex();
+
             checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
 
             // openFileDialog
@@ -64,15 +70,14 @@ namespace Soundboard4MacroDeck.Views
             {
                 filePath.Text = _viewModel.LastCheckedPath;
             }
-            volumeBar.Value = _viewModel.PlayVolume;
             checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
-        private async Task CheckFileAsync()
+        private void CheckFileAsync()
         {
             bool hasFile = !checkedFile
                 && (filePath.Text.Equals(_viewModel.LastCheckedPath)
-                || await _viewModel.GetBytesFromFileAsync(filePath.Text));
+                || _viewModel.GetBytesFromFile(filePath.Text));
             if (!hasFile)
             {
                 filePath.Text = _viewModel.LastCheckedPath;
@@ -83,13 +88,13 @@ namespace Soundboard4MacroDeck.Views
             checkedFile = true;
         }
 
-        private async void FileBrowse_Click(object sender, EventArgs e)
+        private void FileBrowse_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog(ParentForm).Equals(DialogResult.OK))
             {
                 checkedFile = false;
                 filePath.Text = openFileDialog.FileName;
-                await CheckFileAsync();
+                CheckFileAsync();
             }
         }
 
@@ -141,6 +146,11 @@ namespace Soundboard4MacroDeck.Views
         private void ComboBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             _viewModel.SetDevice(comboBoxDevices.SelectedIndex);
+        }
+
+        private void CheckBoxSyncButtonState_CheckedChanged(object sender, EventArgs e)
+        {
+            _viewModel.SyncButtonState = checkBoxSyncButtonState.Checked;
         }
     }
 }
