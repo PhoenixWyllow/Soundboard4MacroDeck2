@@ -25,4 +25,7 @@
 	"ActionLoopSoundName": "Schleife",
 	"ActionLoopSoundDescription": "Die konfigurierte Datei beim ersten Auslösten in einer Schleife abspielen und beim zweiten Auslösen stoppen",
 	"ActionSuggestButtonStates": "Für diese Aktion wird empfohlen, den aktiven und inaktiven Zustand der Taste zu konfigurieren",
+	"ActionStopSoundName": "Alle Sounds stoppen",
+	"ActionStopSoundDescription": "Stoppt alle Sounds, die momentan wiedergegeben werden",
+	"SyncButtonState": "Tastenstatus = Wiedergabestatus"
 }
