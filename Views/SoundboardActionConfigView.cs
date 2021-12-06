@@ -26,6 +26,7 @@ namespace Soundboard4MacroDeck.Views
         private void ApplyLocalization()
         {
             checkBoxOverrideDevice.Text = Localization.Instance.OverrideDefaultDevice;
+            checkBoxSyncButtonState.Text = Localization.Instance.SyncButtonState;
             labelDevices.Text = Localization.Instance.OutputDevicesAction;
             buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
             fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
@@ -49,9 +50,14 @@ namespace Soundboard4MacroDeck.Views
 
         private void SoundboardActionConfigView_Load(object sender, EventArgs e)
         {
+            checkBoxSyncButtonState.Checked = _viewModel.SyncButtonState;
+            volumeBar.Value = _viewModel.PlayVolume;
+
+            //devices
             _viewModel.LoadDevices();
             comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
             _viewModel.LoadDeviceIndex();
+
             checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
 
             // openFileDialog
@@ -64,7 +70,6 @@ namespace Soundboard4MacroDeck.Views
             {
                 filePath.Text = _viewModel.LastCheckedPath;
             }
-            volumeBar.Value = _viewModel.PlayVolume;
             checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
         }
 
@@ -141,6 +146,11 @@ namespace Soundboard4MacroDeck.Views
         private void ComboBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             _viewModel.SetDevice(comboBoxDevices.SelectedIndex);
+        }
+
+        private void CheckBoxSyncButtonState_CheckedChanged(object sender, EventArgs e)
+        {
+            _viewModel.SyncButtonState = checkBoxSyncButtonState.Checked;
         }
     }
 }

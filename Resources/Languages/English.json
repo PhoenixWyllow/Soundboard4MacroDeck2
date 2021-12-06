@@ -24,5 +24,8 @@
 	"ActionOverlapSoundDescription": "Play the configured file and overlap other audio",
 	"ActionLoopSoundName": "Looping audio",
 	"ActionLoopSoundDescription": "Play the configured file on loop until it is stopped on second tap",
-	"ActionSuggestButtonStates": "Setup of the button's Active and Inactive states is recommended for this action"
+	"ActionSuggestButtonStates": "Setup of the button's Active and Inactive states is recommended for this action",
+	"ActionStopSoundName": "Stop all sounds",
+	"ActionStopSoundDescription": "Forces stop of all currently playing sounds",
+	"SyncButtonState": "Sync button state with audio"
 }
