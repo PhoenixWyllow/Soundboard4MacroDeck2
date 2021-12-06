@@ -21,10 +21,18 @@ namespace Soundboard4MacroDeck.ViewModels
             set => Parameters.Volume = value;
         }
 
+        public bool SyncButtonState
+        {
+            get => Parameters.SyncButtonState;
+            set => Parameters.SyncButtonState = value;
+        }
+
         public SoundboardActionConfigViewModel(PluginAction action)
             : base(ActionParameters.Deserialize(action.Configuration))
         {
             _action = action;
+
+            Parameters.SetId();
         }
 
         public override void SetConfig()
