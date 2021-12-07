@@ -44,7 +44,7 @@ namespace Soundboard4MacroDeck.Services
             {
                 actionParameters = actionParameters,
                 actionButton = actionButton,
-                internalGuid = actionParameters.InternalId,
+                internalId = actionButton.ButtonId,
             };
 
             Retry.Do(() => soundPlayer.Play(action));
@@ -75,7 +75,7 @@ namespace Soundboard4MacroDeck.Services
             {
                 if (SoundPlayers.Count != 0)
                 {
-                    foreach (var player in SoundPlayers.ToArray().Where(p => p.internalGuid.Equals(internalGuid)))
+                    foreach (var player in SoundPlayers.ToArray().Where(p => p.internalId.Equals(internalId)))
                     {
                         player.StopAudio();
                     }
@@ -90,7 +90,7 @@ namespace Soundboard4MacroDeck.Services
         private AudioBytesReader fileReader;
         private ActionParameters actionParameters;
         private ActionButton actionButton;
-        private Guid internalGuid;
+        private long internalId;
 
         private SoundPlayer()
         {
@@ -98,7 +98,7 @@ namespace Soundboard4MacroDeck.Services
 
         public bool Equals(SoundPlayer soundPlayer)
         {
-            return internalGuid.Equals(soundPlayer.internalGuid);
+            return internalId.Equals(soundPlayer.internalId);
         }
 
         public override bool Equals(object obj)
@@ -156,7 +156,7 @@ namespace Soundboard4MacroDeck.Services
         private void PlayOrStop(bool enableLoop = false)
         {
             //bool currentlyPlaying = actionButton.State;
-            bool currentlyPlaying = SoundPlayers.Any(p => p.internalGuid.Equals(internalGuid));
+            bool currentlyPlaying = SoundPlayers.Any(p => p.internalId.Equals(internalId));
             StopCurrent(currentlyPlaying);
             if (!currentlyPlaying)
             {

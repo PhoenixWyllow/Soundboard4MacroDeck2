@@ -31,8 +31,6 @@ namespace Soundboard4MacroDeck.ViewModels
             : base(ActionParameters.Deserialize(action.Configuration))
         {
             _action = action;
-
-            Parameters.SetId();
         }
 
         public override void SetConfig()
