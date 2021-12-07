@@ -12,12 +12,12 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// Name of the action
         /// </summary>
-        public override string Name => Localization.Instance.ActionOverlapSoundName;
+        public override string Name => LocalizationManager.Instance.ActionOverlapSoundName;
 
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public override string Description => Localization.Instance.ActionOverlapSoundDescription;
+        public override string Description => LocalizationManager.Instance.ActionOverlapSoundDescription;
 
         /// <summary>
         /// Set true if the plugin can be configured.

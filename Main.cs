@@ -12,7 +12,7 @@ namespace Soundboard4MacroDeck
         /// <summary>
         /// Short description what the plugin can do
         /// </summary>
-        public override string Description => Localization.Instance.Soundboard4MacroDeckDescription;
+        public override string Description => LocalizationManager.Instance.Soundboard4MacroDeckDescription;
 
         /// <summary>
         /// Icon for the plugin
@@ -29,7 +29,7 @@ namespace Soundboard4MacroDeck
         /// </summary>
         public override void Enable()
         {
-            Localization.CreateInstance();
+            LocalizationManager.CreateInstance();
             Instance = this;
 
             Actions = new List<PluginAction>

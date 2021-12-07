@@ -1,21 +1,9 @@
-﻿/* Created on 2021/10/03 by @PhoenixWyllow (pw.dev@outlook.com) https://github.com/PhoenixWyllow/Soundboard4MacroDeck2
- * 
- * This file is provided "AS-IS".
- * You may reuse this file as you wish, but please keep this attribution notice as long as the Implementation code is substantially the same. 
- * Thank you.
- */
+﻿using System.Text.Json.Serialization;
 
-using SuchByte.MacroDeck.Language;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Soundboard4MacroDeck.Services
+namespace Soundboard4MacroDeck.Models
 {
-    public sealed class Localization
+    internal sealed class Localization
     {
-        #region LocalizedStrings
         [JsonPropertyName("_attribution_")]
         public string Attribution { get; set; } = "built-in values";
         [JsonPropertyName("_language_")]
@@ -47,70 +35,5 @@ namespace Soundboard4MacroDeck.Services
         public string ActionStopSoundName { get; set; } = "Stop all sounds";
         public string ActionStopSoundDescription { get; set; } = "Forces stop of all currently playing sounds";
         public string SyncButtonState { get; set; } = "Sync button state with audio";
-
-        #endregion
-
-        #region Implementation
-
-        public static void CreateInstance()
-        {
-            if (Instance is null)
-            {
-                GetLanguage();
-            }
-        }
-
-        private static readonly object load = new object();
-
-        public static Localization Instance { get; private set; }
-
-        private Localization()
-        {
-            LanguageManager.LanguageChanged += (s, e) => GetLanguage();
-        }
-
-        private void Dispose()
-        {
-            LanguageManager.LanguageChanged -= (s, e) => GetLanguage();
-        }
-
-        private static void GetLanguage()
-        {
-            lock (load)
-            {
-                string languageName = LanguageManager.GetLanguageName();
-                if (Instance != null)
-                {
-                    Instance.Dispose();
-                    Instance = null;
-                }
-                try
-                {
-                    Instance = JsonSerializer.Deserialize<Localization>(GetJsonLanguageResource(languageName));
-                }
-                catch
-                {
-                    //fallback - should never occur if things are done properly
-                    Instance = new Localization();
-                }
-            }
-        }
-
-        private static string GetJsonLanguageResource(string languageName)
-        {
-            var assembly = typeof(Localization).Assembly;
-            if (string.IsNullOrEmpty(languageName)
-                || !assembly.GetManifestResourceNames().Any(name => name.EndsWith($"{languageName}.json")))
-            {
-                languageName = "English"; //This should always be present as default, otherwise the code goes to fallback implementation.
-            }
-
-            string languageFileName = $"Soundboard4MacroDeck.Resources.Languages.{languageName}.json";
-
-            using var resourceStream = assembly.GetManifestResourceStream(languageFileName);
-            using var streamReader = new StreamReader(resourceStream);
-            return streamReader.ReadToEnd();
-        }
-        #endregion
     }
 }
