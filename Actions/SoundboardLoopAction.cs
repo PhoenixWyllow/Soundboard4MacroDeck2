@@ -3,6 +3,7 @@ using Soundboard4MacroDeck.Services;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
+using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using System;
 
@@ -13,12 +14,12 @@ namespace Soundboard4MacroDeck.Actions
         /// <summary>
         /// Name of the action
         /// </summary>
-        public override string Name => Localization.Instance.ActionLoopSoundName;
+        public override string Name => LocalizationManager.Instance.ActionLoopSoundName;
 
         /// <summary>
         /// A short description what this action does
         /// </summary>
-        public override string Description => $"{Localization.Instance.ActionLoopSoundDescription}.{Environment.NewLine}({Localization.Instance.ActionSuggestButtonStates})";
+        public override string Description => $"{LocalizationManager.Instance.ActionLoopSoundDescription}.{Environment.NewLine}({LocalizationManager.Instance.ActionSuggestButtonStates})";
 
         /// <summary>
         /// Set true if the plugin can be configured.
@@ -50,9 +51,10 @@ namespace Soundboard4MacroDeck.Actions
             {
                 SoundPlayer.Execute(SoundboardActions.Loop, Configuration, actionButton);
             }
-            catch
+            catch (Exception ex)
             {
                 SoundPlayer.StopAll();
+                MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
             }
         }
     }

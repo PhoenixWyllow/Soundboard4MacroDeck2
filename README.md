@@ -13,6 +13,13 @@ You may choose either a local file or one from the web (please check you have pe
 ***
 ## Features
 
+Currently the plugin supports only the following file types: 
+```aif, aiff, mid, midi, m4a, mp3, ogg, oga, aac, flac, wma, wav``` <br/>
+*Please open a request for any other file types you require.*
+
+If you get an error, please make sure the path is correct or your connection hasn't dropped and that the file is the correct type. <br/>
+*The plugin checks file signatures, not the file extension because the web is a scary place.*
+
 | Action | Description | Function |
 | --- | --- | --- |
 | Play | Standard play action | Plays audio until finished or another has started. Pressing multiple times will restart playback. |

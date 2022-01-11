@@ -9,10 +9,12 @@ namespace Soundboard4MacroDeck
 {
     public class Main : MacroDeckPlugin
     {
+        public override string Name => "Soundboard";
+
         /// <summary>
         /// Short description what the plugin can do
         /// </summary>
-        public override string Description => Localization.Instance.Soundboard4MacroDeckDescription;
+        public override string Description => LocalizationManager.Instance.Soundboard4MacroDeckDescription;
 
         /// <summary>
         /// Icon for the plugin
@@ -29,7 +31,7 @@ namespace Soundboard4MacroDeck
         /// </summary>
         public override void Enable()
         {
-            Localization.CreateInstance();
+            LocalizationManager.CreateInstance();
             Instance = this;
 
             Actions = new List<PluginAction>
@@ -50,7 +52,7 @@ namespace Soundboard4MacroDeck
             using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
             pluginConfig.ShowDialog();
         }
-        private static MacroDeckPlugin Instance { get; set; }
+        internal static MacroDeckPlugin Instance { get; set; }
         internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Instance, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
     }
 }

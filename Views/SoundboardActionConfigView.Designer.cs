@@ -200,7 +200,6 @@ namespace Soundboard4MacroDeck.Views
             this.comboBoxDevices.Size = new System.Drawing.Size(380, 28);
             this.comboBoxDevices.TabIndex = 9;
             this.comboBoxDevices.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDevices_SelectedIndexChanged);
-            this.comboBoxDevices.EnabledChanged += new System.EventHandler(this.ComboBoxDevices_EnabledChanged);
             // 
             // checkBoxOverrideDevice
             // 

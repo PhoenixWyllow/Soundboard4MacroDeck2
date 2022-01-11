@@ -1,5 +1,7 @@
 ﻿using Myrmec;
 using Soundboard4MacroDeck.Models;
+using Soundboard4MacroDeck.Services;
+using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using System;
 using System.Linq;
@@ -31,8 +33,6 @@ namespace Soundboard4MacroDeck.ViewModels
             : base(ActionParameters.Deserialize(action.Configuration))
         {
             _action = action;
-
-            Parameters.SetId();
         }
 
         public override void SetConfig()
@@ -72,6 +72,7 @@ namespace Soundboard4MacroDeck.ViewModels
             catch (Exception ex)
             {
                 //forbidden, proxy issues, file not found (404) etc
+                MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}.{nameof(GetFromUrlAsync)}: {ex.Message}");
             }
 
             return success;
@@ -80,7 +81,7 @@ namespace Soundboard4MacroDeck.ViewModels
         private bool TryApplyFile(byte[] data, string urlPath)
         {
             if (data != null
-                && IsValidFile(data, out string extension))
+                && SoundPlayer.IsValidFile(data, out string extension))
             {
                 Parameters.FileData = data;
                 Parameters.FilePath = urlPath;
@@ -90,23 +91,5 @@ namespace Soundboard4MacroDeck.ViewModels
             return false;
         }
 
-        public bool IsValidFile(byte[] data, out string extension)
-        {
-            byte[] fileHead = new byte[100];
-
-            Array.Copy(data, fileHead, fileHead.Length);
-
-            var sniffer = new Sniffer();
-            sniffer.Populate(Base.AudioFileTypes.Records);
-
-            var matches = sniffer.Match(fileHead);
-            if (matches.Count > 0)
-            {
-                extension = matches[0];
-                return true;
-            }
-            extension = string.Empty;
-            return false;
-        }
     }
 }

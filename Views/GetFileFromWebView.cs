@@ -24,7 +24,7 @@ namespace Soundboard4MacroDeck.Views
 
         private void ApplyLocalization()
         {
-            this.labelURLFile.Text = Localization.Instance.ActionPlaySoundURLFile;
+            this.labelURLFile.Text = LocalizationManager.Instance.ActionPlaySoundURLFile;
             this.buttonOK.Text = LanguageManager.Strings.Ok;
         }
 
@@ -37,7 +37,7 @@ namespace Soundboard4MacroDeck.Views
             {
                 urlBox.Text = _viewModel.LastCheckedPath;
                 using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
-                messageBox.ShowDialog(Localization.Instance.ActionPlaySoundInvalidFile, Localization.Instance.ActionPlaySoundURLCouldNotUseFile, MessageBoxButtons.OK);
+                messageBox.ShowDialog(LocalizationManager.Instance.ActionPlaySoundInvalidFile, LocalizationManager.Instance.ActionPlaySoundURLCouldNotUseFile, MessageBoxButtons.OK);
                 return;
             }
 

@@ -20,8 +20,8 @@ namespace Soundboard4MacroDeck.Views
         }
         private void ApplyLocalization()
         {
-            this.linkLabelResetDevice.Text = Localization.Instance.UseSystemDefaultDevice;
-            this.labelDevices.Text = Localization.Instance.OutputDevicesGlobal;
+            this.linkLabelResetDevice.Text = LocalizationManager.Instance.UseSystemDefaultDevice;
+            this.labelDevices.Text = LocalizationManager.Instance.OutputDevicesGlobal;
             this.buttonOK.Text = LanguageManager.Strings.Ok;
         }
 

@@ -25,15 +25,15 @@ namespace Soundboard4MacroDeck.Views
         }
         private void ApplyLocalization()
         {
-            checkBoxOverrideDevice.Text = Localization.Instance.OverrideDefaultDevice;
-            checkBoxSyncButtonState.Text = Localization.Instance.SyncButtonState;
-            labelDevices.Text = Localization.Instance.OutputDevicesAction;
-            buttonGetFromURL.Text = Localization.Instance.ActionPlaySoundURLGet;
-            fileBrowse.Text = Localization.Instance.ActionPlaySoundFileBrowse;
-            filePath.PlaceHolderText = Localization.Instance.ActionPlaySoundFilePathPlaceholder;
-            labelFile.Text = Localization.Instance.ActionPlaySoundFilePath;
-            labelVolume.Text = Localization.Instance.ActionPlaySoundVolume;
-            labelOr.Text = Localization.Instance.GenericLabelOr;
+            checkBoxOverrideDevice.Text = LocalizationManager.Instance.OverrideDefaultDevice;
+            checkBoxSyncButtonState.Text = LocalizationManager.Instance.SyncButtonState;
+            labelDevices.Text = LocalizationManager.Instance.OutputDevicesAction;
+            buttonGetFromURL.Text = LocalizationManager.Instance.ActionPlaySoundURLGet;
+            fileBrowse.Text = LocalizationManager.Instance.ActionPlaySoundFileBrowse;
+            filePath.PlaceHolderText = LocalizationManager.Instance.ActionPlaySoundFilePathPlaceholder;
+            labelFile.Text = LocalizationManager.Instance.ActionPlaySoundFilePath;
+            labelVolume.Text = LocalizationManager.Instance.ActionPlaySoundVolume;
+            labelOr.Text = LocalizationManager.Instance.GenericLabelOr;
         }
 
         public override bool OnActionSave()
@@ -82,7 +82,7 @@ namespace Soundboard4MacroDeck.Views
             {
                 filePath.Text = _viewModel.LastCheckedPath;
                 using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
-                messageBox.ShowDialog(Localization.Instance.ActionPlaySoundInvalidFile, Localization.Instance.ActionPlaySoundFileCouldNotUseFile, MessageBoxButtons.OK);
+                messageBox.ShowDialog(LocalizationManager.Instance.ActionPlaySoundInvalidFile, LocalizationManager.Instance.ActionPlaySoundFileCouldNotUseFile, MessageBoxButtons.OK);
                 return;
             }
             checkedFile = true;
@@ -133,14 +133,7 @@ namespace Soundboard4MacroDeck.Views
         private void CheckBoxOverrideDevice_CheckedChanged(object sender, EventArgs e)
         {
             comboBoxDevices.Enabled = checkBoxOverrideDevice.Checked;
-        }
-
-        private void ComboBoxDevices_EnabledChanged(object sender, EventArgs e)
-        {
-            if (!comboBoxDevices.Enabled)
-            {
-                _viewModel.ResetDevice();
-            }
+            _viewModel.ResetDevice();
         }
 
         private void ComboBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
