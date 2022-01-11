@@ -7,6 +7,8 @@
 
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Language;
+using SuchByte.MacroDeck.Logging;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -27,16 +29,7 @@ namespace Soundboard4MacroDeck.Services
             }
         }
 
-        private LocalizationManager()
-        {
-            LanguageManager.LanguageChanged += (s, e) => GetLocalization();
-        }
-
-        private static void Unload()
-        {
-            LanguageManager.LanguageChanged -= (s, e) => GetLocalization();
-            Instance = null;
-        }
+        private LocalizationManager() { }
 
         private static void GetLocalization()
         {
@@ -45,16 +38,21 @@ namespace Soundboard4MacroDeck.Services
                 string languageName = LanguageManager.GetLanguageName();
                 if (Instance != null)
                 {
-                    Unload();
+                    LanguageManager.LanguageChanged -= (s, e) => GetLocalization();
                 }
                 try
                 {
                     Instance = JsonSerializer.Deserialize<Localization>(GetJsonLanguageResource(languageName));
                 }
-                catch
+                catch (Exception ex)
                 {
                     //fallback - should never occur if things are done properly
                     Instance = new Localization();
+                    MacroDeckLogger.Warning(Main.Instance, $"{nameof(LocalizationManager)}.{nameof(GetLocalization)}: {ex.Message}");
+                }
+                finally
+                {
+                    LanguageManager.LanguageChanged += (s, e) => GetLocalization();
                 }
             }
         }
