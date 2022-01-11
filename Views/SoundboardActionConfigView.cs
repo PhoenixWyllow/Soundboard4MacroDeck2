@@ -133,14 +133,7 @@ namespace Soundboard4MacroDeck.Views
         private void CheckBoxOverrideDevice_CheckedChanged(object sender, EventArgs e)
         {
             comboBoxDevices.Enabled = checkBoxOverrideDevice.Checked;
-        }
-
-        private void ComboBoxDevices_EnabledChanged(object sender, EventArgs e)
-        {
-            if (!comboBoxDevices.Enabled)
-            {
-                _viewModel.ResetDevice();
-            }
+            _viewModel.ResetDevice();
         }
 
         private void ComboBoxDevices_SelectedIndexChanged(object sender, EventArgs e)
