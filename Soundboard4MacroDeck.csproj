@@ -4,7 +4,7 @@
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>4</VersionMinor>
 		<VersionPatch>1</VersionPatch>
-		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString()).$([System.DateTime]::UtcNow.ToString("Hmm"))</VersionRevision>
+		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000")).$([System.DateTime]::UtcNow.ToString("HHmm"))</VersionRevision>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -83,12 +83,16 @@
 		</None>
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="(robocopy $(OutDir) &quot;%25AppData%25\Macro Deck\plugins\PhoenixWyllow.$(TargetName)\ &quot; $(TargetFileName) Naudio*.dll Myrmec*.dll Plugin.xml /im)  ^&amp; IF %25ERRORLEVEL%25 LSS 8 SET ERRORLEVEL = 0" />
+	<ItemGroup>
+		<PluginFiles Include="$(OutDir)\$(TargetFileName);$(OutDir)\Naudio.dll;$(OutDir)\Myrmec*.dll;$(OutDir)\Plugin.xml"/>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Debug'">
+		<Copy DestinationFolder="$(AppData)\Macro Deck\plugins\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true"/>
 	</Target>
 
 	<Target Name="PostBuildZipRelease" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Release'">
-		<Exec Command="(robocopy $(OutDir) &quot;$(SolutionDir)releases\temp\ &quot; $(TargetFileName) Naudio*.dll Myrmec*.dll Plugin.xml /im)  ^&amp; IF %25ERRORLEVEL%25 LSS 8 SET ERRORLEVEL = 0" />
+		<Copy DestinationFolder="$(SolutionDir)releases\temp\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true"/>
 		<ZipDirectory SourceDirectory="$(SolutionDir)releases\temp\" DestinationFile="$(SolutionDir)releases\$(TargetName)_$(AssemblyVersion).zip" Overwrite="true" />
 		<RemoveDir Directories="$(SolutionDir)releases\temp\" />
 	</Target>

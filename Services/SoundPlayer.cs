@@ -8,6 +8,7 @@ using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
 using System.Collections.Generic;
 using System.Linq;
+using SuchByte.MacroDeck.Logging;
 
 namespace Soundboard4MacroDeck.Services
 {
@@ -29,6 +30,9 @@ namespace Soundboard4MacroDeck.Services
                 return true;
             }
             extension = string.Empty;
+
+            MacroDeckLogger.Warning(Main.Instance, $"{nameof(SoundPlayer)}.{nameof(IsValidFile)}: invalid file");
+            MacroDeckLogger.Info(Main.Instance, $"{nameof(SoundPlayer)}.{nameof(IsValidFile)}: {fileHead}");
             return false;
         }
 

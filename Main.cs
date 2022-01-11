@@ -9,6 +9,8 @@ namespace Soundboard4MacroDeck
 {
     public class Main : MacroDeckPlugin
     {
+        public override string Name => "Soundboard";
+
         /// <summary>
         /// Short description what the plugin can do
         /// </summary>
@@ -50,7 +52,7 @@ namespace Soundboard4MacroDeck
             using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
             pluginConfig.ShowDialog();
         }
-        private static MacroDeckPlugin Instance { get; set; }
+        internal static MacroDeckPlugin Instance { get; set; }
         internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Instance, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
     }
 }

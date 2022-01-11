@@ -6,6 +6,8 @@ namespace Soundboard4MacroDeck.ViewModels
     {
         protected ISerializableConfiguration SerializableConfiguration { get; }
 
+        void SetConfig();
+
         void SaveConfig();
     }
 }

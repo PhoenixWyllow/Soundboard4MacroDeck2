@@ -3,7 +3,9 @@ using Soundboard4MacroDeck.Services;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
+using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
+using System;
 
 namespace Soundboard4MacroDeck.Actions
 {
@@ -49,9 +51,10 @@ namespace Soundboard4MacroDeck.Actions
             {
                 SoundPlayer.Execute(SoundboardActions.Play, Configuration, actionButton);
             }
-            catch
+            catch (Exception ex)
             {
                 SoundPlayer.StopAll();
+                MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
             }
         }
     }

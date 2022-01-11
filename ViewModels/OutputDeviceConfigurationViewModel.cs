@@ -1,5 +1,6 @@
 ﻿using NAudio.CoreAudioApi;
 using Soundboard4MacroDeck.Models;
+using SuchByte.MacroDeck.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -88,12 +89,12 @@ namespace Soundboard4MacroDeck.ViewModels
             try
             {
                 SetConfig();
-                Debug.WriteLine($"{GetType().Name} config saved");
+                MacroDeckLogger.Info(Main.Instance, $"{GetType().Name}: config saved");
             }
             catch (Exception ex)
             {
-                Debug.Fail($"{GetType().Name} config NOT saved");
-                Debug.WriteLine(ex.Message);
+                MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: config NOT saved");
+                MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: {ex.Message}");
             }
         }
     }
