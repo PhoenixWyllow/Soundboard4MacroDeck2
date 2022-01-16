@@ -93,7 +93,7 @@
 
 	<Target Name="PostBuildZipRelease" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Release'">
 		<Copy DestinationFolder="$(SolutionDir)releases\temp\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
-		<ZipDirectory SourceDirectory="$(SolutionDir)releases\temp\" DestinationFile="$(SolutionDir)releases\$(TargetName)_$(AssemblyVersion).zip" Overwrite="true" />
+		<ZipDirectory SourceDirectory="$(SolutionDir)releases\temp\" DestinationFile="$(SolutionDir)releases\$(TargetName)_$(Version).zip" Overwrite="true" />
 		<RemoveDir Directories="$(SolutionDir)releases\temp\" />
 	</Target>
 </Project>
