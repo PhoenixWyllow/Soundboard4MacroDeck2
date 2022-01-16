@@ -9,7 +9,8 @@ namespace Soundboard4MacroDeck
 {
     public class Main : MacroDeckPlugin
     {
-        public override string Name => "Soundboard";
+        //don't override name - this is a requirement for previous users of the plugin
+        //public override string Name => "Soundboard";
 
         /// <summary>
         /// Short description what the plugin can do
