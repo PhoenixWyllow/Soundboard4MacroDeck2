@@ -6,5 +6,5 @@
   "packageId": "PhoenixWyllow.Soundboard4MacroDeck",
   "version": "0.4.5",
   "target-plugin-api-version": 31,
-  "dll": "My Plugin.dll"
+  "dll": "Soundboard4MacroDeck.dll"
 }
