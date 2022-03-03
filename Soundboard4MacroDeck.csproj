@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>4</VersionMinor>
-		<VersionPatch>4</VersionPatch>
+		<VersionPatch>5</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000")).$([System.DateTime]::UtcNow.ToString("HHmm"))</VersionRevision>
 	</PropertyGroup>
 	
@@ -25,7 +25,7 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<IsPublishable>False</IsPublishable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>E:\Code\source\repos\PhoenixWyllow\Soundboard4MacroDeck2\LICENSE</PackageLicenseFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<Description>A soundboard plugin for Macro Deck 2</Description>
 		<PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2/releases</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
@@ -41,18 +41,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="NAudio" Version="2.0.1" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.2" ExcludeAssets="runtime" />
 	</ItemGroup>
+	
+	<Import Project="..\MimeSniffer\MimeSniffer.projitems" Label="Shared" />
 
 	<ItemGroup>
 		<Reference Include="Macro Deck 2">
 			<HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
-		</Reference>
-		<Reference Include="Myrmec">
-			<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.dll</HintPath>
-		</Reference>
-		<Reference Include="Myrmec.Mime">
-			<HintPath>..\myrmec\src\Myrmec\bin\Release\netcoreapp3.1\Myrmec.Mime.dll</HintPath>
+			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
 
@@ -83,8 +80,12 @@
 		</None>
 	</ItemGroup>
 
+	<!--<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('E:\Code\source\repos\PhoenixWyllow\PluginCopy.bat')">
+	  <Exec Command="call E:\Code\source\repos\PhoenixWyllow\PluginCopy.bat $(OutDir) $(TargetName)" />
+	</Target>-->
+
 	<ItemGroup>
-		<PluginFiles Include="$(OutDir)\$(TargetFileName);$(OutDir)\Naudio*.dll;$(OutDir)\Myrmec*.dll;$(OutDir)\Plugin.xml" />
+		<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\*.xml" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Debug'">

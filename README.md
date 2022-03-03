@@ -1,8 +1,6 @@
-# Soundboard4MacroDeck2 
-A custom soundboard plugin for Macro Deck
+![Header](soundboardSocial.png)
 
-<img alt="Soundboard Icon" height="128px" align="center" src="Resources/SoundboardIcon.png"/>  <img alt="Macro Deck 2 Community Plugin" height="69px" align="center" href="https://macrodeck.org" src="https://macrodeck.org/images/macro_deck_2_community_plugin.png"/>
-
+<img alt="Macro Deck 2 Community Plugin" height="64px" align="center" href="https://macrodeck.org" src="https://macrodeck.org/images/macro_deck_2_community_plugin.png"/>
 
 ***
 *This is a plugin for Macro Deck 2, it does NOT function as a standalone app*
@@ -50,7 +48,9 @@ Currently available languages:
 This plugin makes use of:
 - [Macro Deck 2 by SuchByte (Apache License 2.0)](https://macrodeck.org)
 - [NAudio by Mark Heath (MIT License)](https://github.com/naudio/NAudio)
-- [Myrmec by rocketRobin (forked) (Apache License 2.0)](https://github.com/PhoenixWyllow/myrmec/)
+
+### Special thanks
+- [Myrmec by rocketRobin (Apache License 2.0)](https://github.com/rocketRobin/myrmec) - the MimeSniffer shared project is a partial implementation and rework
 
 Icon is a merge of the Macro Deck 2 icon by SuchByte and sound blaster by Anatolii Babii from the Noun Project.
 ***

@@ -16,7 +16,7 @@ namespace Soundboard4MacroDeck.Models
         public string FileName =>
             string.IsNullOrWhiteSpace(FileExt)
             ? System.IO.Path.GetFileName(FilePath)
-            : System.IO.Path.GetFileNameWithoutExtension(FilePath) + FileExt.Replace("*", string.Empty);
+            : System.IO.Path.GetFileNameWithoutExtension(FilePath) + FileExt[1..];
 
         public string Serialize() =>
             JsonSerializer.Serialize(this);

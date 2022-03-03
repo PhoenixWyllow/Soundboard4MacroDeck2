@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soundboard4MacroDeck", "Soundboard4MacroDeck.csproj", "{2879CD36-47AA-4083-9102-20A54752C093}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MimeSniffer", "..\MimeSniffer\MimeSniffer.shproj", "{3530BEA0-5A2F-49AF-8D7D-CFA2EC83223D}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\MimeSniffer\MimeSniffer.projitems*{2879cd36-47aa-4083-9102-20a54752c093}*SharedItemsImports = 5
+		..\MimeSniffer\MimeSniffer.projitems*{3530bea0-5a2f-49af-8d7d-cfa2ec83223d}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

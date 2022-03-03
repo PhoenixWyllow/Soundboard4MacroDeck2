@@ -1,5 +1,4 @@
-﻿using Myrmec;
-using Soundboard4MacroDeck.Models;
+﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
@@ -72,7 +71,7 @@ namespace Soundboard4MacroDeck.ViewModels
             catch (Exception ex)
             {
                 //forbidden, proxy issues, file not found (404) etc
-                MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}.{nameof(GetFromUrlAsync)}: {ex.Message}");
+                MacroDeckLogger.Error(Main.Instance, typeof(SoundboardActionConfigViewModel), $"{nameof(GetFromUrlAsync)}: {ex.Message}");
             }
 
             return success;
@@ -81,11 +80,11 @@ namespace Soundboard4MacroDeck.ViewModels
         private bool TryApplyFile(byte[] data, string urlPath)
         {
             if (data != null
-                && SoundPlayer.IsValidFile(data, out string extension))
+                && Base.AudioFileTypes.IsValidFile(data, out string extension))
             {
                 Parameters.FileData = data;
                 Parameters.FilePath = urlPath;
-                Parameters.FileExt = Base.AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
+                Parameters.FileExt = extension;// Base.AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
                 return true;
             }
             return false;

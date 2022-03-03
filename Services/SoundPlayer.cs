@@ -2,7 +2,6 @@
 using Soundboard4MacroDeck.Base;
 using Soundboard4MacroDeck.Models;
 using System;
-using Myrmec;
 using NAudio.CoreAudioApi;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
@@ -14,28 +13,6 @@ namespace Soundboard4MacroDeck.Services
 {
     public sealed class SoundPlayer
     {
-        public static bool IsValidFile(byte[] data, out string extension)
-        {
-            byte[] fileHead = new byte[100];
-
-            Array.Copy(data, fileHead, fileHead.Length);
-
-            Sniffer sniffer = new Sniffer();
-            sniffer.Populate(AudioFileTypes.Records);
-
-            var matches = sniffer.Match(fileHead);
-            if (matches.Count > 0)
-            {
-                extension = matches[0];
-                return true;
-            }
-            extension = string.Empty;
-
-            MacroDeckLogger.Warning(Main.Instance, $"{nameof(SoundPlayer)}.{nameof(IsValidFile)}: invalid file");
-            MacroDeckLogger.Info(Main.Instance, $"{nameof(SoundPlayer)}.{nameof(IsValidFile)}: {fileHead}");
-            return false;
-        }
-
         public static void Execute(SoundboardActions action, string config, ActionButton actionButton)
         {
             var actionParameters = ActionParameters.Deserialize(config);
