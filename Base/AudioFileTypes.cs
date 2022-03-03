@@ -15,7 +15,7 @@ namespace Soundboard4MacroDeck.Base
         {
             new Header("aif aiff", "46 4F 52 4D ?? ?? ?? ?? 41 49 46 46"),
             new Header("mid midi", "4D 54 68 64"),
-            new Header("m4a", "66 74 79 70 4D 34 41 20", 4),
+            new Header("m4a", 4, "66 74 79 70 4D 34 41 20"),
             new Header("mp3", "FF FB"),
             new Header("mp3", "FF F3"),
             new Header("mp3", "FF F2"),

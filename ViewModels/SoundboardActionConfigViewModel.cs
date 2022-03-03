@@ -84,7 +84,7 @@ namespace Soundboard4MacroDeck.ViewModels
             {
                 Parameters.FileData = data;
                 Parameters.FilePath = urlPath;
-                Parameters.FileExt = extension;// Base.AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
+                Parameters.FileExt = Base.AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
                 return true;
             }
             return false;
