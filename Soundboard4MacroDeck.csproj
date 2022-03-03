@@ -76,6 +76,9 @@
 		<None Update="Plugin.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="ExtensionManifest.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<!--<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('E:\Code\source\repos\PhoenixWyllow\PluginCopy.bat')">
@@ -83,10 +86,10 @@
 	</Target>-->
 
 	<ItemGroup>
-		<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\*.xml" />
+		<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\Plugin.xml;$(OutDir)\ExtensionManifest.json" />
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Debug'">
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Copy DestinationFolder="$(AppData)\Macro Deck\plugins\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
 	</Target>
 
