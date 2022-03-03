@@ -43,8 +43,6 @@
 		<PackageReference Include="NAudio" Version="2.0.1" />
 		<PackageReference Include="System.Drawing.Common" Version="5.0.2" ExcludeAssets="runtime" />
 	</ItemGroup>
-	
-	<Import Project="..\MimeSniffer\MimeSniffer.projitems" Label="Shared" />
 
 	<ItemGroup>
 		<Reference Include="Macro Deck 2">
