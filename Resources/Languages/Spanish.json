@@ -25,7 +25,7 @@
     "ActionLoopSoundName": "Audio en bucle",
     "ActionLoopSoundDescription": "Reproducir el archivo configurado en un bucle hasta que se detenga tocando por segunda vez",
     "ActionSuggestButtonStates": "Se recomienda la configuración de los estados Activo e Inactivo del botón para esta acción",
-    "ActionStopSoundName": "Stop all sounds",
-    "ActionStopSoundDescription": "Forces stop of all currently playing sounds",
+    "ActionStopSoundName": "Stop all audio",
+    "ActionStopSoundDescription": "Forces stop of all currently playing soundboard audio",
     "SyncButtonState": "Sync button state with audio"
 }
