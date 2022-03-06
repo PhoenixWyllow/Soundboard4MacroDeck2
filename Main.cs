@@ -9,19 +9,6 @@ namespace Soundboard4MacroDeck
 {
     public class Main : MacroDeckPlugin
     {
-        //don't override name - this is a requirement for previous users of the plugin
-        //public override string Name => "Soundboard";
-
-        /// <summary>
-        /// Short description what the plugin can do
-        /// </summary>
-        public override string Description => LocalizationManager.Instance.Soundboard4MacroDeckDescription;
-
-        /// <summary>
-        /// Icon for the plugin
-        /// </summary>
-        public override Image Icon => Properties.Resources.SoundboardIcon;
-
         /// <summary>
         /// Can the plugin be configured? E.g. accounts
         /// </summary>
