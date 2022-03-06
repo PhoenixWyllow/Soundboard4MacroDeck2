@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>4</VersionMinor>
-		<VersionPatch>5</VersionPatch>
+		<VersionPatch>6</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000")).$([System.DateTime]::UtcNow.ToString("HHmm"))</VersionRevision>
 	</PropertyGroup>
 	
@@ -73,9 +73,6 @@
 		<None Update="Resources\Languages\CONTRIBUTING_LANGUAGES.md">
 			<Pack>True</Pack>
 		</None>
-		<None Update="Plugin.xml">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Update="ExtensionManifest.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -86,7 +83,7 @@
 	</Target>-->
 
 	<ItemGroup>
-		<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\Plugin.xml;$(OutDir)\ExtensionManifest.json" />
+		<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\ExtensionManifest.json" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
