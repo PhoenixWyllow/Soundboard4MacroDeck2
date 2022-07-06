@@ -3,8 +3,9 @@
 	<PropertyGroup>
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>4</VersionMinor>
-		<VersionPatch>7</VersionPatch>
+		<VersionPatch>8</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000")).$([System.DateTime]::UtcNow.ToString("HHmm"))</VersionRevision>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -40,13 +41,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NAudio" Version="2.0.1" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.2" ExcludeAssets="runtime" />
+		<PackageReference Include="NAudio" Version="2.1.0" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.3" ExcludeAssets="runtime" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Macro Deck 2">
-			<HintPath>E:\Code\source\repos\Macro-Deck\bin\Release\netcoreapp3.1\Macro Deck 2.dll</HintPath>
+			<HintPath>E:\Code\source\repos\MD\Macro-Deck\bin\Release\netcoreapp3.1\publish\Macro Deck 2.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
