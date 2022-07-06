@@ -9,16 +9,6 @@ namespace MimeSniffer
     /// </summary>
     public class Sniffer
     {
-        /// <summary>
-        /// You can get the file extention name detail in this wikipedia page.
-        /// </summary>
-        public const string FileExtentionHelpUrl = "https://en.wikipedia.org/wiki/List_of_file_signatures";
-        
-        /// <summary>
-        /// For even more magic number details, you can use this link
-        /// </summary>
-        public const string FileExtentionHelpUrl2 = "https://www.garykessler.net/library/file_sigs.html";
-
         private readonly Node _root;
 
         /// <summary>

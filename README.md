@@ -53,6 +53,7 @@ This plugin makes use of:
 - [NAudio by Mark Heath (MIT License)](https://github.com/naudio/NAudio)
 
 ### Special thanks
+- [Myrmec by rocketRobin (Apache License 2.0)](https://github.com/rocketRobin/myrmec) - a partial implementation and rework is included in this project under MimeSniffer
 
 Icon is a merge of the Macro Deck 2 icon by SuchByte and sound blaster by Anatolii Babii from the Noun Project.
 ***

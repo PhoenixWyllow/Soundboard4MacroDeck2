@@ -7,6 +7,10 @@ namespace Soundboard4MacroDeck.Base
 {
     internal class AudioFileTypes
     {
+        // You can get the file extention name detail in this wikipedia page. https://en.wikipedia.org/wiki/List_of_file_signatures
+        // For even more magic number details, you can use this link https://www.garykessler.net/library/file_sigs.html
+
+
         public static string[] Extensions { get; } = {
             "*.aif", "*.aiff", "*.mid", "*.midi", "*.m4a", "*.mp3", "*.ogg", "*.oga", "*.aac", "*.flac", "*.wma", "*.wav", "*.weba",
             };
