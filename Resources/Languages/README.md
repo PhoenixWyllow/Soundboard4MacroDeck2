@@ -7,7 +7,8 @@ If your language is not available, the plugin will default to English.
 ***
 ### If your language is missing or incomplete, please consider helping me out!
 
-To contribute your language, join the project on https://poeditor.com/join/project?hash=T6WOz3ECo7 and contribute your translation.
+To contribute your language, join the project on https://poeditor.com/join/project?hash=T6WOz3ECo7 and contribute your translation. \
+REMEMBER to provide your username in the "\_attribution_" translation so that I may credit you.
 
 It's as simple as that! I will do the merging from there!
 
