@@ -1,11 +1,10 @@
-﻿namespace Soundboard4MacroDeck.Models
+﻿namespace Soundboard4MacroDeck.Models;
+
+public enum SoundboardActions
 {
-    public enum SoundboardActions
-    {
-        None,
-        Play,
-        PlayStop,
-        Overlap,
-        Loop
-    }
+    None,
+    Play,
+    PlayStop,
+    Overlap,
+    Loop
 }

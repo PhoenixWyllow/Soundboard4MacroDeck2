@@ -7,55 +7,54 @@ using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using System;
 
-namespace Soundboard4MacroDeck.Actions
+namespace Soundboard4MacroDeck.Actions;
+
+public sealed class SoundboardLoopAction : PluginAction
 {
-    public class SoundboardLoopAction : PluginAction
+    /// <summary>
+    /// Name of the action
+    /// </summary>
+    public override string Name => LocalizationManager.Instance.ActionLoopSoundName;
+
+    /// <summary>
+    /// A short description what this action does
+    /// </summary>
+    public override string Description => $"{LocalizationManager.Instance.ActionLoopSoundDescription}.{Environment.NewLine}({LocalizationManager.Instance.ActionSuggestButtonStates})";
+
+    /// <summary>
+    /// Set true if the plugin can be configured.
+    /// </summary>
+    public override bool CanConfigure => true;
+
+    /// <summary>
+    /// Return the ActionConfigControl for this action.
+    /// </summary>
+    /// <returns></returns>
+    public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)
     {
-        /// <summary>
-        /// Name of the action
-        /// </summary>
-        public override string Name => LocalizationManager.Instance.ActionLoopSoundName;
+        return new Views.SoundboardActionConfigView(this);
+    }
 
-        /// <summary>
-        /// A short description what this action does
-        /// </summary>
-        public override string Description => $"{LocalizationManager.Instance.ActionLoopSoundDescription}.{Environment.NewLine}({LocalizationManager.Instance.ActionSuggestButtonStates})";
-
-        /// <summary>
-        /// Set true if the plugin can be configured.
-        /// </summary>
-        public override bool CanConfigure => true;
-
-        /// <summary>
-        /// Return the ActionConfigControl for this action.
-        /// </summary>
-        /// <returns></returns>
-        public override ActionConfigControl GetActionConfigControl(ActionConfigurator actionConfigurator)
+    /// <summary>
+    /// Gets called when the button with this action gets pressed.
+    /// </summary>
+    /// <param name="clientId">Returns the client id</param>
+    /// <param name="actionButton">Returns the pressed action button</param>
+    public override void Trigger(string clientId, ActionButton actionButton)
+    {
+        if (string.IsNullOrWhiteSpace(Configuration))
         {
-            return new Views.SoundboardActionConfigView(this);
+            return;
         }
 
-        /// <summary>
-        /// Gets called when the button with this action gets pressed.
-        /// </summary>
-        /// <param name="clientId">Returns the client id</param>
-        /// <param name="actionButton">Returns the pressed action button</param>
-        public override void Trigger(string clientId, ActionButton actionButton)
+        try
         {
-            if (string.IsNullOrWhiteSpace(Configuration))
-            {
-                return;
-            }
-
-            try
-            {
-                SoundPlayer.Execute(SoundboardActions.Loop, Configuration, actionButton);
-            }
-            catch (Exception ex)
-            {
-                SoundPlayer.StopAll();
-                MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
-            }
+            SoundPlayer.Execute(SoundboardActions.Loop, Configuration, actionButton);
+        }
+        catch (Exception ex)
+        {
+            SoundPlayer.StopAll();
+            MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
         }
     }
 }
