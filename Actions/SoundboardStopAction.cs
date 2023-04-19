@@ -28,6 +28,6 @@ public sealed class SoundboardStopAction : PluginAction
     /// <param name="actionButton">Returns the pressed action button</param>
     public override void Trigger(string clientId, ActionButton actionButton)
     {
-        SoundPlayer.StopAll();
+        SoundboardPlayer.StopAll();
     }
 }

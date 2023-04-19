@@ -49,11 +49,11 @@ public sealed class SoundboardOverlapAction : PluginAction
 
         try
         {
-            SoundPlayer.Execute(SoundboardActions.Overlap, Configuration, actionButton);
+            SoundboardPlayer.Execute(SoundboardActions.Overlap, Configuration, actionButton);
         }
         catch (Exception ex)
         {
-            SoundPlayer.StopAll();
+            SoundboardPlayer.StopAll();
             MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
         }
     }

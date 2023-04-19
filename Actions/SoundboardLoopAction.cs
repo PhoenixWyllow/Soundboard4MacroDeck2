@@ -49,11 +49,11 @@ public sealed class SoundboardLoopAction : PluginAction
 
         try
         {
-            SoundPlayer.Execute(SoundboardActions.Loop, Configuration, actionButton);
+            SoundboardPlayer.Execute(SoundboardActions.Loop, Configuration, actionButton);
         }
         catch (Exception ex)
         {
-            SoundPlayer.StopAll();
+            SoundboardPlayer.StopAll();
             MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
         }
     }

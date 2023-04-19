@@ -1,17 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionMajor>2</VersionMajor>
-		<VersionMinor>0</VersionMinor>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>5</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000")).$([System.DateTime]::UtcNow.ToString("HHmm"))</VersionRevision>
-		<PluginFolder>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>
+		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</VersionRevision>
+<!--		<PluginFolder>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>-->
+		<PluginFolder>$(AppData)\Macro Deck\plugins</PluginFolder>
 	</PropertyGroup>
 	
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+<!--		<TargetFramework>net6.0-windows</TargetFramework>-->
+		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<Platforms>AnyCPU;x64</Platforms>
-		<LangVersion>default</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<RootNamespace>Soundboard4MacroDeck</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
 		<AssemblyName>Soundboard4MacroDeck</AssemblyName>
@@ -44,11 +46,14 @@
 
 	<ItemGroup>
 		<PackageReference Include="NAudio" Version="2.1.0" />
+		<PackageReference Include="NAudio.Extras" Version="2.1.0" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.3" ExcludeAssets="runtime" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Macro Deck 2">
-			<HintPath>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Macro Deck 2.dll</HintPath>
+<!--			<HintPath>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Macro Deck 2.dll</HintPath>-->
+			<HintPath>E:\Code\source\repos\MD\Macro-Deck\bin\Release\netcoreapp3.1\publish\Macro Deck 2.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
@@ -59,6 +64,10 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
+		<Compile Remove="Services\CachedAudioReader.cs" />
+		<Compile Remove="Services\CachedAudio.cs" />
+		<Compile Remove="Services\AudioBytesReader.cs" />
+		<Compile Remove="Services\SoundPlayer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -86,11 +95,5 @@
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Copy DestinationFolder="$(PluginFolder)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
-	</Target>
-
-	<Target Name="PostBuildZipRelease" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Release'">
-		<Copy DestinationFolder="$(SolutionDir)releases\temp\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
-		<ZipDirectory SourceDirectory="$(SolutionDir)releases\temp\" DestinationFile="$(SolutionDir)releases\$(TargetName)_$(Version).zip" Overwrite="true" />
-		<RemoveDir Directories="$(SolutionDir)releases\temp\" />
 	</Target>
 </Project>

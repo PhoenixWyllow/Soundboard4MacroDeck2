@@ -22,11 +22,15 @@ public static class HttpDownloadClientExtensions
         // passed or when the content length is unknown
         if (progress is null || !contentLength.HasValue) 
         {
+#if NETCOREAPP3_1
+            return await client.GetByteArrayAsync(requestUri).ConfigureAwait(false);
+#else //net6
             return await client.GetByteArrayAsync(requestUri, cancellationToken).ConfigureAwait(false);
+#endif 
         }
         
         using MemoryStream destination = new ((int)contentLength);
-        using var download = await response.Content.ReadAsStreamAsync(cancellationToken);
+        using var download = await response.Content.ReadAsStreamAsync();//TODO net6: cancellationToken);
         
         // Convert absolute progress (bytes downloaded) into relative progress (0% - 100%)
         Progress<long> relativeProgress = new (totalBytes => progress.Report((float)totalBytes / contentLength.Value));
@@ -63,8 +67,13 @@ public static class HttpDownloadClientExtensions
     
     private static void ValidateArguments(Stream source, Stream destination, int bufferSize)
     {
+#if NETCOREAPP3_1
+        if (source is null) throw new ArgumentNullException(nameof(source));
+        if (destination is null) throw new ArgumentNullException(nameof(destination));
+#else //net6
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(destination);
+#endif 
 
         if (!source.CanRead)
         {
