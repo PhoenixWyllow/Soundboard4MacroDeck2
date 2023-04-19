@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
-		<VersionMinor>5</VersionMinor>
+		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</VersionRevision>
 <!--		<PluginFolder>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>-->
