@@ -64,10 +64,6 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Remove="Services\CachedAudioReader.cs" />
-		<Compile Remove="Services\CachedAudio.cs" />
-		<Compile Remove="Services\AudioBytesReader.cs" />
-		<Compile Remove="Services\SoundPlayer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
