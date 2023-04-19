@@ -1,13 +1,12 @@
 ﻿using Soundboard4MacroDeck.Models;
 
-namespace Soundboard4MacroDeck.ViewModels
+namespace Soundboard4MacroDeck.ViewModels;
+
+public interface ISoundboardBaseConfigViewModel
 {
-    public interface ISoundboardBaseConfigViewModel
-    {
-        protected ISerializableConfiguration SerializableConfiguration { get; }
+    protected ISerializableConfiguration SerializableConfiguration { get; }
 
-        void SetConfig();
+    void SetConfig();
 
-        void SaveConfig();
-    }
+    void SaveConfig();
 }

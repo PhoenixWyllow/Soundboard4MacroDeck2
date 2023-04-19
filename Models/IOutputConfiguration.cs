@@ -1,8 +1,8 @@
-﻿namespace Soundboard4MacroDeck.Models
+﻿namespace Soundboard4MacroDeck.Models;
+
+public interface IOutputConfiguration : ISerializableConfiguration
 {
-    public interface IOutputConfiguration : ISerializableConfiguration
-    {
-        string OutputDeviceId { get; set; }
-        bool UseDefaultDevice { get; set; }
-    }
+    string OutputDeviceId { get; set; }
+    //int Latency { get; set; }
+    bool UseDefaultDevice { get; set; }
 }

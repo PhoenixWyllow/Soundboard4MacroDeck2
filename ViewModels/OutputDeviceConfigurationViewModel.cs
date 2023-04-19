@@ -3,99 +3,103 @@ using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace Soundboard4MacroDeck.ViewModels
+namespace Soundboard4MacroDeck.ViewModels;
+
+public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfigViewModel
 {
-    public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfigViewModel
+    private readonly IOutputConfiguration _globalOutputConfiguration;
+    protected IOutputConfiguration OutputConfiguration { get; }
+    public List<MMDevice> Devices { get; private set; }
+    public int DevicesIndex { get; private set; }
+    //public int Latency { get => OutputConfiguration.Latency; set => OutputConfiguration.Latency = value; }
+
+    public bool IsDefaultDevice() => OutputConfiguration.MustGetDefaultDevice();
+
+    public event EventHandler OnSetDeviceIndex;
+
+    ISerializableConfiguration ISoundboardBaseConfigViewModel.SerializableConfiguration => OutputConfiguration;
+
+    protected OutputDeviceConfigurationViewModel(IOutputConfiguration parameters)
     {
-        private readonly IOutputConfiguration _globalOutputConfiguration;
-        protected IOutputConfiguration OutputConfiguration { get; }
-        public List<MMDevice> Devices { get; private set; }
-        public int DevicesIndex { get; private set; }
+        OutputConfiguration = parameters;
+        _globalOutputConfiguration = parameters as GlobalParameters ?? Main.Configuration;
+    }
 
-        public bool IsDefaultDevice() => OutputConfiguration.MustGetDefaultDevice();
+    //public void ResetLatency()
+    //{
+    //    Latency = !(OutputConfiguration is GlobalParameters) ? _globalOutputConfiguration.Latency : 200;
+    //}
 
-        public event EventHandler OnSetDeviceIndex;
-
-        ISerializableConfiguration ISoundboardBaseConfigViewModel.SerializableConfiguration => OutputConfiguration;
-
-        protected OutputDeviceConfigurationViewModel(IOutputConfiguration parameters)
+    public void LoadDevices()
+    {
+        if (IsDefaultDevice())
         {
-            OutputConfiguration = parameters;
-            _globalOutputConfiguration = parameters as GlobalParameters ?? Main.Configuration;
+            OutputConfiguration.OutputDeviceId = _globalOutputConfiguration.OutputDeviceId;
         }
+        FetchAvailableDevices();
+    }
 
-        public void LoadDevices()
-        {
-            if (IsDefaultDevice())
-            {
-                OutputConfiguration.OutputDeviceId = _globalOutputConfiguration.OutputDeviceId;
-            }
-            FetchAvailableDevices();
-        }
+    private void FetchAvailableDevices()
+    {
+        using var enumerator = new MMDeviceEnumerator();
+        Devices = new(enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active));
+    }
 
-        private void FetchAvailableDevices()
+    public void LoadDeviceIndex()
+    {
+        SetDeviceIndex(IsDefaultDevice(), OutputConfiguration.OutputDeviceId);
+    }
+
+    public void ResetDevice()
+    {
+        SetDeviceIndex(OutputConfiguration is GlobalParameters, _globalOutputConfiguration.OutputDeviceId);
+        OutputConfiguration.UseDefaultDevice = true;
+    }
+
+    private void SetDeviceIndex(bool getDefault, string deviceId)
+    {
+        if (getDefault)
         {
             using var enumerator = new MMDeviceEnumerator();
-            Devices = new List<MMDevice>(enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active));
+            SetDeviceById(enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).ID);
         }
-
-        public void LoadDeviceIndex()
+        else
         {
-            SetDeviceIndex(IsDefaultDevice(), OutputConfiguration.OutputDeviceId);
+            SetDeviceById(deviceId);
         }
+        OnSetDeviceIndex?.Invoke(DevicesIndex, null);
+    }
 
-        public void ResetDevice()
+    private void SetDeviceById(string deviceId)
+    {
+        DevicesIndex = Devices.FindIndex(d => d.ID.Equals(deviceId));
+        OutputConfiguration.OutputDeviceId = deviceId;
+    }
+
+    public void SetDevice(int selectedIndex)
+    {
+        if (DevicesIndex != selectedIndex)
         {
-            SetDeviceIndex(OutputConfiguration is GlobalParameters, _globalOutputConfiguration.OutputDeviceId);
-            OutputConfiguration.UseDefaultDevice = true;
+            DevicesIndex = selectedIndex;
+            OutputConfiguration.OutputDeviceId = Devices[selectedIndex].ID;
+            OutputConfiguration.UseDefaultDevice = false;
         }
+    }
 
-        private void SetDeviceIndex(bool getDefault, string deviceId)
+    public abstract void SetConfig();
+
+    public void SaveConfig()
+    {
+        try
         {
-            if (getDefault)
-            {
-                using var enumerator = new MMDeviceEnumerator();
-                SetDeviceById(enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).ID);
-            }
-            else
-            {
-                SetDeviceById(deviceId);
-            }
-            OnSetDeviceIndex?.Invoke(DevicesIndex, null);
+            SetConfig();
+            MacroDeckLogger.Info(Main.Instance, $"{GetType().Name}: config saved");
         }
-
-        private void SetDeviceById(string deviceId)
+        catch (Exception ex)
         {
-            DevicesIndex = Devices.FindIndex(d => d.ID.Equals(deviceId));
-            OutputConfiguration.OutputDeviceId = deviceId;
-        }
-
-        public void SetDevice(int selectedIndex)
-        {
-            if (DevicesIndex != selectedIndex)
-            {
-                DevicesIndex = selectedIndex;
-                OutputConfiguration.OutputDeviceId = Devices[selectedIndex].ID;
-                OutputConfiguration.UseDefaultDevice = false;
-            }
-        }
-
-        public abstract void SetConfig();
-
-        public void SaveConfig()
-        {
-            try
-            {
-                SetConfig();
-                MacroDeckLogger.Info(Main.Instance, $"{GetType().Name}: config saved");
-            }
-            catch (Exception ex)
-            {
-                MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: config NOT saved");
-                MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: {ex.Message}");
-            }
+            MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: config NOT saved");
+            MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: {ex.Message}");
         }
     }
 }
