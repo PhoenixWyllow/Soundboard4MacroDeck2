@@ -31,7 +31,7 @@ public class SoundboardPlaybackEngine : IDisposable
 
     private void OnOutputDevicePlaybackStopped(object _, StoppedEventArgs e)
     {
-        MacroDeckLogger.Trace(Main.Instance, typeof(SoundboardPlaybackEngine), "Stopped:"+_internalId);
+        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Stopped:"+_internalId);
         PlaybackStopped?.Invoke(this, e);
     }
 
@@ -56,14 +56,14 @@ public class SoundboardPlaybackEngine : IDisposable
 
     public void Play()
     {
-        MacroDeckLogger.Trace(Main.Instance, typeof(SoundboardPlaybackEngine), "Play:"+_internalId);
+        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Play:"+_internalId);
         // AddMixerInput(audioReader);
         outputDevice.Play();
     }
 
     public void Stop()
     {
-        MacroDeckLogger.Trace(Main.Instance, typeof(SoundboardPlaybackEngine), "Stop:"+_internalId);
+        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Stop:"+_internalId);
         outputDevice?.Stop();
     }
     
@@ -93,7 +93,7 @@ public class SoundboardPlaybackEngine : IDisposable
             //latency = actionParameters.Latency;
             return devices.GetDevice(_actionParameters.OutputDeviceId);
         }
-        IOutputConfiguration globalParameters = Main.Configuration;
+        IOutputConfiguration globalParameters = PluginInstance.Configuration;
         //latency = globalParameters.Latency;
         return !globalParameters.MustGetDefaultDevice() //if
             ? devices.GetDevice(globalParameters.OutputDeviceId)

@@ -26,7 +26,7 @@ public static class SoundboardPlayer
         }
         catch (Exception e)
         {
-            MacroDeckLogger.Error(Main.Instance, typeof(SoundboardPlayer), e.Message);
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), e.Message);
         }
     }
 

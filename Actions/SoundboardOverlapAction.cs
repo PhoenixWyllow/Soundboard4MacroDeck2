@@ -54,7 +54,7 @@ public sealed class SoundboardOverlapAction : PluginAction
         catch (Exception ex)
         {
             SoundboardPlayer.StopAll();
-            MacroDeckLogger.Warning(Main.Instance, $"{GetType().Name}: {ex.Message}");
+            MacroDeckLogger.Warning(PluginInstance.Current, $"{GetType().Name}: {ex.Message}");
         }
     }
 }

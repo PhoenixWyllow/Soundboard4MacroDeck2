@@ -69,7 +69,7 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
         catch (Exception ex)
         {
             //forbidden, proxy issues, file not found (404) etc
-            MacroDeckLogger.Error(Main.Instance, typeof(SoundboardActionConfigViewModel), $"{nameof(GetFromUrlAsync)}: {ex.Message}");
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardActionConfigViewModel), $"{nameof(GetFromUrlAsync)}: {ex.Message}");
         }
 
         return success;

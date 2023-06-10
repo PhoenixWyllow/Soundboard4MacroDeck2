@@ -46,7 +46,7 @@ internal static class LocalizationManager
             {
                 //fallback - should never occur if things are done properly
                 Instance = new();
-                MacroDeckLogger.Warning(Main.Instance, $"{nameof(LocalizationManager)}.{nameof(GetLocalization)}: {ex.Message}");
+                MacroDeckLogger.Warning(PluginInstance.Current, $"{nameof(LocalizationManager)}.{nameof(GetLocalization)}: {ex.Message}");
             }
             finally
             {

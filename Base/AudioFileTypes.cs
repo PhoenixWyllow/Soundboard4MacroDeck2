@@ -53,8 +53,8 @@ internal class AudioFileTypes
         }
         extension = string.Empty;
 
-        MacroDeckLogger.Warning(Main.Instance, typeof(AudioFileTypes), "invalid file");
-        MacroDeckLogger.Info(Main.Instance, typeof(AudioFileTypes), fileHead.ToString());
+        MacroDeckLogger.Warning(PluginInstance.Current, typeof(AudioFileTypes), "invalid file");
+        MacroDeckLogger.Info(PluginInstance.Current, typeof(AudioFileTypes), fileHead.ToString());
         return false;
     }
 }

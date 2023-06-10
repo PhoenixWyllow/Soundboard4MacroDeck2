@@ -23,7 +23,7 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
     protected OutputDeviceConfigurationViewModel(IOutputConfiguration parameters)
     {
         OutputConfiguration = parameters;
-        _globalOutputConfiguration = parameters as GlobalParameters ?? Main.Configuration;
+        _globalOutputConfiguration = parameters as GlobalParameters ?? PluginInstance.Configuration;
     }
 
     //public void ResetLatency()
@@ -94,12 +94,12 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
         try
         {
             SetConfig();
-            MacroDeckLogger.Info(Main.Instance, $"{GetType().Name}: config saved");
+            MacroDeckLogger.Info(PluginInstance.Current, $"{GetType().Name}: config saved");
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: config NOT saved");
-            MacroDeckLogger.Error(Main.Instance, $"{GetType().Name}: {ex.Message}");
+            MacroDeckLogger.Error(PluginInstance.Current, $"{GetType().Name}: config NOT saved");
+            MacroDeckLogger.Error(PluginInstance.Current, $"{GetType().Name}: {ex.Message}");
         }
     }
 }

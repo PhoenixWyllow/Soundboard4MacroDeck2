@@ -18,7 +18,7 @@ public class Main : MacroDeckPlugin
     public override void Enable()
     {
         LocalizationManager.CreateInstance();
-        Instance = this;
+        PluginInstance.Current = this;
 
         Actions = new()
         {
@@ -38,6 +38,10 @@ public class Main : MacroDeckPlugin
         using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
         pluginConfig.ShowDialog();
     }
-    internal static MacroDeckPlugin Instance { get; set; }
-    internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Instance, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
+}
+internal static class PluginInstance
+{
+    internal static MacroDeckPlugin Current { get; set; }
+    internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Current, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
+
 }
