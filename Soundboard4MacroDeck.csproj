@@ -11,7 +11,6 @@
 	
 	<PropertyGroup>
 		<TargetFramework>net7.0-windows</TargetFramework>
-		<!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
 		<Platforms>AnyCPU;x64</Platforms>
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>Soundboard4MacroDeck</RootNamespace>
@@ -45,15 +44,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NAudio" Version="2.1.0" />
-		<PackageReference Include="NAudio.Extras" Version="2.1.0" />
+		<PackageReference Include="NAudio" Version="2.2.1" />
+		<PackageReference Include="NAudio.Extras" Version="2.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Macro Deck 2">
-			<HintPath>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Debug\net7.0-windows10.0.22000.0\win-x64\Macro Deck 2.dll</HintPath>
+			<HintPath>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Release\net7.0-windows10.0.22000.0\win-x64\Macro Deck 2.dll</HintPath>
 			<!--<HintPath>E:\Code\source\repos\MD\Macro-Deck\bin\Release\netcoreapp3.1\publish\Macro Deck 2.dll</HintPath>-->
-			<Private>false</Private>
+			<!--<Private>false</Private>-->
 		</Reference>
 	</ItemGroup>
 
@@ -90,7 +89,7 @@
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<ItemGroup>
-			<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\ExtensionManifest.json;$(OutDir)\ExtensionIcon.png" />
+			<PluginFiles Include="$(OutDir)\Soundboard4MacroDeck.dll;$(OutDir)\NAudio*.dll;$(OutDir)\ExtensionManifest.json;$(OutDir)\ExtensionIcon.png" />
 		</ItemGroup>
 		<Copy DestinationFolder="$(PluginFolder)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
 	</Target>

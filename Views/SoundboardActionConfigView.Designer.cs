@@ -1,5 +1,4 @@
-﻿
-using SuchByte.MacroDeck.GUI.CustomControls;
+﻿using SuchByte.MacroDeck.GUI.CustomControls;
 using System;
 using System.Windows.Forms;
 
@@ -192,7 +191,7 @@ namespace Soundboard4MacroDeck.Views
             this.comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBoxDevices.ForeColor = System.Drawing.Color.White;
             this.comboBoxDevices.Icon = null;
-            this.comboBoxDevices.Location = new System.Drawing.Point(265, 229);
+            this.comboBoxDevices.Location = new System.Drawing.Point(43, 260);
             this.comboBoxDevices.Name = "comboBoxDevices";
             this.comboBoxDevices.Padding = new System.Windows.Forms.Padding(8, 2, 8, 2);
             this.comboBoxDevices.SelectedIndex = -1;
@@ -234,7 +233,7 @@ namespace Soundboard4MacroDeck.Views
             // SoundboardActionConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.checkBoxSyncButtonState);
             this.Controls.Add(this.buttonGetFromURL);
             this.Controls.Add(this.fileBrowse);
