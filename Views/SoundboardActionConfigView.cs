@@ -3,6 +3,7 @@ using Soundboard4MacroDeck.ViewModels;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;
@@ -27,24 +28,15 @@ public partial class SoundboardActionConfigView : ActionConfigControl
         checkBoxOverrideDevice.Text = LocalizationManager.Instance.OverrideDefaultDevice;
         checkBoxSyncButtonState.Text = LocalizationManager.Instance.SyncButtonState;
         labelDevices.Text = LocalizationManager.Instance.OutputDevicesAction;
-        buttonGetFromURL.Text = LocalizationManager.Instance.ActionPlaySoundURLGet;
-        fileBrowse.Text = LocalizationManager.Instance.ActionPlaySoundFileBrowse;
-        filePath.PlaceHolderText = LocalizationManager.Instance.ActionPlaySoundFilePathPlaceholder;
-        labelFile.Text = LocalizationManager.Instance.ActionPlaySoundFilePath;
         labelVolume.Text = LocalizationManager.Instance.ActionPlaySoundVolume;
-        labelOr.Text = LocalizationManager.Instance.GenericLabelOr;
+        labelFile.Text = LocalizationManager.Instance.ActionPlaySoundFilePath;
     }
 
     public override bool OnActionSave()
     {
-        if (!_checkedFile)
-        {
-            CheckFileAsync();
-        }
-
         _viewModel.SaveConfig();
 
-        return _checkedFile;
+        return true;
     }
 
     private void SoundboardActionConfigView_Load(object sender, EventArgs e)
@@ -56,60 +48,13 @@ public partial class SoundboardActionConfigView : ActionConfigControl
         _viewModel.LoadDevices();
         comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
         _viewModel.LoadDeviceIndex();
+        comboBoxAudio.Items.AddRange(PluginInstance.DbContext.GetAudioFiles().ToArray());
+        if (_viewModel.SelectedAudioFile is not null)
+        {
+            comboBoxAudio.SelectedIndex = _viewModel.SelectedAudioFile.Id - 1;
+        }
 
         checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
-
-        // openFileDialog
-        string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
-        openFileDialog.Filter = @$"Audio File ({types})|{types}";
-        openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-        // filePath
-        if (!string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath))
-        {
-            filePath.Text = _viewModel.LastCheckedPath;
-        }
-        _checkedFile = string.IsNullOrWhiteSpace(_viewModel.LastCheckedPath);
-    }
-
-    private void CheckFileAsync()
-    {
-        bool hasFile = !_checkedFile
-                       && (filePath.Text.Equals(_viewModel.LastCheckedPath)
-                           || _viewModel.GetBytesFromFile(filePath.Text));
-        if (!hasFile)
-        {
-            filePath.Text = _viewModel.LastCheckedPath;
-            using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
-            messageBox.ShowDialog(LocalizationManager.Instance.ActionPlaySoundInvalidFile, LocalizationManager.Instance.ActionPlaySoundFileCouldNotUseFile, MessageBoxButtons.OK);
-            return;
-        }
-        _checkedFile = true;
-    }
-
-    private void FileBrowse_Click(object sender, EventArgs e)
-    {
-        if (openFileDialog.ShowDialog(ParentForm).Equals(DialogResult.OK))
-        {
-            _checkedFile = false;
-            filePath.Text = openFileDialog.FileName;
-            CheckFileAsync();
-        }
-    }
-
-    private void FilePath_TextChanged(object sender, EventArgs e)
-    {
-        _checkedFile = false;
-    }
-
-    private void ButtonGetFromURL_Click(object sender, EventArgs e)
-    {
-        using var getFromUrlDialog = new GetFileFromWebView(_viewModel);
-        if (getFromUrlDialog.ShowDialog(ParentForm) == DialogResult.OK)
-        {
-            filePath.Text = _viewModel.LastCheckedPath;
-            _checkedFile = true;
-        }
     }
 
     private void VolumeBar_ValueChanged(object sender, EventArgs e)
@@ -143,5 +88,10 @@ public partial class SoundboardActionConfigView : ActionConfigControl
     private void CheckBoxSyncButtonState_CheckedChanged(object sender, EventArgs e)
     {
         _viewModel.SyncButtonState = checkBoxSyncButtonState.Checked;
+    }
+
+    private void ComboBoxAudio_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        _viewModel.SelectedAudioFile = (Models.AudioFile)comboBoxAudio.SelectedItem;
     }
 }

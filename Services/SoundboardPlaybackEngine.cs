@@ -8,14 +8,14 @@ namespace Soundboard4MacroDeck.Services;
 
 public class SoundboardPlaybackEngine : IDisposable
 {
-    private readonly ActionParameters _actionParameters;
+    private readonly ActionParametersV2 _actionParameters;
     private readonly string _internalId;
     
     // private readonly MixingSampleProvider _mixer;
     private IWavePlayer outputDevice;
     private AudioReader audioReader;
     
-    public SoundboardPlaybackEngine(ActionParameters actionParameters, string internalId)
+    public SoundboardPlaybackEngine(ActionParametersV2 actionParameters, string internalId)
     {
         _actionParameters = actionParameters;
         _internalId = internalId;

@@ -72,7 +72,6 @@ namespace Soundboard4MacroDeck.Views
             this.urlBox.PlaceholderText = "URL";
             this.urlBox.Size = new System.Drawing.Size(448, 23);
             this.urlBox.TabIndex = 4;
-            this.urlBox.TextChanged += new System.EventHandler(this.UrlBox_TextChanged);
             // 
             // GetFileFromWebView
             // 

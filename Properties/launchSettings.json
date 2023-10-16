@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Soundboard4MacroDeck": {
+      "commandName": "Project"
+    },
+    "CurrentInstall": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Macro Deck\\Macro Deck 2.exe",
+      "commandLineArgs": "--show --loglevel 1 --debug-console"
+    }
+  }
+}

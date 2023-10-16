@@ -19,6 +19,7 @@ public class Main : MacroDeckPlugin
     {
         LocalizationManager.CreateInstance();
         PluginInstance.Current = this;
+        PluginInstance.DbContext = new SoundboardContext();
 
         Actions = new()
         {
@@ -28,6 +29,13 @@ public class Main : MacroDeckPlugin
             new SoundboardLoopAction(),
             new SoundboardStopAction(),
         };
+
+        if (PluginInstance.DbContext.IsInitialCreate)
+        {
+            SuchByte.MacroDeck.MacroDeck.OnMacroDeckLoaded += (_, _) => ConfigUpdater.MoveToContext();
+        }
+
+        SoundboardContext.AddBackupCreationHook();
     }
 
     /// <summary>
@@ -35,12 +43,13 @@ public class Main : MacroDeckPlugin
     /// </summary>
     public override void OpenConfigurator()
     {
-        using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
+        using var pluginConfig = new Views.SoundboardGlobalConfigViewV2(this);
         pluginConfig.ShowDialog();
     }
 }
 internal static class PluginInstance
 {
+    internal static SoundboardContext DbContext { get; set; }
     internal static MacroDeckPlugin Current { get; set; }
     internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Current, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 

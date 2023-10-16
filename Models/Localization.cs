@@ -35,4 +35,7 @@ internal sealed class Localization
     public string ActionStopSoundName { get; set; } = "Stop all sounds";
     public string ActionStopSoundDescription { get; set; } = "Forces stop of all currently playing sounds";
     public string SyncButtonState { get; set; } = "Sync button state with audio";
+    public string GlobalConfigOutputDevice { get; set; } = "Output device";
+    public string GlobalConfigAudioFiles { get; set; } = "Audio files";
+    public string GlobalConfigAudioCategories { get; set; } = "Audio categories";
 }

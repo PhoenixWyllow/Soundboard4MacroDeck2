@@ -117,4 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="audioFileAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAADBSURBVFhH7ZZvCsIwDMV7JK8jMpB5kF1kJyr9c5x90pkH
+        r1D7RRmSgOYHj4WwpmnWdA2O4xyl1npKKS0QbLr1yDlPoo2a6NZDJp1FOzXTrYeU/hpjfECw6dbDEzBP
+        oJRybgnApvt7oLfRXhL8hhUOuojWrgIrfS/vYSxiHDonJMAig7c2yaA7nmzBvfeNQgzEYtjPMU/A/BO8
+        AxuvJQCbbj2wwq4CfhD9YQKyu21/x2gvkd2FBL0tpbe7kjnOjxDCE9ict9z0eBbbAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="categoriesAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAADASURBVFhH7ZZvCsIwDMV7JK8jMpB5kF1kN+q/4+yTzjx4
+        hdovypAEND94LIQ1TbOma3Ac5yi11lNKaYFg061HznkSbdREtx4y6SzaqZluPaT01xjjA4JNtx6egHkC
+        pZRzSwA23d8DvY32kuA3rHDQRbR2FVjpe3kPYxHj0DkhARYZvLVJBt3xZAvuvW8UYiAWw36OeQLmn+Ad
+        2HgtAdh064EVdhXwg+gPE5Ddbfs7RnuJ7C4k6G0pvd2VzHF+hBCewvW4eJtjyDwAAAAASUVORK5CYII=
+</value>
+  </data>
 </root>

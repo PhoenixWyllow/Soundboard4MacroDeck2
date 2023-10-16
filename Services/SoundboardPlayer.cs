@@ -14,11 +14,7 @@ public static class SoundboardPlayer
 {
     public static void Execute(SoundboardActions action, string config, ActionButton actionButton)
     {
-        var actionParameters = ActionParameters.Deserialize(config);
-        if (actionParameters.FileData is null)
-        {
-            return;
-        }
+        var actionParameters = ActionParametersV2.Deserialize(config);
 
         try
         {
@@ -69,7 +65,7 @@ public static class SoundboardPlayer
         playbackEngine?.Dispose();
     }
 
-    private static void Play(SoundboardActions action, ActionParameters actionParameters, ActionButton actionButton)
+    private static void Play(SoundboardActions action, ActionParametersV2 actionParameters, ActionButton actionButton)
     {
         switch (action)
         {
@@ -96,7 +92,7 @@ public static class SoundboardPlayer
 
     }
 
-    private static void PlayOrStop(ActionParameters actionParameters, ActionButton actionButton, bool enableLoop = false)
+    private static void PlayOrStop(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false)
     {
         bool currentlyPlaying = ActivePlaybackEngines.Any(p => p.Equals(actionButton.Guid));
         if (currentlyPlaying)
@@ -109,8 +105,13 @@ public static class SoundboardPlayer
         }
     }
 
-    private static void PlayAudio(ActionParameters actionParameters, ActionButton actionButton, bool enableLoop = false)
+    private static void PlayAudio(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false)
     {
+        actionParameters.FileData = PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId).Data;
+        if (actionParameters.FileData is null)
+        {
+            return;
+        }
         var playbackEngine = new SoundboardPlaybackEngine(actionParameters, actionButton.Guid);
         if (actionParameters.SyncButtonState)
         {
