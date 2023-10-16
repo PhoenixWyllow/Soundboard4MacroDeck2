@@ -2,6 +2,9 @@
 using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.Models;
+using System;
+using SuchByte.MacroDeck.GUI.CustomControls;
+using Soundboard4MacroDeck.Properties;
 
 namespace Soundboard4MacroDeck;
 
@@ -36,6 +39,20 @@ public class Main : MacroDeckPlugin
         }
 
         SoundboardContext.AddBackupCreationHook();
+        SuchByte.MacroDeck.MacroDeck.OnMainWindowLoad += MacroDeck_OnMainWindowLoad;
+    }
+
+    private void MacroDeck_OnMainWindowLoad(object sender, EventArgs e)
+    {
+        if (sender is SuchByte.MacroDeck.GUI.MainWindow mainWindow)
+        {
+            ContentSelectorButton statusButton = new()
+            {
+                BackgroundImage = Resources.SoundboardIcon,
+            };
+            statusButton.Click += (_, _) => OpenConfigurator();
+            mainWindow.contentButtonPanel.Controls.Add(statusButton);
+        }
     }
 
     /// <summary>

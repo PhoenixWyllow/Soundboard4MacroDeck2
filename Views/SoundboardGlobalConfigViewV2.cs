@@ -95,7 +95,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
 
         audioFilesList = new(_viewModel.AudioFiles);
         audioFilesTable.DataSource = audioFilesList;
-        audioFilesTable.CellEndEdit += AudioFilesTable_CellEndEdit; 
+        audioFilesTable.CellEndEdit += AudioFilesTable_CellEndEdit;
     }
 
     private void AudioFileAdd_Click(object sender, EventArgs e)
@@ -127,11 +127,9 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     {
         try
         {
-            var row = categoriesTable.Rows[e.RowIndex];
-            _viewModel.UpdateCategory(
-                (int)row.Cells[nameof(AudioCategory.Id)].Value,
-                (string)row.Cells[nameof(AudioCategory.Name)].Value
-                );
+            var editedRow = categoriesTable.Rows[e.RowIndex];
+            AudioCategory editedItem = (AudioCategory)editedRow.DataBoundItem;
+            _viewModel.UpdateCategory(editedItem.Id, editedItem.Name);
         }
         catch (Exception ex)
         {
@@ -142,12 +140,9 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     {
         try
         {
-            var row = audioFilesTable.Rows[e.RowIndex];
-            _viewModel.UpdateAudioFile(
-                (int)row.Cells[nameof(AudioFileItem.Id)].Value, 
-                (string)row.Cells[nameof(AudioFileItem.Name)].Value, 
-                (int)row.Cells[nameof(AudioFileItem.CategoryId)].Value
-                );
+            var editedRow = audioFilesTable.Rows[e.RowIndex];
+            AudioFileItem editedItem = (AudioFileItem)editedRow.DataBoundItem;
+            _viewModel.UpdateAudioFile(editedItem.Id, editedItem.Name, editedItem.CategoryId);
         }
         catch (Exception ex)
         {
@@ -161,6 +156,8 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
 
     private void ButtonOK_Click(object sender, EventArgs e)
     {
+        audioFilesTable.EndEdit();
+        categoriesTable.EndEdit();
         _viewModel.SaveConfig();
     }
 
