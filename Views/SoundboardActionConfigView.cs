@@ -48,13 +48,20 @@ public partial class SoundboardActionConfigView : ActionConfigControl
         _viewModel.LoadDevices();
         comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
         _viewModel.LoadDeviceIndex();
-        comboBoxAudio.Items.AddRange(PluginInstance.DbContext.GetAudioFiles().ToArray());
-        if (_viewModel.SelectedAudioFile is not null)
-        {
-            comboBoxAudio.SelectedIndex = _viewModel.SelectedAudioFile.Id - 1;
-        }
+
+        LoadAudioFileSelection();
 
         checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
+    }
+
+    private void LoadAudioFileSelection()
+    {
+        comboBoxAudio.Items.Clear();
+        comboBoxAudio.Items.AddRange(PluginInstance.DbContext.GetAudioFilesArray());
+        if (_viewModel.SelectedAudioFile is not null)
+        {
+            comboBoxAudio.SelectedIndex = comboBoxAudio.Items.IndexOf(_viewModel.SelectedAudioFile);
+        }
     }
 
     private void VolumeBar_ValueChanged(object sender, EventArgs e)
@@ -93,5 +100,14 @@ public partial class SoundboardActionConfigView : ActionConfigControl
     private void ComboBoxAudio_SelectedIndexChanged(object sender, EventArgs e)
     {
         _viewModel.SelectedAudioFile = (Models.AudioFile)comboBoxAudio.SelectedItem;
+    }
+
+    private void ButtonAddAudio_Click(object sender, EventArgs e)
+    {
+        using var audioAddDialog = SoundboardGlobalConfigViewV2.NewAtPage(SoundboardGlobalConfigViewV2Page.Audio);
+        if (audioAddDialog.ShowDialog(ParentForm) == DialogResult.OK)
+        {
+            LoadAudioFileSelection();
+        }
     }
 }

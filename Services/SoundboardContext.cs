@@ -69,6 +69,11 @@ internal class SoundboardContext
         return Db.Table<AudioFile>().ToList();
     }
 
+    public AudioFile[] GetAudioFilesArray()
+    {
+        return Db.Table<AudioFile>().ToArray();
+    }
+
     public int InsertAudioFile(AudioFile audioFile)
     {
         Db.Insert(audioFile);

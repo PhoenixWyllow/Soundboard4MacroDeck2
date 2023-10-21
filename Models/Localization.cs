@@ -12,7 +12,7 @@ internal sealed class Localization
     public string ActionPlaySoundName { get; set; } = "Play sound";
     public string ActionPlaySoundDescription { get; set; } = "Plays the configured file";
     public string ActionPlaySoundVolume { get; set; } = "Volume";
-    public string ActionPlaySoundFilePath { get; set; } = "File path";
+    public string ActionPlaySoundFilePath { get; set; } = "File";
     public string ActionPlaySoundFilePathPlaceholder { get; set; } = "Get local file";
     public string ActionPlaySoundFileBrowse { get; set; } = "Browse";
     public string ActionPlaySoundURLGet { get; set; } = "Get from URL";

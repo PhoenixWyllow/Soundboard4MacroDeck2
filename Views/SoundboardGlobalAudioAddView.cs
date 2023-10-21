@@ -43,12 +43,11 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
         string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
         openFileDialog.Filter = @$"Audio File ({types})|{types}";
         openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
     }
 
     private void FileBrowse_Click(object sender, EventArgs e)
     {
-        if (openFileDialog.ShowDialog(ParentForm).Equals(DialogResult.OK))
+        if (openFileDialog.ShowDialog(this) == DialogResult.OK)
         {
             fromUrl = false;
             filePath.Text = openFileDialog.FileName;

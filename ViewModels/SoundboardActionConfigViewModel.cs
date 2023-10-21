@@ -50,6 +50,7 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
             selectedAudioFile = value;
             Parameters.AudioFileId = value.Id;
             Parameters.FileName = value.Name;
+            Parameters.FileData = value.Data;
         }
     }
 }

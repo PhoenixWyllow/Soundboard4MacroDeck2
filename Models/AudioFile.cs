@@ -1,6 +1,4 @@
 ﻿using SQLite;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Soundboard4MacroDeck.Models;
 
@@ -11,12 +9,27 @@ public sealed class AudioFile
     public string Name { get; set; }
     public byte[] Data { get; set; }
 
-    [ForeignKey(nameof(AudioCategory.Id))]
+    [Indexed]
     public int CategoryId { get; set; }
 
     public override string ToString()
     {
         return $"{Id} - {Name}";
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is AudioFile audioFile && Equals(audioFile);
+    }
+
+    public bool Equals(AudioFile audioFile)
+    {
+        return Id == audioFile.Id;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }
 

@@ -31,26 +31,26 @@ namespace Soundboard4MacroDeck.Views
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoundboardGlobalConfigViewV2));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             comboBoxDevices = new SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox();
             buttonOK = new SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary();
-            labelDevices = new System.Windows.Forms.Label();
-            linkLabelResetDevice = new System.Windows.Forms.LinkLabel();
-            outputPage = new System.Windows.Forms.TabPage();
-            audioFilePage = new System.Windows.Forms.TabPage();
-            toolStrip2 = new System.Windows.Forms.ToolStrip();
-            audioFileAdd = new System.Windows.Forms.ToolStripButton();
-            audioFilesTable = new System.Windows.Forms.DataGridView();
-            setupPage = new System.Windows.Forms.TabPage();
-            toolStrip1 = new System.Windows.Forms.ToolStrip();
-            categoriesAdd = new System.Windows.Forms.ToolStripButton();
-            categoriesTable = new System.Windows.Forms.DataGridView();
+            labelDevices = new Label();
+            linkLabelResetDevice = new LinkLabel();
+            outputPage = new TabPage();
+            audioFilePage = new TabPage();
+            toolStrip2 = new ToolStrip();
+            audioFileAdd = new ToolStripButton();
+            audioFilesTable = new DataGridView();
+            categoryPage = new TabPage();
+            toolStrip1 = new ToolStrip();
+            categoriesAdd = new ToolStripButton();
+            categoriesTable = new DataGridView();
             navigation = new SuchByte.MacroDeck.GUI.CustomControls.VerticalTabControl();
             outputPage.SuspendLayout();
             audioFilePage.SuspendLayout();
             toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)audioFilesTable).BeginInit();
-            setupPage.SuspendLayout();
+            categoryPage.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)categoriesTable).BeginInit();
             navigation.SuspendLayout();
@@ -59,14 +59,14 @@ namespace Soundboard4MacroDeck.Views
             // comboBoxDevices
             // 
             comboBoxDevices.BackColor = System.Drawing.Color.DimGray;
-            comboBoxDevices.Cursor = System.Windows.Forms.Cursors.Hand;
-            comboBoxDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxDevices.Cursor = Cursors.Hand;
+            comboBoxDevices.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             comboBoxDevices.ForeColor = System.Drawing.Color.White;
             comboBoxDevices.Icon = null;
             comboBoxDevices.Location = new System.Drawing.Point(6, 45);
             comboBoxDevices.Name = "comboBoxDevices";
-            comboBoxDevices.Padding = new System.Windows.Forms.Padding(8, 2, 8, 2);
+            comboBoxDevices.Padding = new Padding(8, 2, 8, 2);
             comboBoxDevices.SelectedIndex = -1;
             comboBoxDevices.SelectedItem = null;
             comboBoxDevices.Size = new System.Drawing.Size(404, 34);
@@ -76,14 +76,14 @@ namespace Soundboard4MacroDeck.Views
             // buttonOK
             // 
             buttonOK.BorderRadius = 8;
-            buttonOK.Cursor = System.Windows.Forms.Cursors.Hand;
-            buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            buttonOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonOK.Cursor = Cursors.Hand;
+            buttonOK.DialogResult = DialogResult.OK;
+            buttonOK.FlatStyle = FlatStyle.Flat;
             buttonOK.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             buttonOK.ForeColor = System.Drawing.Color.White;
             buttonOK.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
             buttonOK.Icon = null;
-            buttonOK.Location = new System.Drawing.Point(824, 444);
+            buttonOK.Location = new System.Drawing.Point(824, 467);
             buttonOK.Name = "buttonOK";
             buttonOK.Progress = 0;
             buttonOK.ProgressColor = System.Drawing.Color.FromArgb(0, 46, 94);
@@ -126,7 +126,7 @@ namespace Soundboard4MacroDeck.Views
             outputPage.Controls.Add(comboBoxDevices);
             outputPage.Location = new System.Drawing.Point(204, 4);
             outputPage.Name = "outputPage";
-            outputPage.Padding = new System.Windows.Forms.Padding(3);
+            outputPage.Padding = new Padding(3);
             outputPage.Size = new System.Drawing.Size(688, 423);
             outputPage.TabIndex = 0;
             outputPage.Text = "outputPage";
@@ -138,7 +138,7 @@ namespace Soundboard4MacroDeck.Views
             audioFilePage.Controls.Add(audioFilesTable);
             audioFilePage.Location = new System.Drawing.Point(204, 4);
             audioFilePage.Name = "audioFilePage";
-            audioFilePage.Padding = new System.Windows.Forms.Padding(3);
+            audioFilePage.Padding = new Padding(3);
             audioFilePage.Size = new System.Drawing.Size(688, 423);
             audioFilePage.TabIndex = 1;
             audioFilePage.Text = "audioFilePage";
@@ -147,7 +147,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             toolStrip2.BackColor = System.Drawing.Color.Transparent;
             toolStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
-            toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { audioFileAdd });
+            toolStrip2.Items.AddRange(new ToolStripItem[] { audioFileAdd });
             toolStrip2.Location = new System.Drawing.Point(3, 3);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.Size = new System.Drawing.Size(682, 33);
@@ -156,7 +156,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             // audioFileAdd
             // 
-            audioFileAdd.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            audioFileAdd.Alignment = ToolStripItemAlignment.Right;
             audioFileAdd.ForeColor = System.Drawing.Color.Black;
             audioFileAdd.Image = (System.Drawing.Image)resources.GetObject("audioFileAdd.Image");
             audioFileAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -168,45 +168,46 @@ namespace Soundboard4MacroDeck.Views
             audioFilesTable.AllowUserToAddRows = false;
             audioFilesTable.AllowUserToDeleteRows = false;
             audioFilesTable.AllowUserToResizeRows = false;
-            audioFilesTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            audioFilesTable.BackgroundColor = System.Drawing.SystemColors.ControlDarkDark;
-            audioFilesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            audioFilesTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             audioFilesTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            audioFilesTable.BackgroundColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            audioFilesTable.BorderStyle = BorderStyle.None;
+            audioFilesTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
             audioFilesTable.DefaultCellStyle = dataGridViewCellStyle1;
-            audioFilesTable.Dock = System.Windows.Forms.DockStyle.Bottom;
+            audioFilesTable.Dock = DockStyle.Bottom;
             audioFilesTable.Location = new System.Drawing.Point(3, 36);
             audioFilesTable.MultiSelect = false;
             audioFilesTable.Name = "audioFilesTable";
             audioFilesTable.RowHeadersWidth = 10;
             audioFilesTable.RowTemplate.Height = 33;
-            audioFilesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            audioFilesTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             audioFilesTable.Size = new System.Drawing.Size(682, 384);
             audioFilesTable.TabIndex = 0;
             // 
-            // setupPage
+            // categoryPage
             // 
-            setupPage.BackColor = System.Drawing.Color.FromArgb(45, 45, 45);
-            setupPage.Controls.Add(toolStrip1);
-            setupPage.Controls.Add(categoriesTable);
-            setupPage.Location = new System.Drawing.Point(204, 4);
-            setupPage.Name = "setupPage";
-            setupPage.Padding = new System.Windows.Forms.Padding(3);
-            setupPage.Size = new System.Drawing.Size(688, 423);
-            setupPage.TabIndex = 2;
-            setupPage.Text = "setupPage";
+            categoryPage.BackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            categoryPage.Controls.Add(toolStrip1);
+            categoryPage.Controls.Add(categoriesTable);
+            categoryPage.Location = new System.Drawing.Point(204, 4);
+            categoryPage.Name = "categoryPage";
+            categoryPage.Padding = new Padding(3);
+            categoryPage.Size = new System.Drawing.Size(688, 423);
+            categoryPage.TabIndex = 2;
+            categoryPage.Text = "categoryPage";
             // 
             // toolStrip1
             // 
-            toolStrip1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            toolStrip1.BackColor = System.Drawing.Color.Transparent;
             toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { categoriesAdd });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { categoriesAdd });
             toolStrip1.Location = new System.Drawing.Point(3, 3);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new System.Drawing.Size(682, 33);
@@ -215,7 +216,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             // categoriesAdd
             // 
-            categoriesAdd.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            categoriesAdd.Alignment = ToolStripItemAlignment.Right;
             categoriesAdd.ForeColor = System.Drawing.Color.Black;
             categoriesAdd.Image = (System.Drawing.Image)resources.GetObject("categoriesAdd.Image");
             categoriesAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -224,48 +225,49 @@ namespace Soundboard4MacroDeck.Views
             // 
             // categoriesTable
             // 
-            categoriesTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
-            categoriesTable.BackgroundColor = System.Drawing.SystemColors.Window;
-            categoriesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            categoriesTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
             categoriesTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            categoriesTable.BackgroundColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            categoriesTable.BorderStyle = BorderStyle.None;
+            categoriesTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             categoriesTable.DefaultCellStyle = dataGridViewCellStyle1;
-            categoriesTable.Dock = System.Windows.Forms.DockStyle.Bottom;
+            categoriesTable.Dock = DockStyle.Bottom;
             categoriesTable.Location = new System.Drawing.Point(3, 38);
             categoriesTable.Name = "categoriesTable";
             categoriesTable.RowHeadersWidth = 10;
-            categoriesTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            categoriesTable.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             categoriesTable.RowTemplate.Height = 33;
-            categoriesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            categoriesTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             categoriesTable.Size = new System.Drawing.Size(682, 382);
             categoriesTable.TabIndex = 0;
             // 
             // navigation
             // 
-            navigation.Alignment = System.Windows.Forms.TabAlignment.Left;
+            navigation.Alignment = TabAlignment.Left;
             navigation.Controls.Add(outputPage);
             navigation.Controls.Add(audioFilePage);
-            navigation.Controls.Add(setupPage);
+            navigation.Controls.Add(categoryPage);
             navigation.ItemSize = new System.Drawing.Size(44, 200);
-            navigation.Location = new System.Drawing.Point(3, 3);
+            navigation.Location = new System.Drawing.Point(3, 28);
             navigation.Multiline = true;
             navigation.Name = "navigation";
             navigation.SelectedIndex = 0;
             navigation.SelectedTabColor = System.Drawing.Color.FromArgb(0, 103, 205);
             navigation.Size = new System.Drawing.Size(896, 431);
-            navigation.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            navigation.SizeMode = TabSizeMode.Fixed;
             navigation.TabIndex = 7;
             navigation.Selecting += Navigation_Selecting;
             // 
             // SoundboardGlobalConfigViewV2
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(907, 490);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(907, 503);
             Controls.Add(navigation);
             Controls.Add(buttonOK);
             Location = new System.Drawing.Point(0, 0);
             Name = "SoundboardGlobalConfigViewV2";
-            Padding = new System.Windows.Forms.Padding(20);
+            Padding = new Padding(20);
             Text = "GlobalConfig";
             Load += SoundboardGlobalConfigView_Load;
             Controls.SetChildIndex(buttonOK, 0);
@@ -277,8 +279,8 @@ namespace Soundboard4MacroDeck.Views
             toolStrip2.ResumeLayout(false);
             toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)audioFilesTable).EndInit();
-            setupPage.ResumeLayout(false);
-            setupPage.PerformLayout();
+            categoryPage.ResumeLayout(false);
+            categoryPage.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)categoriesTable).EndInit();
@@ -289,17 +291,17 @@ namespace Soundboard4MacroDeck.Views
         #endregion
         private SuchByte.MacroDeck.GUI.CustomControls.RoundedComboBox comboBoxDevices;
         private SuchByte.MacroDeck.GUI.CustomControls.ButtonPrimary buttonOK;
-        private System.Windows.Forms.Label labelDevices;
-        private System.Windows.Forms.LinkLabel linkLabelResetDevice;
+        private Label labelDevices;
+        private LinkLabel linkLabelResetDevice;
         private SuchByte.MacroDeck.GUI.CustomControls.VerticalTabControl navigation;
-        private System.Windows.Forms.TabPage outputPage;
-        private System.Windows.Forms.TabPage audioFilePage;
-        private System.Windows.Forms.TabPage setupPage;
-        private System.Windows.Forms.DataGridView audioFilesTable;
-        private System.Windows.Forms.DataGridView categoriesTable;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton categoriesAdd;
-        private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton audioFileAdd;
+        private TabPage outputPage;
+        private TabPage audioFilePage;
+        private TabPage categoryPage;
+        private DataGridView audioFilesTable;
+        private DataGridView categoriesTable;
+        private ToolStrip toolStrip1;
+        private ToolStripButton categoriesAdd;
+        private ToolStrip toolStrip2;
+        private ToolStripButton audioFileAdd;
     }
 }

@@ -107,7 +107,7 @@ public static class SoundboardPlayer
 
     private static void PlayAudio(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false)
     {
-        actionParameters.FileData = PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId).Data;
+        actionParameters.FileData ??= PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId).Data;
         if (actionParameters.FileData is null)
         {
             return;

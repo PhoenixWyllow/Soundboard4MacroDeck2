@@ -1,5 +1,7 @@
 ﻿using SuchByte.MacroDeck.GUI.CustomControls;
+using SuchByte.MacroDeck.Properties;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views
@@ -32,6 +34,7 @@ namespace Soundboard4MacroDeck.Views
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoundboardActionConfigView));
             volumeBar = new TrackBar();
             labelFile = new Label();
             labelVolume = new Label();
@@ -41,16 +44,18 @@ namespace Soundboard4MacroDeck.Views
             checkBoxOverrideDevice = new CheckBox();
             checkBoxSyncButtonState = new CheckBox();
             comboBoxAudio = new RoundedComboBox();
+            buttonAddAudio = new PictureButton();
             ((System.ComponentModel.ISupportInitialize)volumeBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)volumeNum).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)buttonAddAudio).BeginInit();
             SuspendLayout();
             // 
             // volumeBar
             // 
-            volumeBar.Location = new System.Drawing.Point(74, 297);
+            volumeBar.Location = new Point(74, 297);
             volumeBar.Maximum = 100;
             volumeBar.Name = "volumeBar";
-            volumeBar.Size = new System.Drawing.Size(510, 69);
+            volumeBar.Size = new Size(510, 69);
             volumeBar.TabIndex = 4;
             volumeBar.TickFrequency = 10;
             volumeBar.TickStyle = TickStyle.Both;
@@ -59,33 +64,33 @@ namespace Soundboard4MacroDeck.Views
             // labelFile
             // 
             labelFile.AutoSize = true;
-            labelFile.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            labelFile.Location = new System.Drawing.Point(43, 53);
+            labelFile.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            labelFile.Location = new Point(43, 53);
             labelFile.Name = "labelFile";
-            labelFile.Size = new System.Drawing.Size(99, 28);
+            labelFile.Size = new Size(46, 28);
             labelFile.TabIndex = 6;
-            labelFile.Text = "File path";
-            labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelFile.Text = "File";
+            labelFile.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labelVolume
             // 
             labelVolume.AutoSize = true;
-            labelVolume.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            labelVolume.Location = new System.Drawing.Point(43, 253);
+            labelVolume.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            labelVolume.Location = new Point(43, 253);
             labelVolume.Name = "labelVolume";
-            labelVolume.Size = new System.Drawing.Size(87, 28);
+            labelVolume.Size = new Size(87, 28);
             labelVolume.TabIndex = 7;
             labelVolume.Text = "Volume";
-            labelVolume.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelVolume.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // volumeNum
             // 
-            volumeNum.BackColor = System.Drawing.Color.DimGray;
-            volumeNum.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            volumeNum.ForeColor = System.Drawing.Color.White;
-            volumeNum.Location = new System.Drawing.Point(624, 316);
+            volumeNum.BackColor = Color.DimGray;
+            volumeNum.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            volumeNum.ForeColor = Color.White;
+            volumeNum.Location = new Point(624, 316);
             volumeNum.Name = "volumeNum";
-            volumeNum.Size = new System.Drawing.Size(91, 31);
+            volumeNum.Size = new Size(91, 31);
             volumeNum.TabIndex = 8;
             volumeNum.TextAlign = HorizontalAlignment.Center;
             volumeNum.ValueChanged += VolumeNum_ValueChanged;
@@ -93,41 +98,41 @@ namespace Soundboard4MacroDeck.Views
             // labelDevices
             // 
             labelDevices.AutoSize = true;
-            labelDevices.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            labelDevices.Location = new System.Drawing.Point(43, 403);
+            labelDevices.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDevices.Location = new Point(43, 403);
             labelDevices.Name = "labelDevices";
-            labelDevices.Size = new System.Drawing.Size(230, 28);
+            labelDevices.Size = new Size(230, 28);
             labelDevices.TabIndex = 10;
             labelDevices.Text = "Default output device";
-            labelDevices.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelDevices.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // comboBoxDevices
             // 
-            comboBoxDevices.BackColor = System.Drawing.Color.DimGray;
+            comboBoxDevices.BackColor = Color.DimGray;
             comboBoxDevices.Cursor = Cursors.Hand;
             comboBoxDevices.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            comboBoxDevices.ForeColor = System.Drawing.Color.White;
+            comboBoxDevices.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxDevices.ForeColor = Color.White;
             comboBoxDevices.Icon = null;
-            comboBoxDevices.Location = new System.Drawing.Point(74, 514);
+            comboBoxDevices.Location = new Point(74, 514);
             comboBoxDevices.Name = "comboBoxDevices";
             comboBoxDevices.Padding = new Padding(8, 2, 8, 2);
             comboBoxDevices.SelectedIndex = -1;
             comboBoxDevices.SelectedItem = null;
-            comboBoxDevices.Size = new System.Drawing.Size(632, 36);
+            comboBoxDevices.Size = new Size(632, 36);
             comboBoxDevices.TabIndex = 9;
             comboBoxDevices.SelectedIndexChanged += ComboBoxDevices_SelectedIndexChanged;
             // 
             // checkBoxOverrideDevice
             // 
             checkBoxOverrideDevice.AutoSize = true;
-            checkBoxOverrideDevice.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxOverrideDevice.CheckAlign = ContentAlignment.MiddleRight;
             checkBoxOverrideDevice.Checked = true;
             checkBoxOverrideDevice.CheckState = CheckState.Checked;
-            checkBoxOverrideDevice.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            checkBoxOverrideDevice.Location = new System.Drawing.Point(65, 462);
+            checkBoxOverrideDevice.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBoxOverrideDevice.Location = new Point(65, 462);
             checkBoxOverrideDevice.Name = "checkBoxOverrideDevice";
-            checkBoxOverrideDevice.Size = new System.Drawing.Size(307, 28);
+            checkBoxOverrideDevice.Size = new Size(307, 28);
             checkBoxOverrideDevice.TabIndex = 11;
             checkBoxOverrideDevice.Text = "Override default output device";
             checkBoxOverrideDevice.UseVisualStyleBackColor = true;
@@ -136,13 +141,13 @@ namespace Soundboard4MacroDeck.Views
             // checkBoxSyncButtonState
             // 
             checkBoxSyncButtonState.AutoSize = true;
-            checkBoxSyncButtonState.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxSyncButtonState.CheckAlign = ContentAlignment.MiddleRight;
             checkBoxSyncButtonState.Checked = true;
             checkBoxSyncButtonState.CheckState = CheckState.Checked;
-            checkBoxSyncButtonState.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            checkBoxSyncButtonState.Location = new System.Drawing.Point(43, 171);
+            checkBoxSyncButtonState.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBoxSyncButtonState.Location = new Point(43, 171);
             checkBoxSyncButtonState.Name = "checkBoxSyncButtonState";
-            checkBoxSyncButtonState.Size = new System.Drawing.Size(329, 32);
+            checkBoxSyncButtonState.Size = new Size(329, 32);
             checkBoxSyncButtonState.TabIndex = 12;
             checkBoxSyncButtonState.Text = "Sync button state with audio";
             checkBoxSyncButtonState.UseVisualStyleBackColor = true;
@@ -150,25 +155,41 @@ namespace Soundboard4MacroDeck.Views
             // 
             // comboBoxAudio
             // 
-            comboBoxAudio.BackColor = System.Drawing.Color.DimGray;
+            comboBoxAudio.BackColor = Color.DimGray;
             comboBoxAudio.Cursor = Cursors.Hand;
             comboBoxAudio.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxAudio.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            comboBoxAudio.ForeColor = System.Drawing.Color.White;
+            comboBoxAudio.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxAudio.ForeColor = Color.White;
             comboBoxAudio.Icon = null;
-            comboBoxAudio.Location = new System.Drawing.Point(74, 95);
+            comboBoxAudio.Location = new Point(74, 95);
             comboBoxAudio.Name = "comboBoxAudio";
             comboBoxAudio.Padding = new Padding(8, 2, 8, 2);
             comboBoxAudio.SelectedIndex = -1;
             comboBoxAudio.SelectedItem = null;
-            comboBoxAudio.Size = new System.Drawing.Size(632, 36);
+            comboBoxAudio.Size = new Size(632, 36);
             comboBoxAudio.TabIndex = 13;
             comboBoxAudio.SelectedIndexChanged += ComboBoxAudio_SelectedIndexChanged;
             // 
+            // buttonAddAudio
+            // 
+            buttonAddAudio.BackColor = Color.Transparent;
+            buttonAddAudio.BackgroundImage = (Image)resources.GetObject("buttonAddAudio.BackgroundImage");
+            buttonAddAudio.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonAddAudio.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonAddAudio.ForeColor = Color.White;
+            buttonAddAudio.HoverImage = (Image)resources.GetObject("buttonAddAudio.HoverImage");
+            buttonAddAudio.Location = new Point(729, 101);
+            buttonAddAudio.Name = "buttonAddAudio";
+            buttonAddAudio.Size = new Size(25, 25);
+            buttonAddAudio.TabIndex = 14;
+            buttonAddAudio.TabStop = false;
+            buttonAddAudio.Click += ButtonAddAudio_Click;
+            // 
             // SoundboardActionConfigView
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            AutoScaleDimensions = new SizeF(144F, 144F);
             AutoScaleMode = AutoScaleMode.Dpi;
+            Controls.Add(buttonAddAudio);
             Controls.Add(comboBoxAudio);
             Controls.Add(checkBoxSyncButtonState);
             Controls.Add(checkBoxOverrideDevice);
@@ -180,10 +201,11 @@ namespace Soundboard4MacroDeck.Views
             Controls.Add(volumeBar);
             Margin = new Padding(58, 31, 58, 31);
             Name = "SoundboardActionConfigView";
-            Size = new System.Drawing.Size(804, 639);
+            Size = new Size(804, 639);
             Load += SoundboardActionConfigView_Load;
             ((System.ComponentModel.ISupportInitialize)volumeBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)volumeNum).EndInit();
+            ((System.ComponentModel.ISupportInitialize)buttonAddAudio).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -198,5 +220,6 @@ namespace Soundboard4MacroDeck.Views
         private CheckBox checkBoxOverrideDevice;
         private CheckBox checkBoxSyncButtonState;
         private RoundedComboBox comboBoxAudio;
+        private PictureButton buttonAddAudio;
     }
 }

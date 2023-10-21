@@ -54,6 +54,7 @@ partial class SoundboardGlobalAudioAddView
         // filePath
         // 
         filePath.BackColor = System.Drawing.Color.DimGray;
+        filePath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
         filePath.ForeColor = System.Drawing.Color.White;
         filePath.Icon = null;
         filePath.Location = new System.Drawing.Point(51, 92);
@@ -68,54 +69,52 @@ partial class SoundboardGlobalAudioAddView
         filePath.ReadOnly = false;
         filePath.ScrollBars = System.Windows.Forms.ScrollBars.None;
         filePath.SelectionStart = 0;
-        filePath.Size = new System.Drawing.Size(600, 45);
+        filePath.Size = new System.Drawing.Size(600, 43);
         filePath.TabIndex = 8;
         filePath.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
         filePath.TextChanged += FilePath_TextChanged;
         // 
         // buttonGetFromURL
         // 
-        buttonGetFromURL.AutoSize = true;
         buttonGetFromURL.BorderRadius = 8;
-        buttonGetFromURL.Cursor = System.Windows.Forms.Cursors.Hand;
         buttonGetFromURL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         buttonGetFromURL.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
         buttonGetFromURL.ForeColor = System.Drawing.Color.White;
         buttonGetFromURL.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
         buttonGetFromURL.Icon = null;
-        buttonGetFromURL.Location = new System.Drawing.Point(611, 177);
+        buttonGetFromURL.Location = new System.Drawing.Point(611, 179);
         buttonGetFromURL.Margin = new System.Windows.Forms.Padding(20);
         buttonGetFromURL.Name = "buttonGetFromURL";
         buttonGetFromURL.Progress = 0;
         buttonGetFromURL.ProgressColor = System.Drawing.Color.FromArgb(0, 46, 94);
-        buttonGetFromURL.Size = new System.Drawing.Size(200, 45);
+        buttonGetFromURL.Size = new System.Drawing.Size(200, 40);
         buttonGetFromURL.TabIndex = 10;
         buttonGetFromURL.Text = "Get from URL";
         buttonGetFromURL.UseVisualStyleBackColor = true;
         buttonGetFromURL.UseWindowsAccentColor = true;
         buttonGetFromURL.WriteProgress = true;
+        buttonGetFromURL.Click += ButtonGetFromURL_Click;
         // 
         // fileBrowse
         // 
-        fileBrowse.AutoSize = true;
         fileBrowse.BorderRadius = 8;
-        fileBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
         fileBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         fileBrowse.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
         fileBrowse.ForeColor = System.Drawing.Color.White;
         fileBrowse.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
         fileBrowse.Icon = null;
-        fileBrowse.Location = new System.Drawing.Point(691, 92);
+        fileBrowse.Location = new System.Drawing.Point(691, 93);
         fileBrowse.Margin = new System.Windows.Forms.Padding(20);
         fileBrowse.Name = "fileBrowse";
         fileBrowse.Progress = 0;
         fileBrowse.ProgressColor = System.Drawing.Color.FromArgb(0, 46, 94);
-        fileBrowse.Size = new System.Drawing.Size(120, 45);
+        fileBrowse.Size = new System.Drawing.Size(120, 40);
         fileBrowse.TabIndex = 9;
         fileBrowse.Text = "Browse";
         fileBrowse.UseVisualStyleBackColor = true;
         fileBrowse.UseWindowsAccentColor = true;
         fileBrowse.WriteProgress = true;
+        fileBrowse.Click += FileBrowse_Click;
         // 
         // labelOr
         // 
@@ -131,7 +130,6 @@ partial class SoundboardGlobalAudioAddView
         // buttonOK
         // 
         buttonOK.BorderRadius = 8;
-        buttonOK.Cursor = System.Windows.Forms.Cursors.Hand;
         buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
         buttonOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         buttonOK.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -139,10 +137,11 @@ partial class SoundboardGlobalAudioAddView
         buttonOK.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
         buttonOK.Icon = null;
         buttonOK.Location = new System.Drawing.Point(691, 319);
+        buttonOK.Margin = new System.Windows.Forms.Padding(20);
         buttonOK.Name = "buttonOK";
         buttonOK.Progress = 0;
         buttonOK.ProgressColor = System.Drawing.Color.FromArgb(0, 46, 94);
-        buttonOK.Size = new System.Drawing.Size(120, 45);
+        buttonOK.Size = new System.Drawing.Size(120, 40);
         buttonOK.TabIndex = 12;
         buttonOK.Text = "Ok";
         buttonOK.UseVisualStyleBackColor = true;

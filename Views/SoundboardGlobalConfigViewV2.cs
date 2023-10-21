@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;
 
+internal enum SoundboardGlobalConfigViewV2Page { Output, Audio, Categories }
+
 public partial class SoundboardGlobalConfigViewV2 : DialogForm
 {
     private readonly SoundboardGlobalConfigViewModel _viewModel;
@@ -19,14 +21,33 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
 
         InitializeComponent();
         ApplyLocalization();
+        SetCloseIconVisible(true);
 
         _viewModel.OnSetDeviceIndex += (_, _) => { comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
     }
+
+    internal static SoundboardGlobalConfigViewV2 NewAtPage(SoundboardGlobalConfigViewV2Page page)
+    {
+        SoundboardGlobalConfigViewV2 view = new(PluginInstance.Current);
+        switch (page)
+        {
+            case SoundboardGlobalConfigViewV2Page.Audio:
+                view.navigation.SelectedTab = view.audioFilePage;
+                break;
+            case SoundboardGlobalConfigViewV2Page.Categories:
+                view.navigation.SelectedTab = view.categoryPage;
+                break;
+            default:
+                break;
+        }
+        return view;
+    }
+
     private void ApplyLocalization()
     {
         outputPage.Text = LocalizationManager.Instance.GlobalConfigOutputDevice;
         audioFilePage.Text = LocalizationManager.Instance.GlobalConfigAudioFiles;
-        setupPage.Text = LocalizationManager.Instance.GlobalConfigAudioCategories;
+        categoryPage.Text = LocalizationManager.Instance.GlobalConfigAudioCategories;
         linkLabelResetDevice.Text = LocalizationManager.Instance.UseSystemDefaultDevice;
         labelDevices.Text = LocalizationManager.Instance.OutputDevicesGlobal;
         buttonOK.Text = LanguageManager.Strings.Ok;
@@ -63,7 +84,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         categoriesTable.CellEndEdit += CategoriesTable_CellEndEdit;
     }
 
-    private DataGridViewComboBoxColumn categoryBox;
+    private BindingList<AudioCategory> categoryComboBoxList;
 
     private BindingList<AudioFileItem> audioFilesList;
     private void InitAudioFilesPage()
@@ -83,13 +104,14 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
             HeaderText = nameof(AudioFileItem.Name)
         });
 
-        categoryBox = new()
+        categoryComboBoxList = new(_viewModel.AudioCategories);
+        DataGridViewComboBoxColumn categoryBox = new()
         {
             DataPropertyName = nameof(AudioFileItem.CategoryId),
             HeaderText = "Category",
             DisplayMember = nameof(AudioCategory.Name),  // Display the 'Name' property of the AudioCategory
             ValueMember = nameof(AudioCategory.Id),  // Use the 'Id' property of the AudioCategory as the actual value
-            DataSource = _viewModel.AudioCategories
+            DataSource = categoryComboBoxList
         };
         audioFilesTable.Columns.Add(categoryBox);
 
@@ -113,8 +135,11 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         if (e.TabPage.Name == audioFilePage.Name)
         {
             // Refresh audioCategories
-            categoryBox.DataSource = null;
-            categoryBox.DataSource = _viewModel.AudioCategories;
+            categoryComboBoxList.Clear();
+            foreach (var cat in _viewModel.AudioCategories)
+            {
+                categoryComboBoxList.Add(cat);
+            }
         }
     }
 

@@ -5,7 +5,7 @@
     "ActionPlaySoundName": "Tocar áudio",
     "ActionPlaySoundDescription": "Tocar arquivo configurado",
     "ActionPlaySoundVolume": "Volume",
-    "ActionPlaySoundFilePath": "Caminho do arquivo",
+    "ActionPlaySoundFilePath": "Arquivo",
     "ActionPlaySoundFilePathPlaceholder": "Arquivo local",
     "ActionPlaySoundFileBrowse": "Buscar",
     "ActionPlaySoundURLGet": "Pegar de URL",

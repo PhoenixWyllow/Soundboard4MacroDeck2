@@ -117,4 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttonAddAudio.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAALiIAAC4iAari3ZIAAADeSURBVFhH7dZRCsJADATQHqnXKVIo9SC9iFfa8/ilcQay
+        sJSR5kOzgv14KEN2k1K3djCzrmSYSYaZZJhJhplkmEmGEaWUETY3qpoIGUag6Qx3N6uaCBlGoOkK5lZV
+        EyHDCDRd4OkWVRMhw4hzgF8YYGoGmFRNhAwJm/Kc86hdgVfbusAN6gD8zmxfx7Xc4+1zQoaERXzA8IzX
+        Jq2Hf9Zj2GZ73GNTPUiGxEW+WG2aMkDfW3AEm373R3gETXmFdYDzQfSfA3T/O+7+QtL3lexTZJhJhplk
+        mEmGmWSYx4YXtSUATVYPXCAAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="buttonAddAudio.HoverImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAALiIAAC4iAari3ZIAAADaSURBVFhH7dVBCsJADIXhHsnriAhiD+JFvKcrHfNgAkP5
+        S7Ix46KFD8MjtimadmmtTYVhJQwrYVgJw0oYVsIw6WQenWrqCWGYdDWvTjX1hDBMuhs/VFNPCMOkm/l0
+        qqknhGHSMcD0Ac7GB1BNPSEMO+221ms1usPRxTyND6Ba2bZP39U5dp8TGHZ6wGjH/SKjd//0Y8y2dA6d
+        i67x3wNM/wkiP/8TRnSHPoBq6glhmHQMMH2A6a9jrZd2XFRTTwjDJO22HjCyu+cRDCthWAnDShhWwrAS
+        hnXa8gVNPFStdLYtyQAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>
