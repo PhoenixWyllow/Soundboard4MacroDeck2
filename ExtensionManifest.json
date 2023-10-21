@@ -6,6 +6,6 @@
   "packageId": "PhoenixWyllow.Soundboard4MacroDeck",
   "version": "2.0.0",
   "target-plugin-api-version": 40,
-  "target-macro-deck-version": "2.13.0-b9",
+  "target-macro-deck-version": "2.13.0-b10",
   "dll": "Soundboard4MacroDeck.dll"
 }
