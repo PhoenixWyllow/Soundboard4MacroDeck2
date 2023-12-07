@@ -85,6 +85,8 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
 
         _viewModel.LastAudioFile.CategoryId = 1;
         var id = PluginInstance.DbContext.InsertAudioFile(_viewModel.LastAudioFile);
+        using AudioReader reader = new(_viewModel.LastAudioFile.Name, _viewModel.LastAudioFile.Data, false);
+        SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{id}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);
         _viewModel.LastAudioFile.Id = id;
 
         DialogResult = DialogResult.OK;

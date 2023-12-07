@@ -15,6 +15,7 @@
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>Soundboard4MacroDeck</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<AssemblyName>Soundboard4MacroDeck</AssemblyName>
 		<ApplicationIcon>Resources\Soundboard.ico</ApplicationIcon>
 		<Win32Resource />

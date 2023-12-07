@@ -38,4 +38,7 @@ internal sealed class Localization
     public string GlobalConfigOutputDevice { get; set; } = "Output device";
     public string GlobalConfigAudioFiles { get; set; } = "Audio files";
     public string GlobalConfigAudioCategories { get; set; } = "Audio categories";
+    public string ActionCategoryRandomName { get; set; } = "Play random from category";
+    public string ActionCategoryRandomDescription { get; set; } = "Play a random audio file from a given category";
+    public string ActionCategoryAudioCategory { get; set; } = "Category";
 }

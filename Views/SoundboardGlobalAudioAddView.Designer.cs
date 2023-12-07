@@ -43,10 +43,10 @@ partial class SoundboardGlobalAudioAddView
         // 
         labelFile.AutoSize = true;
         labelFile.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        labelFile.Location = new System.Drawing.Point(35, 33);
+        labelFile.Location = new System.Drawing.Point(23, 20);
         labelFile.Margin = new System.Windows.Forms.Padding(72, 31, 72, 31);
         labelFile.Name = "labelFile";
-        labelFile.Size = new System.Drawing.Size(99, 28);
+        labelFile.Size = new System.Drawing.Size(62, 18);
         labelFile.TabIndex = 7;
         labelFile.Text = "File path";
         labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -54,10 +54,10 @@ partial class SoundboardGlobalAudioAddView
         // filePath
         // 
         filePath.BackColor = System.Drawing.Color.DimGray;
-        filePath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+        filePath.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
         filePath.ForeColor = System.Drawing.Color.White;
         filePath.Icon = null;
-        filePath.Location = new System.Drawing.Point(51, 92);
+        filePath.Location = new System.Drawing.Point(23, 50);
         filePath.Margin = new System.Windows.Forms.Padding(20);
         filePath.MaxCharacters = 32767;
         filePath.Multiline = false;
@@ -69,7 +69,7 @@ partial class SoundboardGlobalAudioAddView
         filePath.ReadOnly = false;
         filePath.ScrollBars = System.Windows.Forms.ScrollBars.None;
         filePath.SelectionStart = 0;
-        filePath.Size = new System.Drawing.Size(600, 43);
+        filePath.Size = new System.Drawing.Size(418, 37);
         filePath.TabIndex = 8;
         filePath.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
         filePath.TextChanged += FilePath_TextChanged;
@@ -82,12 +82,12 @@ partial class SoundboardGlobalAudioAddView
         buttonGetFromURL.ForeColor = System.Drawing.Color.White;
         buttonGetFromURL.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
         buttonGetFromURL.Icon = null;
-        buttonGetFromURL.Location = new System.Drawing.Point(611, 179);
+        buttonGetFromURL.Location = new System.Drawing.Point(410, 99);
         buttonGetFromURL.Margin = new System.Windows.Forms.Padding(20);
         buttonGetFromURL.Name = "buttonGetFromURL";
         buttonGetFromURL.Progress = 0;
         buttonGetFromURL.ProgressColor = System.Drawing.Color.FromArgb(0, 46, 94);
-        buttonGetFromURL.Size = new System.Drawing.Size(200, 40);
+        buttonGetFromURL.Size = new System.Drawing.Size(159, 37);
         buttonGetFromURL.TabIndex = 10;
         buttonGetFromURL.Text = "Get from URL";
         buttonGetFromURL.UseVisualStyleBackColor = true;
@@ -103,12 +103,12 @@ partial class SoundboardGlobalAudioAddView
         fileBrowse.ForeColor = System.Drawing.Color.White;
         fileBrowse.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
         fileBrowse.Icon = null;
-        fileBrowse.Location = new System.Drawing.Point(691, 93);
+        fileBrowse.Location = new System.Drawing.Point(449, 50);
         fileBrowse.Margin = new System.Windows.Forms.Padding(20);
         fileBrowse.Name = "fileBrowse";
         fileBrowse.Progress = 0;
         fileBrowse.ProgressColor = System.Drawing.Color.FromArgb(0, 46, 94);
-        fileBrowse.Size = new System.Drawing.Size(120, 40);
+        fileBrowse.Size = new System.Drawing.Size(120, 37);
         fileBrowse.TabIndex = 9;
         fileBrowse.Text = "Browse";
         fileBrowse.UseVisualStyleBackColor = true;
@@ -119,10 +119,10 @@ partial class SoundboardGlobalAudioAddView
         // labelOr
         // 
         labelOr.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        labelOr.Location = new System.Drawing.Point(438, 177);
+        labelOr.Location = new System.Drawing.Point(279, 99);
         labelOr.Margin = new System.Windows.Forms.Padding(43, 0, 43, 0);
         labelOr.Name = "labelOr";
-        labelOr.Size = new System.Drawing.Size(157, 45);
+        labelOr.Size = new System.Drawing.Size(117, 37);
         labelOr.TabIndex = 11;
         labelOr.Text = "or";
         labelOr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -136,7 +136,7 @@ partial class SoundboardGlobalAudioAddView
         buttonOK.ForeColor = System.Drawing.Color.White;
         buttonOK.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
         buttonOK.Icon = null;
-        buttonOK.Location = new System.Drawing.Point(691, 319);
+        buttonOK.Location = new System.Drawing.Point(449, 189);
         buttonOK.Margin = new System.Windows.Forms.Padding(20);
         buttonOK.Name = "buttonOK";
         buttonOK.Progress = 0;
@@ -151,9 +151,9 @@ partial class SoundboardGlobalAudioAddView
         // 
         // SoundboardGlobalAudioAddView
         // 
-        AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+        AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        ClientSize = new System.Drawing.Size(875, 422);
+        ClientSize = new System.Drawing.Size(594, 250);
         Controls.Add(buttonOK);
         Controls.Add(buttonGetFromURL);
         Controls.Add(fileBrowse);

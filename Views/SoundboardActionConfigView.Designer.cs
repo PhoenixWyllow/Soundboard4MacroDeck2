@@ -45,6 +45,8 @@ namespace Soundboard4MacroDeck.Views
             checkBoxSyncButtonState = new CheckBox();
             comboBoxAudio = new RoundedComboBox();
             buttonAddAudio = new PictureButton();
+            comboBoxCategory = new RoundedComboBox();
+            labelCategory = new Label();
             ((System.ComponentModel.ISupportInitialize)volumeBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)volumeNum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)buttonAddAudio).BeginInit();
@@ -185,10 +187,42 @@ namespace Soundboard4MacroDeck.Views
             buttonAddAudio.TabStop = false;
             buttonAddAudio.Click += ButtonAddAudio_Click;
             // 
+            // roundedComboBox1
+            // 
+            comboBoxCategory.BackColor = Color.DimGray;
+            comboBoxCategory.Cursor = Cursors.Hand;
+            comboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxCategory.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxCategory.ForeColor = Color.White;
+            comboBoxCategory.Icon = null;
+            comboBoxCategory.Location = new Point(70, 96);
+            comboBoxCategory.Name = "roundedComboBox1";
+            comboBoxCategory.Padding = new Padding(8, 2, 8, 2);
+            comboBoxCategory.SelectedIndex = -1;
+            comboBoxCategory.SelectedItem = null;
+            comboBoxCategory.Size = new Size(632, 36);
+            comboBoxCategory.TabIndex = 16;
+            comboBoxCategory.Visible = false;
+            comboBoxCategory.SelectedIndexChanged += ComboBoxCategory_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            labelCategory.AutoSize = true;
+            labelCategory.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            labelCategory.Location = new Point(39, 54);
+            labelCategory.Name = "label1";
+            labelCategory.Size = new Size(46, 28);
+            labelCategory.TabIndex = 15;
+            labelCategory.Text = "Category";
+            labelCategory.TextAlign = ContentAlignment.MiddleLeft;
+            labelCategory.Visible = false;
+            // 
             // SoundboardActionConfigView
             // 
             AutoScaleDimensions = new SizeF(144F, 144F);
             AutoScaleMode = AutoScaleMode.Dpi;
+            Controls.Add(comboBoxCategory);
+            Controls.Add(labelCategory);
             Controls.Add(buttonAddAudio);
             Controls.Add(comboBoxAudio);
             Controls.Add(checkBoxSyncButtonState);
@@ -221,5 +255,7 @@ namespace Soundboard4MacroDeck.Views
         private CheckBox checkBoxSyncButtonState;
         private RoundedComboBox comboBoxAudio;
         private PictureButton buttonAddAudio;
+        private RoundedComboBox comboBoxCategory;
+        private Label labelCategory;
     }
 }

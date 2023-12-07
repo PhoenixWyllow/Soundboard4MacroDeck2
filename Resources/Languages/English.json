@@ -30,5 +30,8 @@
   "SyncButtonState": "Sync button state with audio",
   "GlobalConfigOutputDevice": "Output device",
   "GlobalConfigAudioFiles": "Audio files",
-  "GlobalConfigAudioCategories": "Audio categories"
+  "GlobalConfigAudioCategories": "Audio categories",
+  "ActionCategoryRandomName": "Play random from category",
+  "ActionCategoryRandomDescription": "Play a random audio file from a given category",
+  "ActionCategoryAudioCategory": "Category"
 }

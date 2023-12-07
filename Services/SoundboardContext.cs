@@ -69,6 +69,11 @@ internal class SoundboardContext
         return Db.Table<AudioFile>().ToList();
     }
 
+    public IList<AudioFileItem> GetAudioFileItems(int categoryId)
+    {
+        return Db.Table<AudioFile>().Where(f => f.CategoryId == categoryId).Select(f => new AudioFileItem { Id = f.Id, Name = f.Name }).ToList();
+    }
+
     public AudioFile[] GetAudioFilesArray()
     {
         return Db.Table<AudioFile>().ToArray();
@@ -93,6 +98,11 @@ internal class SoundboardContext
     public IList<AudioCategory> GetAudioCategories()
     {
         return Db.Table<AudioCategory>().ToList();
+    }
+
+    public AudioCategory[] GetAudioCategoriesArray()
+    {
+        return Db.Table<AudioCategory>().ToArray();
     }
 
     public int InsertAudioCategory(AudioCategory audioCategory)

@@ -87,6 +87,11 @@ internal class ConfigUpdater
                 filesAdded.Add(data, entryId);
             }
 
+            using (AudioReader reader = new(actionParametersLegacy.FileName, actionParametersLegacy.FileData, false))
+            {
+                SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{entryId}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);
+            }
+
             var actionParameters = new ActionParametersV2
             {
                 FileName = actionParametersLegacy.FileName,

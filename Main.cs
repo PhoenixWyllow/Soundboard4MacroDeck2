@@ -31,6 +31,7 @@ public class Main : MacroDeckPlugin
             new SoundboardOverlapAction(),
             new SoundboardLoopAction(),
             new SoundboardStopAction(),
+            new SoundboardCategoryRandomAction(),
         };
 
         if (PluginInstance.DbContext.IsInitialCreate)

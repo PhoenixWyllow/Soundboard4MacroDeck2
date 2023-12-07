@@ -30,5 +30,8 @@
   "SyncButtonState": "Sincronizza stato del bottone con audio",
   "GlobalConfigOutputDevice": "Uscita audio",
   "GlobalConfigAudioFiles": "File audio",
-  "GlobalConfigAudioCategories": "Categorie"
+  "GlobalConfigAudioCategories": "Categorie audio",
+  "ActionCategoryRandomName": "Riproduci casuale da categoria",
+  "ActionCategoryRandomDescription": "Riproduci un file casuale da una determinata categoria",
+  "ActionCategoryAudioCategory": "Categoria"
 }

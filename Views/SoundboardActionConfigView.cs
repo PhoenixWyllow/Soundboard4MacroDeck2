@@ -30,6 +30,7 @@ public partial class SoundboardActionConfigView : ActionConfigControl
         labelDevices.Text = LocalizationManager.Instance.OutputDevicesAction;
         labelVolume.Text = LocalizationManager.Instance.ActionPlaySoundVolume;
         labelFile.Text = LocalizationManager.Instance.ActionPlaySoundFilePath;
+        labelCategory.Text = LocalizationManager.Instance.ActionCategoryAudioCategory;
     }
 
     public override bool OnActionSave()
@@ -49,9 +50,28 @@ public partial class SoundboardActionConfigView : ActionConfigControl
         comboBoxDevices.Items.AddRange(_viewModel.Devices.ToArray());
         _viewModel.LoadDeviceIndex();
 
-        LoadAudioFileSelection();
+        comboBoxAudio.Visible = labelFile.Visible = !_viewModel.IsCategoryAction;
+        comboBoxCategory.Visible = labelCategory.Visible = _viewModel.IsCategoryAction;
+        if (_viewModel.IsCategoryAction)
+        {
+            LoadAudioCategorySelection();
+        }
+        else
+        {
+            LoadAudioFileSelection();
+        }
 
         checkBoxOverrideDevice.Checked = !_viewModel.IsDefaultDevice();
+    }
+
+    private void LoadAudioCategorySelection()
+    {
+        comboBoxCategory.Items.Clear();
+        comboBoxCategory.Items.AddRange(PluginInstance.DbContext.GetAudioCategoriesArray());
+        if (_viewModel.SelectedAudioCategory is not null)
+        {
+            comboBoxCategory.SelectedIndex = comboBoxCategory.Items.IndexOf(_viewModel.SelectedAudioCategory);
+        }
     }
 
     private void LoadAudioFileSelection()
@@ -100,6 +120,11 @@ public partial class SoundboardActionConfigView : ActionConfigControl
     private void ComboBoxAudio_SelectedIndexChanged(object sender, EventArgs e)
     {
         _viewModel.SelectedAudioFile = (Models.AudioFile)comboBoxAudio.SelectedItem;
+    }
+
+    private void ComboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        _viewModel.SelectedAudioCategory = (Models.AudioCategory)comboBoxCategory.SelectedItem;
     }
 
     private void ButtonAddAudio_Click(object sender, EventArgs e)

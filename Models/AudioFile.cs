@@ -44,6 +44,25 @@ public sealed class AudioCategory
     public int Id { get; set; }
     public string Name { get; set; }
 
+    public override string ToString()
+    {
+        return $"{Id} - {Name}";
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is AudioCategory audioCategory && Equals(audioCategory);
+    }
+
+    public bool Equals(AudioCategory audioCategory)
+    {
+        return Id == audioCategory.Id;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public sealed class AudioFileItem

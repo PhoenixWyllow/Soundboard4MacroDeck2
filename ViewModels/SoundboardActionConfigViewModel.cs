@@ -1,20 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Soundboard4MacroDeck.Base;
-using Soundboard4MacroDeck.Models;
-using Soundboard4MacroDeck.Services;
-using SuchByte.MacroDeck.Logging;
+﻿using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Plugins;
-using SystemIOFile = System.IO.File;
 
 namespace Soundboard4MacroDeck.ViewModels;
 
 public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewModel
 {
     private readonly PluginAction _action;
+
+    public bool IsCategoryAction { get; }
+
     private ActionParametersV2 Parameters => OutputConfiguration as ActionParametersV2;
 
     public int PlayVolume
@@ -33,11 +27,12 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
         : base(ActionParametersV2.Deserialize(action.Configuration))
     {
         _action = action;
+        IsCategoryAction = action is Actions.SoundboardCategoryRandomAction;
     }
 
     public override void SetConfig()
     {
-        _action.ConfigurationSummary = $"{Parameters.AudioFileId} - {Parameters.FileName}";
+        _action.ConfigurationSummary = IsCategoryAction ? $"{SelectedAudioCategory.Id} - {SelectedAudioCategory.Name}" : $"{Parameters.AudioFileId} - {Parameters.FileName}";
         _action.Configuration = Parameters.Serialize();
     }
 
@@ -51,6 +46,17 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
             Parameters.AudioFileId = value.Id;
             Parameters.FileName = value.Name;
             Parameters.FileData = value.Data;
+        }
+    }
+
+    private AudioCategory selectedAudioCategory;
+    public AudioCategory SelectedAudioCategory
+    {
+        get => selectedAudioCategory ??= PluginInstance.DbContext.FindAudioCategory(Parameters.AudioCategoryId);
+        set
+        {
+            selectedAudioCategory = value;
+            Parameters.AudioCategoryId = value.Id;
         }
     }
 }
