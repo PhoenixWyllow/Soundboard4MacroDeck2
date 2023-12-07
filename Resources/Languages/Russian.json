@@ -5,7 +5,7 @@
     "ActionPlaySoundName": "Плей",
     "ActionPlaySoundDescription": "Воспроизводит настр. файл",
     "ActionPlaySoundVolume": "Звук",
-    "ActionPlaySoundFilePath": "Путь файл",
+    "ActionPlaySoundFilePath": "файл",
     "ActionPlaySoundFilePathPlaceholder": "Взять Локал файл",
     "ActionPlaySoundFileBrowse": "Найти",
     "ActionPlaySoundURLGet": "Получ. с Юрл",

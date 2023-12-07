@@ -104,6 +104,9 @@ public class AudioReader : WaveStream, ISampleProvider
         set => _readerStream.Position = value;
     }
 
+    public override TimeSpan CurrentTime { get => _readerStream.CurrentTime; set => _readerStream.CurrentTime = value; }
+    public override TimeSpan TotalTime => _readerStream.TotalTime;
+
     /// <summary>
     /// Reads from this wave stream, choosing whether to loop or read once
     /// </summary>

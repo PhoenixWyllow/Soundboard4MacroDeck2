@@ -6,5 +6,6 @@ public enum SoundboardActions
     Play,
     PlayStop,
     Overlap,
-    Loop
+    Loop,
+    RandomFromCategory
 }

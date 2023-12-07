@@ -1,25 +1,25 @@
 ﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
 using SuchByte.MacroDeck.ActionButton;
-using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
+using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using System;
 
 namespace Soundboard4MacroDeck.Actions;
 
-public sealed class SoundboardOverlapAction : PluginAction
+public sealed class SoundboardCategoryRandomAction : PluginAction
 {
     /// <summary>
     /// Name of the action
     /// </summary>
-    public override string Name => LocalizationManager.Instance.ActionOverlapSoundName;
+    public override string Name => LocalizationManager.Instance.ActionCategoryRandomName;
 
     /// <summary>
     /// A short description what this action does
     /// </summary>
-    public override string Description => LocalizationManager.Instance.ActionOverlapSoundDescription;
+    public override string Description => $"{LocalizationManager.Instance.ActionCategoryRandomDescription}.{Environment.NewLine}({LocalizationManager.Instance.ActionSuggestButtonStates})";
 
     /// <summary>
     /// Set true if the plugin can be configured.
@@ -49,7 +49,7 @@ public sealed class SoundboardOverlapAction : PluginAction
 
         try
         {
-            SoundboardPlayer.Execute(SoundboardActions.Overlap, Configuration, actionButton);
+            SoundboardPlayer.Execute(SoundboardActions.RandomFromCategory, Configuration, actionButton);
         }
         catch (Exception ex)
         {

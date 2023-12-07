@@ -5,7 +5,7 @@
     "ActionPlaySoundName": "Reproducir audio",
     "ActionPlaySoundDescription": "Reproduce el archivo configurado",
     "ActionPlaySoundVolume": "Volumen",
-    "ActionPlaySoundFilePath": "Ruta del archivo",
+    "ActionPlaySoundFilePath": "Archivo",
     "ActionPlaySoundFilePathPlaceholder": "Obtener archivo local",
     "ActionPlaySoundFileBrowse": "Navegar",
     "ActionPlaySoundURLGet": "Obtener de URL",

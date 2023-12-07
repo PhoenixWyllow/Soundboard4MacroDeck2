@@ -12,7 +12,7 @@ internal sealed class Localization
     public string ActionPlaySoundName { get; set; } = "Play sound";
     public string ActionPlaySoundDescription { get; set; } = "Plays the configured file";
     public string ActionPlaySoundVolume { get; set; } = "Volume";
-    public string ActionPlaySoundFilePath { get; set; } = "File path";
+    public string ActionPlaySoundFilePath { get; set; } = "File";
     public string ActionPlaySoundFilePathPlaceholder { get; set; } = "Get local file";
     public string ActionPlaySoundFileBrowse { get; set; } = "Browse";
     public string ActionPlaySoundURLGet { get; set; } = "Get from URL";
@@ -35,4 +35,10 @@ internal sealed class Localization
     public string ActionStopSoundName { get; set; } = "Stop all sounds";
     public string ActionStopSoundDescription { get; set; } = "Forces stop of all currently playing sounds";
     public string SyncButtonState { get; set; } = "Sync button state with audio";
+    public string GlobalConfigOutputDevice { get; set; } = "Output device";
+    public string GlobalConfigAudioFiles { get; set; } = "Audio files";
+    public string GlobalConfigAudioCategories { get; set; } = "Audio categories";
+    public string ActionCategoryRandomName { get; set; } = "Play random from category";
+    public string ActionCategoryRandomDescription { get; set; } = "Play a random audio file from a given category";
+    public string ActionCategoryAudioCategory { get; set; } = "Category";
 }

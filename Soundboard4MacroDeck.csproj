@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionMajor>1</VersionMajor>
+		<VersionMajor>2</VersionMajor>
 		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</VersionRevision>
-<!--		<PluginFolder>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>-->
-		<PluginFolder>$(AppData)\Macro Deck\plugins</PluginFolder>
+		<!--<PluginFolder>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Debug\net7.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>-->
+		<!--<PluginFolder>$(AppData)\Macro Deck\plugins</PluginFolder>-->
 	</PropertyGroup>
 	
 	<PropertyGroup>
-<!--		<TargetFramework>net6.0-windows</TargetFramework>-->
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<Platforms>AnyCPU;x64</Platforms>
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>Soundboard4MacroDeck</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<AssemblyName>Soundboard4MacroDeck</AssemblyName>
 		<ApplicationIcon>Resources\Soundboard.ico</ApplicationIcon>
 		<Win32Resource />
@@ -45,16 +45,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NAudio" Version="2.1.0" />
-		<PackageReference Include="NAudio.Extras" Version="2.1.0" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.3" ExcludeAssets="runtime" />
+		<PackageReference Include="NAudio" Version="2.2.1" />
+		<PackageReference Include="NAudio.Extras" Version="2.2.1" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Macro Deck 2">
-<!--			<HintPath>E:\Code\Rider\Macro-Deck-2\bin\Debug\net6.0-windows10.0.22000.0\win-x64\Macro Deck 2.dll</HintPath>-->
-			<HintPath>E:\Code\source\repos\MD\Macro-Deck\bin\Release\netcoreapp3.1\publish\Macro Deck 2.dll</HintPath>
-			<Private>false</Private>
+			<HintPath>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Release\net7.0-windows10.0.22000.0\win-x64\Macro Deck 2.dll</HintPath>
+			<!--<HintPath>E:\Code\source\repos\MD\Macro-Deck\bin\Release\netcoreapp3.1\publish\Macro Deck 2.dll</HintPath>-->
+			<!--<Private>false</Private>-->
 		</Reference>
 	</ItemGroup>
 
@@ -74,6 +74,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="ExtensionIcon.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="README.md">
 			<Pack>True</Pack>
 		</None>
@@ -85,11 +88,12 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<PluginFiles Include="$(OutDir)\*.dll;$(OutDir)\ExtensionManifest.json" />
-	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Copy DestinationFolder="$(PluginFolder)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
+		<ItemGroup>
+			<PluginFiles Include="$(OutDir)\Soundboard4MacroDeck.dll;$(OutDir)\NAudio*.dll;$(OutDir)\ExtensionManifest.json;$(OutDir)\ExtensionIcon.png" />
+		</ItemGroup>
+		<RemoveDir Directories="$(ProjectDir)releases\$(Configuration)\PhoenixWyllow.$(TargetName)\"/>
+		<Copy DestinationFolder="$(ProjectDir)releases\$(Configuration)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
 	</Target>
 </Project>
