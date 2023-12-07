@@ -36,38 +36,28 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
             var files = PluginInstance.DbContext.GetAudioFiles();
             foreach (var file in files)
             {
-                items.Add(ItemFromAudioFile(file));
+                items.Add(file.ToAudioFileItem());
             }
             return items;
         }
-    }
-
-    public AudioFileItem ItemFromAudioFile(AudioFile file)
-    {
-        return new()
-        {
-            Id = file.Id,
-            Name = file.Name,
-            CategoryId = file.CategoryId
-        };
     }
 
     public IList<AudioCategory> AudioCategories => PluginInstance.DbContext.GetAudioCategories();
 
     public AudioFile LastAudioFile { get; internal set; }
 
-    public void UpdateAudioFile(int id, string name, int category)
+    public void UpdateAudioFile(AudioFileItem editedItem)
     {
-        var file = PluginInstance.DbContext.FindAudioFile(id);
-        file.Name = name;
-        file.CategoryId = category;
+        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id);
+        file.Name = editedItem.Name;
+        file.CategoryId = editedItem.CategoryId;
         PluginInstance.DbContext.UpdateAudioFile(file);
     }
 
-    internal void UpdateCategory(int id, string name)
+    internal void UpdateCategory(AudioCategory editedCategory)
     {
-        var audioCategory = PluginInstance.DbContext.FindAudioCategory(id);
-        audioCategory.Name = name;
+        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id);
+        audioCategory.Name = editedCategory.Name;
         PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
     }
 

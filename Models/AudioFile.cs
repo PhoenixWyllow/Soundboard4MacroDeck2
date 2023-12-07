@@ -31,6 +31,11 @@ public sealed class AudioFile
     {
         return base.GetHashCode();
     }
+
+    public AudioFileItem ToAudioFileItem()
+    {
+        return new() { Id = Id, Name = Name, CategoryId = CategoryId };
+    }
 }
 
 public sealed class AudioCategory

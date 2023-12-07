@@ -92,6 +92,7 @@
 		<ItemGroup>
 			<PluginFiles Include="$(OutDir)\Soundboard4MacroDeck.dll;$(OutDir)\NAudio*.dll;$(OutDir)\ExtensionManifest.json;$(OutDir)\ExtensionIcon.png" />
 		</ItemGroup>
-		<Copy DestinationFolder="$(OutDir)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
+		<RemoveDir Directories="$(ProjectDir)releases\$(Configuration)\PhoenixWyllow.$(TargetName)\"/>
+		<Copy DestinationFolder="$(ProjectDir)releases\$(Configuration)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
 	</Target>
 </Project>

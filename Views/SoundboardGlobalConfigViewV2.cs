@@ -125,7 +125,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         using var audioAddDialog = new SoundboardGlobalAudioAddView(_viewModel);
         if (audioAddDialog.ShowDialog(this) == DialogResult.OK)
         {
-            audioFilesList.Add(_viewModel.ItemFromAudioFile(_viewModel.LastAudioFile));
+            audioFilesList.Add(_viewModel.LastAudioFile.ToAudioFileItem());
             _viewModel.LastAudioFile = null;
         }
     }
@@ -153,8 +153,8 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         try
         {
             var editedRow = categoriesTable.Rows[e.RowIndex];
-            AudioCategory editedItem = (AudioCategory)editedRow.DataBoundItem;
-            _viewModel.UpdateCategory(editedItem.Id, editedItem.Name);
+            AudioCategory editedCategory = (AudioCategory)editedRow.DataBoundItem;
+            _viewModel.UpdateCategory(editedCategory);
         }
         catch (Exception ex)
         {
@@ -167,7 +167,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         {
             var editedRow = audioFilesTable.Rows[e.RowIndex];
             AudioFileItem editedItem = (AudioFileItem)editedRow.DataBoundItem;
-            _viewModel.UpdateAudioFile(editedItem.Id, editedItem.Name, editedItem.CategoryId);
+            _viewModel.UpdateAudioFile(editedItem);
         }
         catch (Exception ex)
         {

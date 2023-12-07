@@ -96,6 +96,7 @@ internal class ConfigUpdater
                 SyncButtonState = actionParametersLegacy.SyncButtonState,
                 AudioFileId = entryId
             };
+            action.ConfigurationSummary = $"{actionParameters.AudioFileId} - {actionParameters.FileName}";
             action.Configuration = actionParameters.Serialize();
 
         }

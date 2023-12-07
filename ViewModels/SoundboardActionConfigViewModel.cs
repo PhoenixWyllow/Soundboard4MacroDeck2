@@ -37,7 +37,7 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
 
     public override void SetConfig()
     {
-        _action.ConfigurationSummary = Parameters.FileName;
+        _action.ConfigurationSummary = $"{Parameters.AudioFileId} - {Parameters.FileName}";
         _action.Configuration = Parameters.Serialize();
     }
 
