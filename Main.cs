@@ -2,6 +2,9 @@
 using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.Models;
+using System;
+using SuchByte.MacroDeck.GUI.CustomControls;
+using Soundboard4MacroDeck.Properties;
 
 namespace Soundboard4MacroDeck;
 
@@ -19,6 +22,7 @@ public class Main : MacroDeckPlugin
     {
         LocalizationManager.CreateInstance();
         PluginInstance.Current = this;
+        PluginInstance.DbContext = new SoundboardContext();
 
         Actions = new()
         {
@@ -27,7 +31,29 @@ public class Main : MacroDeckPlugin
             new SoundboardOverlapAction(),
             new SoundboardLoopAction(),
             new SoundboardStopAction(),
+            new SoundboardCategoryRandomAction(),
         };
+
+        if (PluginInstance.DbContext.IsInitialCreate)
+        {
+            SuchByte.MacroDeck.MacroDeck.OnMacroDeckLoaded += (_, _) => ConfigUpdater.MoveToContext();
+        }
+
+        SoundboardContext.AddBackupCreationHook();
+        SuchByte.MacroDeck.MacroDeck.OnMainWindowLoad += MacroDeck_OnMainWindowLoad;
+    }
+
+    private void MacroDeck_OnMainWindowLoad(object sender, EventArgs e)
+    {
+        if (sender is SuchByte.MacroDeck.GUI.MainWindow mainWindow)
+        {
+            ContentSelectorButton statusButton = new()
+            {
+                BackgroundImage = Resources.SoundboardIcon,
+            };
+            statusButton.Click += (_, _) => OpenConfigurator();
+            mainWindow.contentButtonPanel.Controls.Add(statusButton);
+        }
     }
 
     /// <summary>
@@ -35,12 +61,13 @@ public class Main : MacroDeckPlugin
     /// </summary>
     public override void OpenConfigurator()
     {
-        using var pluginConfig = new Views.SoundboardGlobalConfigView(this);
+        using var pluginConfig = new Views.SoundboardGlobalConfigViewV2(this);
         pluginConfig.ShowDialog();
     }
 }
 internal static class PluginInstance
 {
+    internal static SoundboardContext DbContext { get; set; }
     internal static MacroDeckPlugin Current { get; set; }
     internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Current, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 

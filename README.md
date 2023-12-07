@@ -27,8 +27,47 @@ For example, some files may have the mp3 extension but are found to be in mp4 fo
 | Play | Standard play action | Plays audio until finished or another has started. Pressing multiple times will restart playback. |
 | Play/Stop | Enhanced play action | Plays audio until the button is pressed again, or audio has finished or another file has started. |
 | Overlap | Overlapped audio playback | Plays audio over other currently playing sounds until finished or another non-overlapping file has started. |
-| Loop | Looped playback | Plays audio in loop until stopped or another file has started |
+| Loop | Looped playback | Plays audio in loop until stopped or another file has started. |
+| Stop all | Stop playback | Stops all currently playing audio. |
+| Random from category | Random playback | Plays an audio file at random from the chosen category. |
 
+***
+
+### Audio file storage
+
+Audio files are kept with the plugin database - all audio is loaded from the soundboard configuration, not from local files or the web.
+
+This allows for portability of the soundboard and use of Macro Deck as a portable app.
+
+In the revamped configuration screen you will see 2 new sections related to "audio files" and "audio categories":
+
+![Audio file Config](assets/audiofile_config.png)
+
+Click on the `+` icon to add a file or category in the relevant section. You may also add files from the button configuration window.
+
+You can change the file name, the file category, and the category name at any time.
+
+### Time Variables
+
+#### Total time
+
+**Written in the format "sb\_`id`"**
+
+This will always be the length of the audio track.
+
+#### Playback
+
+**Written in the format: "sb\_`[id]`\_`[elapsed|remains]`\_`[button guid]`"**
+
+> Note: \
+> These are only available for the Play and Play/Stop actions.\
+> The variables list won't show these variables until the button has been played at least once.
+
+![Variable Config](assets/variable_config.png)
+
+1. The audio file id
+1. The time `elapsed` or remaining (`remains`) for the button
+1. The button GUID as found at the bottom of the button configuration window (using `_` not `-`)
 
 ***
 ## Need this in your language?

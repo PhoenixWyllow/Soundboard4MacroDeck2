@@ -3,31 +3,52 @@ using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Logging;
+using System.Timers;
 
 namespace Soundboard4MacroDeck.Services;
 
-public class SoundboardPlaybackEngine : IDisposable
+public sealed class SoundboardPlaybackEngine : IDisposable
 {
-    private readonly ActionParameters _actionParameters;
+    private readonly ActionParametersV2 _actionParameters;
     private readonly string _internalId;
     
     // private readonly MixingSampleProvider _mixer;
     private IWavePlayer outputDevice;
     private AudioReader audioReader;
-    
-    public SoundboardPlaybackEngine(ActionParameters actionParameters, string internalId)
+    private Timer playbackTimer;
+
+    public string GetReaderId(string prefix) => $"sb_{_actionParameters.AudioFileId}{prefix}_{_internalId}";
+    public TimeSpan CurrentTime => audioReader.CurrentTime;
+    public TimeSpan TotalTime => audioReader.TotalTime;
+
+    public bool HasTimeOutput { get; }
+
+    public SoundboardPlaybackEngine(ActionParametersV2 actionParameters, string internalId, bool hasTimeOutput)
     {
         _actionParameters = actionParameters;
         _internalId = internalId;
+        HasTimeOutput = hasTimeOutput;
 
         outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
         outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
-        
+
+        if (hasTimeOutput)
+        {
+            playbackTimer = new(400);
+            playbackTimer.Elapsed += PlaybackTimer_Elapsed;
+        }
         // _mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(outputDevice.OutputWaveFormat.SampleRate, outputDevice.OutputWaveFormat.Channels));
         // _mixer.ReadFully = true;
         // outputDevice.Init(_mixer);
         // outputDevice.Play();
     }
+
+    private void PlaybackTimer_Elapsed(object sender, ElapsedEventArgs e)
+    {
+        Elapsed?.Invoke(this, EventArgs.Empty);
+    }
+
+    public event EventHandler<EventArgs> Elapsed;
 
     private void OnOutputDevicePlaybackStopped(object _, StoppedEventArgs e)
     {
@@ -58,12 +79,14 @@ public class SoundboardPlaybackEngine : IDisposable
     {
         MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Play:"+_internalId);
         // AddMixerInput(audioReader);
+        playbackTimer?.Start();
         outputDevice.Play();
     }
 
     public void Stop()
     {
         MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Stop:"+_internalId);
+        playbackTimer?.Stop();
         outputDevice?.Stop();
     }
     
@@ -127,6 +150,8 @@ public class SoundboardPlaybackEngine : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
+        playbackTimer?.Dispose();
+        playbackTimer = null;
         outputDevice?.Dispose();
         outputDevice = null;
         audioReader?.Dispose();

@@ -5,7 +5,7 @@
     "ActionPlaySoundName": "Sound abspielen",
     "ActionPlaySoundDescription": "Spielt eine Datei ab",
     "ActionPlaySoundVolume": "Lautstärke",
-    "ActionPlaySoundFilePath": "Dateipfad",
+    "ActionPlaySoundFilePath": "Datei",
     "ActionPlaySoundFilePathPlaceholder": "Lokale Datei",
     "ActionPlaySoundFileBrowse": "Durchsuchen",
     "ActionPlaySoundURLGet": "Von URL hinzufügen",

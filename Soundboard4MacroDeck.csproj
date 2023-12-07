@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionMajor>1</VersionMajor>
-		<VersionMinor>1</VersionMinor>
+		<VersionMajor>2</VersionMajor>
+		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</VersionRevision>
-		<PluginFolder>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Debug\net7.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>
+		<!--<PluginFolder>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Debug\net7.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>-->
 		<!--<PluginFolder>$(AppData)\Macro Deck\plugins</PluginFolder>-->
 	</PropertyGroup>
 	
@@ -15,6 +15,7 @@
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>Soundboard4MacroDeck</RootNamespace>
 		<UseWindowsForms>true</UseWindowsForms>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<AssemblyName>Soundboard4MacroDeck</AssemblyName>
 		<ApplicationIcon>Resources\Soundboard.ico</ApplicationIcon>
 		<Win32Resource />
@@ -46,6 +47,7 @@
 	<ItemGroup>
 		<PackageReference Include="NAudio" Version="2.2.1" />
 		<PackageReference Include="NAudio.Extras" Version="2.2.1" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -91,6 +93,7 @@
 		<ItemGroup>
 			<PluginFiles Include="$(OutDir)\Soundboard4MacroDeck.dll;$(OutDir)\NAudio*.dll;$(OutDir)\ExtensionManifest.json;$(OutDir)\ExtensionIcon.png" />
 		</ItemGroup>
-		<Copy DestinationFolder="$(PluginFolder)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
+		<RemoveDir Directories="$(ProjectDir)releases\$(Configuration)\PhoenixWyllow.$(TargetName)\"/>
+		<Copy DestinationFolder="$(ProjectDir)releases\$(Configuration)\PhoenixWyllow.$(TargetName)\" SourceFiles="@(PluginFiles)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
 	</Target>
 </Project>

@@ -1,22 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Soundboard4MacroDeck.Base;
-using Soundboard4MacroDeck.Models;
-using Soundboard4MacroDeck.Services;
-using SuchByte.MacroDeck.Logging;
+﻿using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Plugins;
-using SystemIOFile = System.IO.File;
 
 namespace Soundboard4MacroDeck.ViewModels;
 
 public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewModel
 {
     private readonly PluginAction _action;
-    private ActionParameters Parameters => OutputConfiguration as ActionParameters;
-    public string LastCheckedPath => Parameters.FilePath;
+
+    public bool IsCategoryAction { get; }
+
+    private ActionParametersV2 Parameters => OutputConfiguration as ActionParametersV2;
 
     public int PlayVolume
     {
@@ -31,61 +24,39 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
     }
 
     public SoundboardActionConfigViewModel(PluginAction action)
-        : base(ActionParameters.Deserialize(action.Configuration))
+        : base(ActionParametersV2.Deserialize(action.Configuration))
     {
         _action = action;
+        IsCategoryAction = action is Actions.SoundboardCategoryRandomAction;
     }
 
     public override void SetConfig()
     {
-        _action.ConfigurationSummary = Parameters.FileName;
+        _action.ConfigurationSummary = IsCategoryAction ? $"{SelectedAudioCategory.Id} - {SelectedAudioCategory.Name}" : $"{Parameters.AudioFileId} - {Parameters.FileName}";
         _action.Configuration = Parameters.Serialize();
     }
 
-    public bool GetBytesFromFile(string filePath)
+    private AudioFile selectedAudioFile;
+    public AudioFile SelectedAudioFile
     {
-        byte[] data = null;
-        if (SystemIOFile.Exists(filePath))
+        get => selectedAudioFile ??= PluginInstance.DbContext.FindAudioFile(Parameters.AudioFileId);
+        set
         {
-            data = SystemIOFile.ReadAllBytes(filePath);
+            selectedAudioFile = value;
+            Parameters.AudioFileId = value.Id;
+            Parameters.FileName = value.Name;
+            Parameters.FileData = value.Data;
         }
-
-        return TryApplyFile(data, filePath);
     }
 
-    public async Task<bool> GetFromUrlAsync(string urlPath, IProgress<float> progress, CancellationToken cancellationToken)
+    private AudioCategory selectedAudioCategory;
+    public AudioCategory SelectedAudioCategory
     {
-        bool success = false;
-        try
+        get => selectedAudioCategory ??= PluginInstance.DbContext.FindAudioCategory(Parameters.AudioCategoryId);
+        set
         {
-            using HttpClient client = new();
-            client.Timeout = TimeSpan.FromMinutes(5);
-        
-            // Use the custom extension method to download the data.
-            // The passed progress-instance will receive the download status updates.
-            var file = await client.DownloadBytesAsync(urlPath, progress, cancellationToken).ConfigureAwait(false);
-            success = TryApplyFile(file, urlPath);
+            selectedAudioCategory = value;
+            Parameters.AudioCategoryId = value.Id;
         }
-        catch (Exception ex)
-        {
-            //forbidden, proxy issues, file not found (404) etc
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardActionConfigViewModel), $"{nameof(GetFromUrlAsync)}: {ex.Message}");
-        }
-
-        return success;
     }
-
-    private bool TryApplyFile(byte[] data, string urlPath)
-    {
-        if (data != null
-            && AudioFileTypes.IsValidFile(data, out string extension))
-        {
-            Parameters.FileData = data;
-            Parameters.FilePath = urlPath;
-            Parameters.FileExt = AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
-            return true;
-        }
-        return false;
-    }
-
 }
