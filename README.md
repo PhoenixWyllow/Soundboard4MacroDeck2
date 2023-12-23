@@ -12,6 +12,7 @@ You can also configure the use of other output sound devices or Voicemeeter virt
 You may choose either a local file or one from the web (please check you have permission, first!)
 
 ***
+
 ## Features
 
 Currently the plugin supports only the following file types: \
@@ -33,7 +34,7 @@ For example, some files may have the mp3 extension but are found to be in mp4 fo
 
 ***
 
-### Audio file storage
+## Audio file storage
 
 Audio files are kept with the plugin database - all audio is loaded from the soundboard configuration, not from local files or the web.
 
@@ -47,15 +48,17 @@ Click on the `+` icon to add a file or category in the relevant section. You may
 
 You can change the file name, the file category, and the category name at any time.
 
-### Time Variables
+***
 
-#### Total time
+## Time Variables
+
+### Total time
 
 **Written in the format "sb\_`id`"**
 
 This will always be the length of the audio track.
 
-#### Playback
+### Playback
 
 **Written in the format: "sb\_`[id]`\_`[elapsed|remains]`\_`[button guid]`"**
 
@@ -70,12 +73,13 @@ This will always be the length of the audio track.
 1. The button GUID as found at the bottom of the button configuration window (using `_` not `-`)
 
 ***
+
 ## Need this in your language?
 This plugin has its own localization files, independent of Macro Deck.\
 If your language is not available, the plugin will default to English.
 
 Check the files available in source under [Resources/Languages](Resources/Languages).\
-If your language is missing or incomplete, please consider [helping me out by translating](https://poeditor.com/join/project?hash=T6WOz3ECo7)! 
+If your language is missing or incomplete, please consider [helping me out by translating](https://crowdin.com/project/soundboard4macrodeck2/invite?h=e5ad788cc5280bebf974497ff551d7901946848)! 
 
 Currently available languages:
 - English
@@ -86,13 +90,13 @@ Currently available languages:
 - Portuguese (thanks to Anderson)
 
 ***
+
 ## Third party licenses
 This plugin makes use of:
 - [Macro Deck 2 by SuchByte (Apache License 2.0)](https://macrodeck.org)
 - [NAudio by Mark Heath (MIT License)](https://github.com/naudio/NAudio)
 
-### Special thanks
+## Special thanks
 - [Myrmec by rocketRobin (Apache License 2.0)](https://github.com/rocketRobin/myrmec) - a partial implementation and rework is included in this project under MimeSniffer
 
 Icon is a merge of the Macro Deck 2 icon by SuchByte and sound blaster by Anatolii Babii from the Noun Project.
-***
