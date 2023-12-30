@@ -4,6 +4,8 @@ using NAudio.Wave;
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Logging;
 using System.Timers;
+using NAudio.Mixer;
+using NAudio.Wave.SampleProviders;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -12,7 +14,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     private readonly ActionParametersV2 _actionParameters;
     private readonly string _internalId;
     
-    // private readonly MixingSampleProvider _mixer;
+    //private readonly MixingSampleProvider _mixer;
     private IWavePlayer outputDevice;
     private AudioReader audioReader;
     private Timer playbackTimer;
@@ -31,16 +33,16 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
         outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
         outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
+        //_mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(outputDevice.OutputWaveFormat.SampleRate, outputDevice.OutputWaveFormat.Channels))
+        //{
+        //    ReadFully = true
+        //};
 
         if (hasTimeOutput)
         {
             playbackTimer = new(400);
             playbackTimer.Elapsed += PlaybackTimer_Elapsed;
         }
-        // _mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(outputDevice.OutputWaveFormat.SampleRate, outputDevice.OutputWaveFormat.Channels));
-        // _mixer.ReadFully = true;
-        // outputDevice.Init(_mixer);
-        // outputDevice.Play();
     }
 
     private void PlaybackTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -71,6 +73,8 @@ public sealed class SoundboardPlaybackEngine : IDisposable
                 Volume = Math.Min(_actionParameters.Volume / 100f, 1f)
             };
             outputDevice.Init(audioReader);
+            //_mixer.AddMixerInput((ISampleProvider)audioReader);
+            //outputDevice.Init(_mixer);
         }
 
     }
@@ -78,7 +82,6 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     public void Play()
     {
         MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Play:"+_internalId);
-        // AddMixerInput(audioReader);
         playbackTimer?.Start();
         outputDevice.Play();
     }
@@ -89,24 +92,6 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         playbackTimer?.Stop();
         outputDevice?.Stop();
     }
-    
-    // private void AddMixerInput(ISampleProvider input)
-    // {
-    //     _mixer.AddMixerInput(ConvertToRightChannelCount(input));
-    // }
-    // private ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
-    // {
-    //     // if (input.WaveFormat.Channels == mixer.WaveFormat.Channels)
-    //     // {
-    //     //     return input;
-    //     // }
-    //     if (input.WaveFormat.Channels == 1 && _mixer.WaveFormat.Channels == 2)
-    //     {
-    //         return new MonoToStereoSampleProvider(input);
-    //     }
-    //     //throw new NotImplementedException("Not yet implemented this channel count conversion");
-    //     return input;
-    // }
 
     private MMDevice GetDevice()//out int latency)
     {
@@ -128,7 +113,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         return !string.IsNullOrWhiteSpace(internalId) && internalId == _internalId;
     }
 
-    protected bool Equals(SoundboardPlaybackEngine engine)
+    public bool Equals(SoundboardPlaybackEngine engine)
     {
         return engine.Equals(_internalId);
     }
@@ -138,13 +123,13 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        return obj.GetType() == typeof(SoundboardPlaybackEngine) && Equals((SoundboardPlaybackEngine)obj);
+        return obj is SoundboardPlaybackEngine engine && Equals(engine);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return (_internalId != null ? _internalId.GetHashCode() : 0);
+        return (_internalId is not null ? _internalId.GetHashCode() : 0);
     }
 
     /// <inheritdoc />
