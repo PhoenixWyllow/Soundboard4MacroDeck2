@@ -1,17 +1,8 @@
-﻿using Soundboard4MacroDeck.Models;
-using Soundboard4MacroDeck.Services;
+﻿using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;

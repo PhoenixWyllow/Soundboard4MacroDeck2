@@ -3,6 +3,7 @@ using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
+using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 using System;
 using System.ComponentModel;
@@ -158,6 +159,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         }
         catch (Exception ex)
         {
+            MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), ex.Message);
         }
     }
 
@@ -171,6 +173,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         }
         catch (Exception ex)
         {
+            MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), ex.Message);
         }
     }
 

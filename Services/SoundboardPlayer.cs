@@ -1,7 +1,5 @@
-﻿using NAudio.Wave;
-using Soundboard4MacroDeck.Models;
+﻿using Soundboard4MacroDeck.Models;
 using System;
-using NAudio.CoreAudioApi;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
 using System.Collections.Generic;
@@ -59,7 +57,7 @@ public static class SoundboardPlayer
     private static readonly object key = new();
     private static List<SoundboardPlaybackEngine> ActivePlaybackEngines { get; } = new();
 
-    private static void OnPlaybackStopped(object sender, StoppedEventArgs args)
+    private static void OnPlaybackStopped(object sender, EventArgs _)
     {
         var playbackEngine = (SoundboardPlaybackEngine)sender;
         ActivePlaybackEngines.Remove(playbackEngine);
@@ -130,7 +128,7 @@ public static class SoundboardPlayer
         {
             return;
         }
-        var playbackEngine = new SoundboardPlaybackEngine(actionParameters, actionButton.Guid, useVars);
+        var playbackEngine = new SoundboardPlaybackEngine(actionParameters, actionButton.Guid, enableLoop, useVars);
         if (actionParameters.SyncButtonState)
         {
             playbackEngine.PlaybackStopped += (_, _) => MacroDeckServer.SetState(actionButton, false);
@@ -139,8 +137,6 @@ public static class SoundboardPlayer
 
         playbackEngine.Elapsed += PlaybackEngine_Elapsed;
         playbackEngine.PlaybackStopped += OnPlaybackStopped;
-
-        playbackEngine.Init(enableLoop);
 
         ActivePlaybackEngines.Add(playbackEngine);
 
