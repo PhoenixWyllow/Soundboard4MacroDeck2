@@ -3,7 +3,6 @@ using Soundboard4MacroDeck.ViewModels;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Plugins;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;
@@ -11,7 +10,6 @@ namespace Soundboard4MacroDeck.Views;
 public partial class SoundboardActionConfigView : ActionConfigControl
 {
     private readonly SoundboardActionConfigViewModel _viewModel;
-    private bool _checkedFile = false;
 
     public SoundboardActionConfigView(PluginAction action)
     {

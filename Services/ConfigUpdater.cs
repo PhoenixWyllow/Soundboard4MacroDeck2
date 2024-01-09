@@ -66,14 +66,14 @@ internal class ConfigUpdater
     }
 
     private static readonly Type[] ActionTypes =
-        {
+        [
             typeof(SoundboardPlayAction),
             typeof(SoundboardPlayStopAction),
             typeof(SoundboardOverlapAction),
             typeof(SoundboardLoopAction),
-        };
+        ];
 
-    private static Dictionary<string, int> filesAdded = new();
+    private static Dictionary<string, int> filesAdded = [];
 
     private static void ChangeConfiguration(PluginAction action, SoundboardContext db)
     {

@@ -2,9 +2,7 @@ using NAudio.Extras;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -14,10 +12,12 @@ namespace Soundboard4MacroDeck.Services;
 /// It provides a volume property and implements both WaveStream and ISampleProvider, 
 /// making it possibly the only stage in the audio pipeline necessary for simple playback scenarios
 /// </summary>
-public class AudioReader : WaveStream, ISampleProvider
+public class AudioReader : WaveStream, ISampleProvider, IDisposable
 {
     private Stream sourceStream; // take the byte array and hold it here
     private WaveStream readerStream; // the waveStream which we will use for all positioning
+    private readonly IWaveProvider waveProvider;
+    private bool isDisposed;
     private readonly SampleChannel _sampleChannel; // sample provider that gives us most stuff we need
 
     /// <summary>
@@ -31,7 +31,10 @@ public class AudioReader : WaveStream, ISampleProvider
         sourceStream = new MemoryStream(fileData);
         readerStream = CreateReaderStream(sourceStream, fileName, loopingEnabled);
         _sampleChannel = new(readerStream, false);
+        waveProvider = _sampleChannel.ToWaveProvider();
     }
+
+    public IWaveProvider WaveProvider => waveProvider;
 
     /// <summary>
     /// File Name
@@ -80,38 +83,9 @@ public class AudioReader : WaveStream, ISampleProvider
 
     public override TimeSpan TotalTime => readerStream.TotalTime;
 
-    /// <summary>
-    /// Reads from this wave stream, choosing whether to loop or read once
-    /// </summary>
-    /// <param name="buffer">Audio buffer</param>
-    /// <param name="offset">Offset into buffer</param>
-    /// <param name="count">Number of bytes required</param>
-    /// <returns>Number of bytes read</returns>
     public override int Read(byte[] buffer, int offset, int count)
     {
-        return readerStream.Read(buffer, offset, count);
-    }
-
-    /// <summary>
-    /// Disposes this AudioFileReader
-    /// </summary>
-    /// <param name="disposing">True if called from Dispose</param>
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            if (readerStream is not null)
-            {
-                readerStream.Dispose();
-                readerStream = null;
-            }
-            if (sourceStream is not null)
-            {
-                sourceStream.Dispose();
-                sourceStream = null;
-            }
-        }
-        base.Dispose(disposing);
+        return waveProvider.Read(buffer, offset, count);
     }
 
     /// <summary>
@@ -151,5 +125,39 @@ public class AudioReader : WaveStream, ISampleProvider
             readerStream = new LoopStream(readerStream);
         }
         return readerStream;
+    }
+
+
+    /// <summary>
+    /// Disposes this AudioFileReader
+    /// </summary>
+    /// <param name="disposing">True if called from Dispose</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (!isDisposed)
+        {
+            if (disposing)
+            {
+                if (readerStream is not null)
+                {
+                    readerStream.Dispose();
+                    readerStream = null;
+                }
+                if (sourceStream is not null)
+                {
+                    sourceStream.Dispose();
+                    sourceStream = null;
+                }
+            }
+
+            isDisposed = true;
+        }
+    }
+
+    public new void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

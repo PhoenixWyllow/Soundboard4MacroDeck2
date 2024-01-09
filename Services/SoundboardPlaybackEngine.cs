@@ -4,8 +4,6 @@ using NAudio.Wave;
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Logging;
 using System.Timers;
-using NAudio.Mixer;
-using NAudio.Wave.SampleProviders;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -14,7 +12,6 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     private readonly ActionParametersV2 _actionParameters;
     private readonly string _internalId;
     
-    //private readonly MixingSampleProvider _mixer;
     private IWavePlayer outputDevice;
     private AudioReader audioReader;
     private Timer playbackTimer;
@@ -25,18 +22,15 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     public bool HasTimeOutput { get; }
 
-    public SoundboardPlaybackEngine(ActionParametersV2 actionParameters, string internalId, bool hasTimeOutput)
+    public SoundboardPlaybackEngine(ActionParametersV2 actionParameters, string internalId, bool enableLoop, bool hasTimeOutput)
     {
         _actionParameters = actionParameters;
         _internalId = internalId;
         HasTimeOutput = hasTimeOutput;
 
         outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
-        outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
-        //_mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(outputDevice.OutputWaveFormat.SampleRate, outputDevice.OutputWaveFormat.Channels))
-        //{
-        //    ReadFully = true
-        //};
+        Init(enableLoop);
+        outputDevice.Init(audioReader.WaveProvider);
 
         if (hasTimeOutput)
         {
@@ -59,24 +53,16 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     }
 
     public event EventHandler<StoppedEventArgs> PlaybackStopped;
-    
-    // public event EventHandler<SampleProviderEventArgs> AudioStopped;
-    public void Init(bool enableLoop = false)
+
+    private void Init(bool enableLoop)
     {
-        // _mixer.MixerInputEnded += (s,e) => AudioStopped?.Invoke(audioReader, e)
-        // outputDevice.PlaybackStopped += (_,e) => PlaybackStopped?.Invoke(this,e);
-
-        if (audioReader is null || !audioReader.FileName.Equals(_actionParameters.FileName))
+        audioReader = new AudioReader(_actionParameters.FileName, _actionParameters.FileData, enableLoop)
         {
-            audioReader = new AudioReader(_actionParameters.FileName, _actionParameters.FileData, enableLoop)
-            {
-                Volume = Math.Min(_actionParameters.Volume / 100f, 1f)
-            };
-            outputDevice.Init(audioReader);
-            //_mixer.AddMixerInput((ISampleProvider)audioReader);
-            //outputDevice.Init(_mixer);
-        }
+            Volume = Math.Min(_actionParameters.Volume / 100f, 1f)
+        };
 
+        outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
+        outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
     }
 
     public void Play()
@@ -121,9 +107,8 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     /// <inheritdoc />
     public override bool Equals(object obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        return obj is SoundboardPlaybackEngine engine && Equals(engine);
+        if (obj is null) return false;
+        return ReferenceEquals(this, obj) || (obj is SoundboardPlaybackEngine engine && Equals(engine));
     }
 
     /// <inheritdoc />
