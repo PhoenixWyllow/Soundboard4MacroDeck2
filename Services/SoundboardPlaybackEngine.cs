@@ -12,7 +12,6 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     private readonly ActionParametersV2 _actionParameters;
     private readonly string _internalId;
     
-    // private readonly MixingSampleProvider _mixer;
     private IWavePlayer outputDevice;
     private AudioReader audioReader;
     private Timer playbackTimer;
@@ -23,24 +22,21 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     public bool HasTimeOutput { get; }
 
-    public SoundboardPlaybackEngine(ActionParametersV2 actionParameters, string internalId, bool hasTimeOutput)
+    public SoundboardPlaybackEngine(ActionParametersV2 actionParameters, string internalId, bool enableLoop, bool hasTimeOutput)
     {
         _actionParameters = actionParameters;
         _internalId = internalId;
         HasTimeOutput = hasTimeOutput;
 
         outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
-        outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
+        Init(enableLoop);
+        outputDevice.Init(audioReader.WaveProvider);
 
         if (hasTimeOutput)
         {
             playbackTimer = new(400);
             playbackTimer.Elapsed += PlaybackTimer_Elapsed;
         }
-        // _mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(outputDevice.OutputWaveFormat.SampleRate, outputDevice.OutputWaveFormat.Channels));
-        // _mixer.ReadFully = true;
-        // outputDevice.Init(_mixer);
-        // outputDevice.Play();
     }
 
     private void PlaybackTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -57,28 +53,21 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     }
 
     public event EventHandler<StoppedEventArgs> PlaybackStopped;
-    
-    // public event EventHandler<SampleProviderEventArgs> AudioStopped;
-    public void Init(bool enableLoop = false)
+
+    private void Init(bool enableLoop)
     {
-        // _mixer.MixerInputEnded += (s,e) => AudioStopped?.Invoke(audioReader, e)
-        // outputDevice.PlaybackStopped += (_,e) => PlaybackStopped?.Invoke(this,e);
-
-        if (audioReader is null || !audioReader.FileName.Equals(_actionParameters.FileName))
+        audioReader = new AudioReader(_actionParameters.FileName, _actionParameters.FileData, enableLoop)
         {
-            audioReader = new AudioReader(_actionParameters.FileName, _actionParameters.FileData, enableLoop)
-            {
-                Volume = Math.Min(_actionParameters.Volume / 100f, 1f)
-            };
-            outputDevice.Init(audioReader);
-        }
+            Volume = Math.Min(_actionParameters.Volume / 100f, 1f)
+        };
 
+        outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
+        outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
     }
 
     public void Play()
     {
         MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Play:"+_internalId);
-        // AddMixerInput(audioReader);
         playbackTimer?.Start();
         outputDevice.Play();
     }
@@ -89,24 +78,6 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         playbackTimer?.Stop();
         outputDevice?.Stop();
     }
-    
-    // private void AddMixerInput(ISampleProvider input)
-    // {
-    //     _mixer.AddMixerInput(ConvertToRightChannelCount(input));
-    // }
-    // private ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
-    // {
-    //     // if (input.WaveFormat.Channels == mixer.WaveFormat.Channels)
-    //     // {
-    //     //     return input;
-    //     // }
-    //     if (input.WaveFormat.Channels == 1 && _mixer.WaveFormat.Channels == 2)
-    //     {
-    //         return new MonoToStereoSampleProvider(input);
-    //     }
-    //     //throw new NotImplementedException("Not yet implemented this channel count conversion");
-    //     return input;
-    // }
 
     private MMDevice GetDevice()//out int latency)
     {
@@ -128,7 +99,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         return !string.IsNullOrWhiteSpace(internalId) && internalId == _internalId;
     }
 
-    protected bool Equals(SoundboardPlaybackEngine engine)
+    public bool Equals(SoundboardPlaybackEngine engine)
     {
         return engine.Equals(_internalId);
     }
@@ -136,15 +107,14 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     /// <inheritdoc />
     public override bool Equals(object obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        return obj.GetType() == typeof(SoundboardPlaybackEngine) && Equals((SoundboardPlaybackEngine)obj);
+        if (obj is null) return false;
+        return ReferenceEquals(this, obj) || (obj is SoundboardPlaybackEngine engine && Equals(engine));
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return (_internalId != null ? _internalId.GetHashCode() : 0);
+        return (_internalId is not null ? _internalId.GetHashCode() : 0);
     }
 
     /// <inheritdoc />

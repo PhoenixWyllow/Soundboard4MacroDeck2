@@ -47,7 +47,8 @@ internal class SoundboardContext
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Warning(PluginInstance.Current, "Soundboard database was NOT added to backup.");
+            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardContext), "Soundboard database was NOT added to backup.");
+            MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardContext), ex.Message);
         }
         finally
         {

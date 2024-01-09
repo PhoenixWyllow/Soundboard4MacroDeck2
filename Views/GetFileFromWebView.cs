@@ -12,7 +12,6 @@ namespace Soundboard4MacroDeck.Views;
 public partial class GetFileFromWebView : DialogForm
 {
     private readonly SoundboardGlobalConfigViewModel _viewModel;
-    private bool _checkedFile;
     public GetFileFromWebView(SoundboardGlobalConfigViewModel parentViewModel)
     {
         _viewModel = parentViewModel;
