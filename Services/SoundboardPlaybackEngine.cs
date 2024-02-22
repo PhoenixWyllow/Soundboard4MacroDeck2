@@ -62,7 +62,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         };
 
         outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
-        outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
+        //outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
     }
 
     public void Play()
