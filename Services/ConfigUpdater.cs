@@ -13,6 +13,8 @@ internal class ConfigUpdater
 {
     public static void MoveToContext()
     {
+        int categoryId = PluginInstance.DbContext.InsertAudioCategory(new AudioCategory { Name = "Default category" });
+
         bool hasActions = ProfileManager.Profiles.Any(profile => profile.Folders.Any(folder => folder.ActionButtons.Any()));
         if (hasActions)
         {
@@ -24,7 +26,6 @@ internal class ConfigUpdater
             var db = PluginInstance.DbContext;
             db.Db.RunInTransaction(() =>
             {
-                db.InsertAudioCategory(new AudioCategory { Name = "Default category" });
                 foreach (var profile in ProfileManager.Profiles)
                 {
                     foreach (var folder in profile.Folders)
@@ -33,24 +34,24 @@ internal class ConfigUpdater
                         {
                             foreach (var action in actionButton.Actions)
                             {
-                                ChangeConfiguration(action, db);
+                                ChangeConfiguration(action, db, categoryId);
                             }
                             foreach (var action in actionButton.ActionsLongPress)
                             {
-                                ChangeConfiguration(action, db);
+                                ChangeConfiguration(action, db, categoryId);
                             }
                             foreach (var action in actionButton.ActionsLongPressRelease)
                             {
-                                ChangeConfiguration(action, db);
+                                ChangeConfiguration(action, db, categoryId);
                             }
                             foreach (var action in actionButton.ActionsRelease)
                             {
-                                ChangeConfiguration(action, db);
+                                ChangeConfiguration(action, db, categoryId);
                             }
 
                             foreach (var action in actionButton.EventListeners.SelectMany(eventListener => eventListener.Actions))
                             {
-                                ChangeConfiguration(action, db);
+                                ChangeConfiguration(action, db, categoryId);
                             }
                         }
                     }
@@ -75,7 +76,7 @@ internal class ConfigUpdater
 
     private static Dictionary<string, int> filesAdded = [];
 
-    private static void ChangeConfiguration(PluginAction action, SoundboardContext db)
+    private static void ChangeConfiguration(PluginAction action, SoundboardContext db, int categoryId)
     {
         if (ActionTypes.Contains(action.GetType()))
         {
@@ -83,7 +84,7 @@ internal class ConfigUpdater
             var data = BitConverter.ToString(actionParametersLegacy.FileData);
             if (!filesAdded.TryGetValue(data, out var entryId))
             {
-                entryId = db.InsertAudioFile(new AudioFile { Data = actionParametersLegacy.FileData, Name = actionParametersLegacy.FileName, CategoryId = 1 });
+                entryId = db.InsertAudioFile(new AudioFile { Data = actionParametersLegacy.FileData, Name = actionParametersLegacy.FileName, CategoryId = categoryId });
                 filesAdded.Add(data, entryId);
             }
 
