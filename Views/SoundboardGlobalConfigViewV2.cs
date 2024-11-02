@@ -79,7 +79,10 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         categoriesTable.Columns.Add(new DataGridViewTextBoxColumn
         {
             DataPropertyName = nameof(AudioCategory.Name),
-            HeaderText = nameof(AudioCategory.Name)
+            HeaderText = nameof(AudioCategory.Name),
+            Resizable = DataGridViewTriState.True,
+            MinimumWidth = 200,
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         });
         categoriesTable.DataSource = _viewModel.AudioCategories;
         categoriesTable.CellEndEdit += CategoriesTable_CellEndEdit;
@@ -88,6 +91,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     private BindingList<AudioCategory> categoryComboBoxList;
 
     private BindingList<AudioFileItem> audioFilesList;
+
     private void InitAudioFilesPage()
     {
         audioFileAdd.Click += AudioFileAdd_Click;
@@ -114,11 +118,20 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
             ValueMember = nameof(AudioCategory.Id),  // Use the 'Id' property of the AudioCategory as the actual value
             DataSource = categoryComboBoxList
         };
+        audioFilesTable.DataError += AudioFilesTable_DataError;
         audioFilesTable.Columns.Add(categoryBox);
 
         audioFilesList = new(_viewModel.AudioFiles);
         audioFilesTable.DataSource = audioFilesList;
         audioFilesTable.CellEndEdit += AudioFilesTable_CellEndEdit;
+    }
+
+    private void AudioFilesTable_DataError(object sender, DataGridViewDataErrorEventArgs e)
+    {
+        e.Cancel = true;
+        e.ThrowException = false;
+        MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception.Message);
+        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception.StackTrace);
     }
 
     private void AudioFileAdd_Click(object sender, EventArgs e)
@@ -149,6 +162,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         PluginInstance.DbContext.InsertAudioCategory(new());
         categoriesTable.DataSource = _viewModel.AudioCategories;
     }
+
     private void CategoriesTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
         try

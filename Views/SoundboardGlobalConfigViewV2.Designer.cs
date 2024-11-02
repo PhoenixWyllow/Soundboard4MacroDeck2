@@ -61,7 +61,7 @@ namespace Soundboard4MacroDeck.Views
             comboBoxDevices.BackColor = System.Drawing.Color.DimGray;
             comboBoxDevices.Cursor = Cursors.Hand;
             comboBoxDevices.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            comboBoxDevices.Font = new System.Drawing.Font("Tahoma", 9F);
             comboBoxDevices.ForeColor = System.Drawing.Color.White;
             comboBoxDevices.Icon = null;
             comboBoxDevices.Location = new System.Drawing.Point(6, 45);
@@ -69,7 +69,7 @@ namespace Soundboard4MacroDeck.Views
             comboBoxDevices.Padding = new Padding(8, 2, 8, 2);
             comboBoxDevices.SelectedIndex = -1;
             comboBoxDevices.SelectedItem = null;
-            comboBoxDevices.Size = new System.Drawing.Size(404, 34);
+            comboBoxDevices.Size = new System.Drawing.Size(404, 26);
             comboBoxDevices.TabIndex = 3;
             comboBoxDevices.SelectedIndexChanged += ComboBoxDevices_SelectedIndexChanged;
             // 
@@ -79,7 +79,7 @@ namespace Soundboard4MacroDeck.Views
             buttonOK.Cursor = Cursors.Hand;
             buttonOK.DialogResult = DialogResult.OK;
             buttonOK.FlatStyle = FlatStyle.Flat;
-            buttonOK.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            buttonOK.Font = new System.Drawing.Font("Tahoma", 9.75F);
             buttonOK.ForeColor = System.Drawing.Color.White;
             buttonOK.HoverColor = System.Drawing.Color.FromArgb(0, 89, 184);
             buttonOK.Icon = null;
@@ -98,11 +98,11 @@ namespace Soundboard4MacroDeck.Views
             // labelDevices
             // 
             labelDevices.AutoSize = true;
-            labelDevices.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            labelDevices.Font = new System.Drawing.Font("Tahoma", 12F);
             labelDevices.ForeColor = System.Drawing.Color.Gray;
             labelDevices.Location = new System.Drawing.Point(6, 13);
             labelDevices.Name = "labelDevices";
-            labelDevices.Size = new System.Drawing.Size(240, 29);
+            labelDevices.Size = new System.Drawing.Size(159, 19);
             labelDevices.TabIndex = 5;
             labelDevices.Text = "Default output device";
             // 
@@ -112,7 +112,7 @@ namespace Soundboard4MacroDeck.Views
             linkLabelResetDevice.LinkColor = System.Drawing.Color.DodgerBlue;
             linkLabelResetDevice.Location = new System.Drawing.Point(166, 82);
             linkLabelResetDevice.Name = "linkLabelResetDevice";
-            linkLabelResetDevice.Size = new System.Drawing.Size(243, 24);
+            linkLabelResetDevice.Size = new System.Drawing.Size(155, 16);
             linkLabelResetDevice.TabIndex = 6;
             linkLabelResetDevice.TabStop = true;
             linkLabelResetDevice.Text = "Use system default device";
@@ -150,7 +150,7 @@ namespace Soundboard4MacroDeck.Views
             toolStrip2.Items.AddRange(new ToolStripItem[] { audioFileAdd });
             toolStrip2.Location = new System.Drawing.Point(3, 3);
             toolStrip2.Name = "toolStrip2";
-            toolStrip2.Size = new System.Drawing.Size(682, 33);
+            toolStrip2.Size = new System.Drawing.Size(682, 31);
             toolStrip2.TabIndex = 2;
             toolStrip2.Text = "toolStrip2";
             // 
@@ -161,7 +161,7 @@ namespace Soundboard4MacroDeck.Views
             audioFileAdd.Image = (System.Drawing.Image)resources.GetObject("audioFileAdd.Image");
             audioFileAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             audioFileAdd.Name = "audioFileAdd";
-            audioFileAdd.Size = new System.Drawing.Size(34, 28);
+            audioFileAdd.Size = new System.Drawing.Size(28, 28);
             // 
             // audioFilesTable
             // 
@@ -175,7 +175,7 @@ namespace Soundboard4MacroDeck.Views
             audioFilesTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -210,7 +210,7 @@ namespace Soundboard4MacroDeck.Views
             toolStrip1.Items.AddRange(new ToolStripItem[] { categoriesAdd });
             toolStrip1.Location = new System.Drawing.Point(3, 3);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(682, 33);
+            toolStrip1.Size = new System.Drawing.Size(682, 31);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -221,11 +221,11 @@ namespace Soundboard4MacroDeck.Views
             categoriesAdd.Image = (System.Drawing.Image)resources.GetObject("categoriesAdd.Image");
             categoriesAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             categoriesAdd.Name = "categoriesAdd";
-            categoriesAdd.Size = new System.Drawing.Size(34, 28);
+            categoriesAdd.Size = new System.Drawing.Size(28, 28);
             // 
             // categoriesTable
             // 
-            categoriesTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+            categoriesTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             categoriesTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             categoriesTable.BackgroundColor = System.Drawing.Color.FromArgb(45, 45, 45);
             categoriesTable.BorderStyle = BorderStyle.None;
@@ -260,18 +260,15 @@ namespace Soundboard4MacroDeck.Views
             // 
             // SoundboardGlobalConfigViewV2
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(907, 503);
             Controls.Add(navigation);
             Controls.Add(buttonOK);
-            Location = new System.Drawing.Point(0, 0);
             Name = "SoundboardGlobalConfigViewV2";
             Padding = new Padding(20);
             Text = "GlobalConfig";
             Load += SoundboardGlobalConfigView_Load;
-            Controls.SetChildIndex(buttonOK, 0);
-            Controls.SetChildIndex(navigation, 0);
             outputPage.ResumeLayout(false);
             outputPage.PerformLayout();
             audioFilePage.ResumeLayout(false);

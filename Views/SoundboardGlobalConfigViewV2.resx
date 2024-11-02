@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -124,10 +124,10 @@
   <data name="audioFileAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAADCSURBVFhH7ZbNCcMwDIU9UtcpJVDSQbJI9vHFP+Pk1KZ6
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADCSURBVFhH7ZbNCcMwDIU9UtcpJVDSQbJI5vHJP+Pk1KZ6
         8AyuLy2hSNDqg0eEiGVZsRwHx3GOUms9pZQWCDbdeuScJ9FGTXTrIZPOop2a6dZDSn+NMT4g2HTr4QmY
         J1BKObcEYNP9PdDbaC8JfsMKB11Ea1eBlb6X9zAWMQ6dExJgkcFbm2TQHU+24N77RiEGYjHs55gnYP4J
-        3oGN1xKATbceWGFXAT+I/jAB2d22v2O0l8juQoLeltLbXckc50cI4QkZoLYIJPzkpAAAAABJRU5ErkJg
+        3oGN1xKATbceWGFXAT+I/jAB2d22v2O0l8juQoLeltLbXckc50cI4QkvR7Vs/ILnTQAAAABJRU5ErkJg
         gg==
 </value>
   </data>
@@ -137,10 +137,10 @@
   <data name="categoriesAdd.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAADCSURBVFhH7ZbNCcMwDIU9UtcpJVDSQbJIBvLBP+Pk1KZ6
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADCSURBVFhH7ZbNCcMwDIU9UtcpJVDSQbJI9vHFP+Pk1KZ6
         8AyuLy2hSNDqg0eEiGVZsRwHx3GOUms9pZQWCDbdeuScJ9FGTXTrIZPOop2a6dZDSn+NMT4g2HTr4QmY
         J1BKObcEYNP9PdDbaC8JfsMKB11Ea1eBlb6X9zAWMQ6dExJgkcFbm2TQHU+24N77RiEGYjHs55gnYP4J
-        3oGN1xKATbceWGFXAT+I/jAB2d22v2O0l8juQoLeltLbXckc50cI4QkD+bakoOuT+AAAAABJRU5ErkJg
+        3oGN1xKATbceWGFXAT+I/jAB2d22v2O0l8juQoLeltLbXckc50cI4QkZoLYIJPzkpAAAAABJRU5ErkJg
         gg==
 </value>
   </data>
