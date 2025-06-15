@@ -1,9 +1,8 @@
 ﻿using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
+
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
-using System;
-using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;
 public partial class SoundboardGlobalAudioAddView : DialogForm

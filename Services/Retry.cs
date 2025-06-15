@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace Soundboard4MacroDeck.Services;
+﻿namespace Soundboard4MacroDeck.Services;
 
 public static class Retry
 {

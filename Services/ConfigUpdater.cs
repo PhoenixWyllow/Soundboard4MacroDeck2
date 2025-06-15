@@ -1,12 +1,10 @@
 ﻿using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Models;
+
 using SuchByte.MacroDeck.Backups;
 using SuchByte.MacroDeck.Notifications;
 using SuchByte.MacroDeck.Plugins;
 using SuchByte.MacroDeck.Profiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Soundboard4MacroDeck.Services;
 internal class ConfigUpdater

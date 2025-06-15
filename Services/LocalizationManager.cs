@@ -6,11 +6,10 @@
  */
 
 using Soundboard4MacroDeck.Models;
+
 using SuchByte.MacroDeck.Language;
 using SuchByte.MacroDeck.Logging;
-using System;
-using System.IO;
-using System.Linq;
+
 using System.Text.Json;
 
 namespace Soundboard4MacroDeck.Services;

@@ -1,8 +1,10 @@
-using System;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
+
 using Soundboard4MacroDeck.Models;
+
 using SuchByte.MacroDeck.Logging;
+
 using System.Timers;
 
 namespace Soundboard4MacroDeck.Services;

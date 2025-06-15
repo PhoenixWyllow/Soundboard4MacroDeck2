@@ -32,6 +32,8 @@
     <Description>A soundboard plugin for Macro Deck 2</Description>
     <PackageProjectUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2/releases</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PhoenixWyllow/Soundboard4MacroDeck2</RepositoryUrl>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\Languages\*.json" />

@@ -1,13 +1,12 @@
 ﻿using Soundboard4MacroDeck.Models;
+
 using SQLite;
+
 using SuchByte.MacroDeck.Backups;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Startup;
-using System;
-using System.Collections.Generic;
-using System.IO;
+
 using System.IO.Compression;
-using System.Linq;
 
 namespace Soundboard4MacroDeck.Services;
 internal class SoundboardContext

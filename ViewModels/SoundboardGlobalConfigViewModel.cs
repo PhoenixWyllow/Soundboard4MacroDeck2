@@ -2,12 +2,6 @@
 using Soundboard4MacroDeck.Models;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Threading;
 using SystemIOFile = System.IO.File;
 using Soundboard4MacroDeck.Services;
 

@@ -1,13 +1,13 @@
 ﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
+
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
-using System;
+
 using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;
 

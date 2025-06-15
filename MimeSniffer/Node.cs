@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Soundboard4MacroDeck.MimeSniffer;
+﻿namespace Soundboard4MacroDeck.MimeSniffer;
 
 /// <summary>
 /// node

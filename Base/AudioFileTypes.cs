@@ -1,6 +1,4 @@
 ﻿using SuchByte.MacroDeck.Logging;
-using System;
-using System.Collections.Generic;
 using Soundboard4MacroDeck.MimeSniffer;
 
 namespace Soundboard4MacroDeck.Base;

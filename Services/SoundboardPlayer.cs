@@ -1,9 +1,6 @@
 ﻿using Soundboard4MacroDeck.Models;
-using System;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
-using System.Collections.Generic;
-using System.Linq;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Variables;
 
