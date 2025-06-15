@@ -24,10 +24,7 @@ public static class Extensions
             }
         }
         
-        var metadata = new Metadata()
-        {
-            Extensions = header.Extensions.Split(',', ' ').ToList()
-        };
+        var metadata = new Metadata(header.Extensions.Split(',', ' ').ToList());
         var hex = header.Hex;
         if (header.Offset > 0)
         {
@@ -118,12 +115,7 @@ public static class Extensions
 
     private static Offset MakeOffset(string[] byteStringArray, int start, int count)
     {
-        return new()
-        {
-            Start = start,
-            Count = count,
-            Value = Encoding.ASCII.GetString(string.Join(",", byteStringArray, start, count).GetByte())
-        };
+        return new(count, start, Encoding.ASCII.GetString(string.Join(",", byteStringArray, start, count).GetByte()));
     }
 
     [DebuggerStepThrough]

@@ -18,7 +18,7 @@ public class Node
     /// <summary>
     /// Gets or sets extentions.
     /// </summary>
-    public List<string> Extentions { get; set; }
+    public List<string> Extensions { get; set; }
 
     /// <summary>
     /// Gets or sets parent node.

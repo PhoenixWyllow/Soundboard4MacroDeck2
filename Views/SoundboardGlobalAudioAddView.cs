@@ -3,6 +3,7 @@ using Soundboard4MacroDeck.ViewModels;
 
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
+using SuchByte.MacroDeck.Logging;
 
 namespace Soundboard4MacroDeck.Views;
 public partial class SoundboardGlobalAudioAddView : DialogForm
@@ -57,6 +58,11 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
         using var getFromUrlDialog = new GetFileFromWebView(_viewModel);
         if (getFromUrlDialog.ShowDialog(this) == DialogResult.OK)
         {
+            if (_viewModel.LastAudioFile is null)
+            {
+                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file cannot be added as there is no valid audio present.");
+                return;
+            }
             fromUrl = true;
             filePath.Text = _viewModel.LastAudioFile.Name;
         }

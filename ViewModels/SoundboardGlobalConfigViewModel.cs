@@ -38,7 +38,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     public IList<AudioCategory> AudioCategories => PluginInstance.DbContext.GetAudioCategories();
 
-    public AudioFile LastAudioFile { get; internal set; }
+    public AudioFile? LastAudioFile { get; internal set; }
 
     public void UpdateAudioFile(AudioFileItem editedItem)
     {
@@ -55,9 +55,9 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
     }
 
-    public AudioFile GetBytesFromFile(string filePath)
+    public AudioFile? GetBytesFromFile(string filePath)
     {
-        byte[] data = null;
+        byte[]? data = null;
         if (SystemIOFile.Exists(filePath))
         {
             data = SystemIOFile.ReadAllBytes(filePath);
@@ -66,7 +66,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return TryApplyFile(data, filePath);
     }
 
-    public async Task<AudioFile> GetFromUrlAsync(string urlPath, IProgress<float> progress, CancellationToken cancellationToken)
+    public async Task<AudioFile?> GetFromUrlAsync(string urlPath, IProgress<float> progress, CancellationToken cancellationToken)
     {
         try
         {
@@ -87,9 +87,9 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return null;
     }
 
-    private static AudioFile TryApplyFile(byte[] data, string path)
+    private static AudioFile? TryApplyFile(byte[]? data, string path)
     {
-        if (data != null
+        if (data is not null
             && AudioFileTypes.IsValidFile(data, out string extension))
         {
             var ext = AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
@@ -104,7 +104,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return null;
     }
 
-    private static string GetFileName(string path, string ext)
+    private static string GetFileName(string path, string? ext)
     {
         return string.IsNullOrWhiteSpace(ext)
             ? System.IO.Path.GetFileName(path)

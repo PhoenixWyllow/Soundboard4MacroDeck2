@@ -54,9 +54,9 @@ public static class SoundboardPlayer
     private static readonly object key = new();
     private static List<SoundboardPlaybackEngine> ActivePlaybackEngines { get; } = new();
 
-    private static void OnPlaybackStopped(object sender, EventArgs _)
+    private static void OnPlaybackStopped(object? sender, EventArgs _)
     {
-        var playbackEngine = (SoundboardPlaybackEngine)sender;
+        var playbackEngine = (SoundboardPlaybackEngine)sender!;
         ActivePlaybackEngines.Remove(playbackEngine);
         SetVariables(playbackEngine, true);
         playbackEngine?.Dispose();
@@ -140,7 +140,7 @@ public static class SoundboardPlayer
         playbackEngine.Play();
     }
 
-    private static void PlaybackEngine_Elapsed(object sender, EventArgs e)
+    private static void PlaybackEngine_Elapsed(object? sender, EventArgs e)
     {
         if (sender is not null and SoundboardPlaybackEngine playbackEngine)
         {

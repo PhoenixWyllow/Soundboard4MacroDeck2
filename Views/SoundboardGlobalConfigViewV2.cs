@@ -88,9 +88,9 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         categoriesTable.CellEndEdit += CategoriesTable_CellEndEdit;
     }
 
-    private BindingList<AudioCategory> categoryComboBoxList;
+    private BindingList<AudioCategory>? categoryComboBoxList;
 
-    private BindingList<AudioFileItem> audioFilesList;
+    private BindingList<AudioFileItem>? audioFilesList;
 
     private void InitAudioFilesPage()
     {
@@ -126,28 +126,41 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         audioFilesTable.CellEndEdit += AudioFilesTable_CellEndEdit;
     }
 
-    private void AudioFilesTable_DataError(object sender, DataGridViewDataErrorEventArgs e)
+    private void AudioFilesTable_DataError(object? sender, DataGridViewDataErrorEventArgs e)
     {
         e.Cancel = true;
         e.ThrowException = false;
-        MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception.Message);
-        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception.StackTrace);
+        MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception?.Message ?? "No message");
+        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception?.StackTrace ?? "No message");
     }
 
-    private void AudioFileAdd_Click(object sender, EventArgs e)
+    private void AudioFileAdd_Click(object? sender, EventArgs e)
     {
         using var audioAddDialog = new SoundboardGlobalAudioAddView(_viewModel);
         if (audioAddDialog.ShowDialog(this) == DialogResult.OK)
         {
+            if (audioFilesList is null || _viewModel.LastAudioFile is null)
+            {
+                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file cannot be added as there is no valid audio present.");
+                return;
+            }
             audioFilesList.Add(_viewModel.LastAudioFile.ToAudioFileItem());
             _viewModel.LastAudioFile = null;
+
+            MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file added successfully.");
         }
     }
 
     private void Navigation_Selecting(object sender, TabControlCancelEventArgs e)
     {
-        if (e.TabPage.Name == audioFilePage.Name)
+        if (e.TabPage?.Name == audioFilePage.Name)
         {
+            if (categoryComboBoxList is null)
+            {
+                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Category list is null. Please reopen the config view.");
+                return;
+            }
+
             // Refresh audioCategories
             categoryComboBoxList.Clear();
             foreach (var cat in _viewModel.AudioCategories)
@@ -157,13 +170,13 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         }
     }
 
-    private void CategoriesAdd_Click(object sender, EventArgs e)
+    private void CategoriesAdd_Click(object? sender, EventArgs e)
     {
         PluginInstance.DbContext.InsertAudioCategory(new());
         categoriesTable.DataSource = _viewModel.AudioCategories;
     }
 
-    private void CategoriesTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+    private void CategoriesTable_CellEndEdit(object? sender, DataGridViewCellEventArgs e)
     {
         try
         {
@@ -177,7 +190,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         }
     }
 
-    private void AudioFilesTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+    private void AudioFilesTable_CellEndEdit(object? sender, DataGridViewCellEventArgs e)
     {
         try
         {

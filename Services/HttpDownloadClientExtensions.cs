@@ -16,15 +16,11 @@ public static class HttpDownloadClientExtensions
         // passed or when the content length is unknown
         if (progress is null || !contentLength.HasValue) 
         {
-#if NETCOREAPP3_1
-            return await client.GetByteArrayAsync(requestUri).ConfigureAwait(false);
-#else //net6
             return await client.GetByteArrayAsync(requestUri, cancellationToken).ConfigureAwait(false);
-#endif 
         }
         
         using MemoryStream destination = new ((int)contentLength);
-        using var download = await response.Content.ReadAsStreamAsync();//TODO net6: cancellationToken);
+        using var download = await response.Content.ReadAsStreamAsync(cancellationToken);
         
         // Convert absolute progress (bytes downloaded) into relative progress (0% - 100%)
         Progress<long> relativeProgress = new (totalBytes => progress.Report((float)totalBytes / contentLength.Value));
@@ -33,10 +29,10 @@ public static class HttpDownloadClientExtensions
         await download.CopyToAsync(destination, 8192, relativeProgress, cancellationToken).ConfigureAwait(false);
         progress.Report(1);
 
-        return destination.Length == 0 ? Array.Empty<byte>() : destination.GetBuffer();
+        return destination.Length == 0 ? [] : destination.GetBuffer();
     }
     
-    public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize, IProgress<long> progress = null, CancellationToken cancellationToken = default) 
+    public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize, IProgress<long>? progress = null, CancellationToken cancellationToken = default) 
     {
         ValidateArguments(source, destination, bufferSize);
 
@@ -61,13 +57,9 @@ public static class HttpDownloadClientExtensions
     
     private static void ValidateArguments(Stream source, Stream destination, int bufferSize)
     {
-#if NETCOREAPP3_1
-        if (source is null) throw new ArgumentNullException(nameof(source));
-        if (destination is null) throw new ArgumentNullException(nameof(destination));
-#else //net6
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(destination);
-#endif 
+        ArgumentOutOfRangeException.ThrowIfNegative(bufferSize);
 
         if (!source.CanRead)
         {
@@ -78,10 +70,6 @@ public static class HttpDownloadClientExtensions
         {
             throw new ArgumentException(@"Has to be writable", nameof(destination));
         }
-        
-        if (bufferSize < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(bufferSize));
-        }
+
     }
 }

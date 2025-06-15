@@ -58,7 +58,6 @@ internal class ConfigUpdater
             });
             SoundboardContext.AddBackupCreationHook();
             filesAdded.Clear();
-            filesAdded = null;
 
             NotificationManager.Notify(PluginInstance.Current, "SoundBoard Upgrade", "A major update was performed. A backup has been made.");
         }
@@ -72,21 +71,23 @@ internal class ConfigUpdater
             typeof(SoundboardLoopAction),
         ];
 
-    private static Dictionary<string, int> filesAdded = [];
+    private static readonly Dictionary<string, int> filesAdded = [];
 
-    private static void ChangeConfiguration(PluginAction action, SoundboardContext db, int categoryId)
+    private static void ChangeConfiguration(PluginAction? action, SoundboardContext db, int categoryId)
     {
-        if (ActionTypes.Contains(action.GetType()))
+        if (action is not null && ActionTypes.Contains(action.GetType()))
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             var actionParametersLegacy = ActionParameters.Deserialize(action.Configuration);
-            var data = BitConverter.ToString(actionParametersLegacy.FileData);
+#pragma warning restore CS0618 // Type or member is obsolete
+            var data = BitConverter.ToString(actionParametersLegacy.FileData!);
             if (!filesAdded.TryGetValue(data, out var entryId))
             {
-                entryId = db.InsertAudioFile(new AudioFile { Data = actionParametersLegacy.FileData, Name = actionParametersLegacy.FileName, CategoryId = categoryId });
+                entryId = db.InsertAudioFile(new AudioFile { Data = actionParametersLegacy.FileData!, Name = actionParametersLegacy.FileName, CategoryId = categoryId });
                 filesAdded.Add(data, entryId);
             }
 
-            using (AudioReader reader = new(actionParametersLegacy.FileName, actionParametersLegacy.FileData, false))
+            using (AudioReader reader = new(actionParametersLegacy.FileName, actionParametersLegacy.FileData!, false))
             {
                 SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{entryId}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);
             }

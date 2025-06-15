@@ -35,14 +35,14 @@ internal class SoundboardContext
         BackupManager.BackupSaved -= BackupManager_BackupSaved;
     }
 
-    private static void BackupManager_BackupSaved(object sender, EventArgs e)
+    private static void BackupManager_BackupSaved(object? sender, EventArgs e)
     {
         try
         {
             PluginInstance.DbContext.Db.Close();
             var backup = new DirectoryInfo(ApplicationPaths.BackupsDirectoryPath).EnumerateFiles().OrderByDescending(f => f.CreationTimeUtc).First();
             using var archive = ZipFile.Open(backup.FullName, ZipArchiveMode.Update);
-            archive.CreateEntryFromFile(DbPath, Path.Combine(new DirectoryInfo(ApplicationPaths.PluginsDirectoryPath).Name, Directory.GetParent(PluginDir).Name, "DB", dbFileName));
+            archive.CreateEntryFromFile(DbPath, Path.Combine(new DirectoryInfo(ApplicationPaths.PluginsDirectoryPath).Name, Directory.GetParent(PluginDir)!.Name, "DB", dbFileName));
         }
         catch (Exception ex)
         {

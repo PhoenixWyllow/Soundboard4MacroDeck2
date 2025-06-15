@@ -3,14 +3,14 @@
 /// <summary>
 /// Present one record.
 /// </summary>
-public class Header
+public sealed class Header
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Header"/> class.
     /// </summary>
     /// <param name="extensions">extensions string ,split with "," what if it has many.</param>
     /// <param name="hex">hex string, split with ",".</param>
-    public Header(string extensions, string hex) : this(extensions, 0, hex, null) { }
+    public Header(string extensions, string hex) : this(extensions, 0, hex, string.Empty) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Header"/> class.
@@ -18,7 +18,7 @@ public class Header
     /// <param name="extensions">extensions format string.</param>
     /// <param name="offset">Offset of this record.</param>
     /// <param name="hex">File hex head format string.</param>
-    public Header(string extensions, int offset, string hex) : this(extensions, offset, hex, null) { }
+    public Header(string extensions, int offset, string hex) : this(extensions, offset, hex, string.Empty) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Header"/> class.
@@ -68,7 +68,7 @@ public class Header
     /// </summary>
     public bool IsComplexMetadata
     {
-        get => (Offset > 0) || (Hex.Contains("?"));
+        get => (Offset > 0) || (Hex.Contains('?'));
     }
 
 }
