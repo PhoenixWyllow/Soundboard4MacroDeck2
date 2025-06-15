@@ -1,9 +1,11 @@
 ﻿using Soundboard4MacroDeck.Base;
 using Soundboard4MacroDeck.Models;
+using Soundboard4MacroDeck.Services;
+
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
+
 using SystemIOFile = System.IO.File;
-using Soundboard4MacroDeck.Services;
 
 namespace Soundboard4MacroDeck.ViewModels;
 
@@ -92,6 +94,12 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         if (data is not null
             && AudioFileTypes.IsValidFile(data, out string extension))
         {
+            //if match has extension in IncorrectHeaders, notify the user
+            if (AudioFileTypes.IncorrectHeaders.Any(h => h.ExtensionsArray.Contains(extension)))
+            {
+                using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
+                messageBox.ShowDialog(string.Empty, LocalizationManager.Instance.GlobalConfigIncorrectFileHeader + $" ({extension})", MessageBoxButtons.OK);
+            }
             var ext = AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
 
             AudioFile audioFile = new()
@@ -107,7 +115,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
     private static string GetFileName(string path, string? ext)
     {
         return string.IsNullOrWhiteSpace(ext)
-            ? System.IO.Path.GetFileName(path)
-            : System.IO.Path.GetFileNameWithoutExtension(path) + ext[1..];
+            ? Path.GetFileName(path)
+            : Path.GetFileNameWithoutExtension(path) + ext[1..];
     }
 }

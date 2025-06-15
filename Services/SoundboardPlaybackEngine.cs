@@ -39,13 +39,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
             Volume = Math.Min(actionParameters.Volume / 100f, 1f)
         };
 
-        Init(enableLoop);
-
-        if (hasTimeOutput)
-        {
-            playbackTimer = new(400);
-            playbackTimer.Elapsed += PlaybackTimer_Elapsed;
-        }
+        Init();
     }
 
     private void PlaybackTimer_Elapsed(object? sender, ElapsedEventArgs e)
@@ -63,12 +57,18 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     public event EventHandler<StoppedEventArgs>? PlaybackStopped;
 
-    private void Init(bool enableLoop)
+    private void Init()
     {
         outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
         //outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
 
         outputDevice.Init(audioReader.WaveProvider);
+
+        if (HasTimeOutput)
+        {
+            playbackTimer = new(400);
+            playbackTimer.Elapsed += PlaybackTimer_Elapsed;
+        }
     }
 
     public void Play()

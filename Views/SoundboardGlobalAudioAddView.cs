@@ -20,6 +20,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
     }
     private void ApplyLocalization()
     {
+        Text = "Soundboard - " + LocalizationManager.Instance.GlobalConfigAddAudio;
         buttonGetFromURL.Text = LocalizationManager.Instance.ActionPlaySoundURLGet;
         fileBrowse.Text = LocalizationManager.Instance.ActionPlaySoundFileBrowse;
         filePath.PlaceHolderText = LocalizationManager.Instance.ActionPlaySoundFilePathPlaceholder;
@@ -31,7 +32,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
     private void SoundboardGlobalAudioAddView_Load(object sender, EventArgs e)
     {
         // openFileDialog
-        string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
+        string types = string.Join(';', Base.AudioFileTypes.Extensions);
         openFileDialog.Filter = @$"Audio File ({types})|{types}";
         openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     }

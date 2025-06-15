@@ -16,8 +16,8 @@ public class ActionParameters : IOutputConfiguration
 
     public string FileName =>
         string.IsNullOrWhiteSpace(FileExt)
-            ? System.IO.Path.GetFileName(FilePath)
-            : System.IO.Path.GetFileNameWithoutExtension(FilePath) + FileExt[1..];
+            ? Path.GetFileName(FilePath)
+            : Path.GetFileNameWithoutExtension(FilePath) + FileExt[1..];
 
     public string Serialize() =>
         JsonSerializer.Serialize(this);

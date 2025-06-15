@@ -47,7 +47,7 @@ public class Sniffer
         }
         else
         {
-            Add(header.Hex.GetByte(), header.Extensions.Split(',', ' '));
+            Add(header.Hex.GetByte(), header.ExtensionsArray);
         }
     }
 
@@ -62,7 +62,7 @@ public class Sniffer
         List<string> extensionStore = new(4);
         Match(data, 0, _root, extensionStore, matchAll);
 
-        if (matchAll || !extensionStore.Any())
+        if (matchAll || extensionStore.Count == 0)
         {
             // Match data from complex metadata.
             extensionStore.AddRange(ComplexMetadata.Match(data, matchAll));

@@ -19,8 +19,7 @@ internal class AudioFileTypes
         "*.aif", "*.aiff", "*.mid", "*.midi", "*.m4a", "*.mp3", "*.ogg", "*.oga", "*.aac", "*.flac", "*.wma", "*.wav", "*.weba",
     };
 
-    public static List<Header> Headers => new()
-    {
+    public static List<Header> Headers => [
         new("aif aiff", "46 4F 52 4D ?? ?? ?? ?? 41 49 46 46"),
         new("mid midi", "4D 54 68 64"),
         new("m4a", 4, "66 74 79 70 4D 34 41 20", "Apple Lossless Audio Codec file"),
@@ -35,13 +34,19 @@ internal class AudioFileTypes
         new("wma", "30 26 B2 75 8E 66 CF 11 A6 D9 00 AA 00 62 CE 6C"),
         new("wav", "52 49 46 46 ?? ?? ?? ?? 57 41 56 45"),
         new("wav", 8, "57 41 56 45 66 6D 74 20"),
-    };
+
+    ];
+
+    public static List<Header> IncorrectHeaders => [
+        new("m4v mp4", "00 00 00 18 66 74 79 70", "MPEG-4 video"),
+    ];
 
     public static Sniffer MimeSniffer => GetMimeSniffer();
     private static Sniffer GetMimeSniffer()
     {
         Sniffer sniffer = new();
         sniffer.Populate(Headers);
+        sniffer.Populate(IncorrectHeaders);
         return sniffer;
     }
 

@@ -53,6 +53,8 @@ public sealed class Header
     /// </summary>
     public string Extensions { get; private set; }
 
+    public string[] ExtensionsArray => Extensions.Split(',', ' ');
+
     /// <summary>
     /// Gets or sets Hex String.
     /// </summary>
