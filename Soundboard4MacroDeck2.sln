@@ -11,8 +11,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2879CD36-47AA-4083-9102-20A54752C093}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{2879CD36-47AA-4083-9102-20A54752C093}.Debug|Any CPU.Build.0 = Debug|x64
+		{2879CD36-47AA-4083-9102-20A54752C093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2879CD36-47AA-4083-9102-20A54752C093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2879CD36-47AA-4083-9102-20A54752C093}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2879CD36-47AA-4083-9102-20A54752C093}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
@@ -20,13 +20,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseUniversalClock = True
-		BuildVersion_ConfigurationName = Release
-		BuildVersion_StartDate = 2000/1/1
-		BuildVersion_UpdateFileVersion = True
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_BuildVersioningStyle = None.None.YearDayOfYearStamp.Increment
 		SolutionGuid = {40215FF3-FD92-4527-BA1A-4351A96723C5}
+		BuildVersion_BuildVersioningStyle = None.None.YearDayOfYearStamp.Increment
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_StartDate = 2000/1/1
+		BuildVersion_ConfigurationName = Release
+		BuildVersion_UseUniversalClock = True
 	EndGlobalSection
 	GlobalSection(AutomaticVersions) = postSolution
 		PrimaryVersionType = AssemblyVersionAttribute
