@@ -1,11 +1,11 @@
 ﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
+
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
-using System;
 
 namespace Soundboard4MacroDeck.Actions;
 

@@ -1,8 +1,8 @@
 ﻿using NAudio.CoreAudioApi;
+
 using Soundboard4MacroDeck.Models;
+
 using SuchByte.MacroDeck.Logging;
-using System;
-using System.Collections.Generic;
 
 namespace Soundboard4MacroDeck.ViewModels;
 
@@ -10,13 +10,13 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
 {
     private readonly IOutputConfiguration _globalOutputConfiguration;
     protected IOutputConfiguration OutputConfiguration { get; }
-    public List<MMDevice> Devices { get; private set; }
+    public List<MMDevice> Devices { get; private set; } = [];
     public int DevicesIndex { get; private set; }
     //public int Latency { get => OutputConfiguration.Latency; set => OutputConfiguration.Latency = value; }
 
     public bool IsDefaultDevice() => OutputConfiguration.MustGetDefaultDevice();
 
-    public event EventHandler OnSetDeviceIndex;
+    public event EventHandler? OnSetDeviceIndex;
 
     ISerializableConfiguration ISoundboardBaseConfigViewModel.SerializableConfiguration => OutputConfiguration;
 
@@ -43,17 +43,17 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
     private void FetchAvailableDevices()
     {
         using var enumerator = new MMDeviceEnumerator();
-        Devices = new(enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active));
+        Devices = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
     }
 
     public void LoadDeviceIndex()
     {
-        SetDeviceIndex(IsDefaultDevice(), OutputConfiguration.OutputDeviceId);
+        SetDeviceIndex(IsDefaultDevice(), OutputConfiguration.OutputDeviceId!);
     }
 
     public void ResetDevice()
     {
-        SetDeviceIndex(OutputConfiguration is GlobalParameters, _globalOutputConfiguration.OutputDeviceId);
+        SetDeviceIndex(OutputConfiguration is GlobalParameters, _globalOutputConfiguration.OutputDeviceId!);
         OutputConfiguration.UseDefaultDevice = true;
     }
 
@@ -68,7 +68,7 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
         {
             SetDeviceById(deviceId);
         }
-        OnSetDeviceIndex?.Invoke(DevicesIndex, null);
+        OnSetDeviceIndex?.Invoke(this, EventArgs.Empty);
     }
 
     private void SetDeviceById(string deviceId)

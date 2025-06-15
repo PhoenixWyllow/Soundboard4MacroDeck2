@@ -6,8 +6,8 @@ public sealed class AudioFile
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
-    public string Name { get; set; }
-    public byte[] Data { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public byte[] Data { get; set; } = [];
 
     [Indexed]
     public int CategoryId { get; set; }
@@ -17,7 +17,7 @@ public sealed class AudioFile
         return $"{Id} - {Name}";
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is AudioFile audioFile && Equals(audioFile);
     }
@@ -42,14 +42,14 @@ public sealed class AudioCategory
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public override string ToString()
     {
         return $"{Id} - {Name}";
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is AudioCategory audioCategory && Equals(audioCategory);
     }
@@ -68,6 +68,6 @@ public sealed class AudioCategory
 public sealed class AudioFileItem
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public int CategoryId { get; set; }
 }

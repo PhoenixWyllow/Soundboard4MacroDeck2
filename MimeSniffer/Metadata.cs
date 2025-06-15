@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Soundboard4MacroDeck.MimeSniffer;
 
@@ -11,9 +10,10 @@ public class Metadata
     /// <summary>
     /// Initializes a new instance of the <see cref="Metadata"/> class.
     /// </summary>
-    public Metadata()
+    public Metadata(List<string> extensions)
     {
         Offsets = new(4);
+        Extensions = extensions;
     }
 
     /// <summary>

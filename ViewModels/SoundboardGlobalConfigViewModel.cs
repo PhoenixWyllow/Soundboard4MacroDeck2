@@ -1,15 +1,11 @@
 ﻿using Soundboard4MacroDeck.Base;
 using Soundboard4MacroDeck.Models;
+using Soundboard4MacroDeck.Services;
+
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Threading;
+
 using SystemIOFile = System.IO.File;
-using Soundboard4MacroDeck.Services;
 
 namespace Soundboard4MacroDeck.ViewModels;
 
@@ -44,11 +40,11 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     public IList<AudioCategory> AudioCategories => PluginInstance.DbContext.GetAudioCategories();
 
-    public AudioFile LastAudioFile { get; internal set; }
+    public AudioFile? LastAudioFile { get; internal set; }
 
     public void UpdateAudioFile(AudioFileItem editedItem)
     {
-        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id);
+        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id)!;
         file.Name = editedItem.Name;
         file.CategoryId = editedItem.CategoryId;
         PluginInstance.DbContext.UpdateAudioFile(file);
@@ -56,14 +52,14 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     internal void UpdateCategory(AudioCategory editedCategory)
     {
-        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id);
+        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id)!;
         audioCategory.Name = editedCategory.Name;
         PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
     }
 
-    public AudioFile GetBytesFromFile(string filePath)
+    public AudioFile? GetBytesFromFile(string filePath)
     {
-        byte[] data = null;
+        byte[]? data = null;
         if (SystemIOFile.Exists(filePath))
         {
             data = SystemIOFile.ReadAllBytes(filePath);
@@ -72,7 +68,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return TryApplyFile(data, filePath);
     }
 
-    public async Task<AudioFile> GetFromUrlAsync(string urlPath, IProgress<float> progress, CancellationToken cancellationToken)
+    public async Task<AudioFile?> GetFromUrlAsync(string urlPath, IProgress<float> progress, CancellationToken cancellationToken)
     {
         try
         {
@@ -93,11 +89,17 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return null;
     }
 
-    private static AudioFile TryApplyFile(byte[] data, string path)
+    private static AudioFile? TryApplyFile(byte[]? data, string path)
     {
-        if (data != null
+        if (data is not null
             && AudioFileTypes.IsValidFile(data, out string extension))
         {
+            //if match has extension in IncorrectHeaders, notify the user
+            if (AudioFileTypes.IncorrectHeaders.Any(h => h.ExtensionsArray.Contains(extension)))
+            {
+                using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
+                messageBox.ShowDialog(string.Empty, LocalizationManager.Instance.GlobalConfigIncorrectFileHeader + $" ({extension})", MessageBoxButtons.OK);
+            }
             var ext = AudioFileTypes.Extensions.FirstOrDefault(ext => ext.EndsWith(extension));
 
             AudioFile audioFile = new()
@@ -110,10 +112,46 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return null;
     }
 
-    private static string GetFileName(string path, string ext)
+    private static string GetFileName(string path, string? ext)
     {
         return string.IsNullOrWhiteSpace(ext)
-            ? System.IO.Path.GetFileName(path)
-            : System.IO.Path.GetFileNameWithoutExtension(path) + ext[1..];
+            ? Path.GetFileName(path)
+            : Path.GetFileNameWithoutExtension(path) + ext[1..];
+    }
+
+    public bool CanDeleteAudioCategory(AudioCategory? category)
+    {
+        if (category is null)
+        {
+            return false;
+        }
+        bool inUse = AudioFiles.Any(f => f.CategoryId == category.Id);
+        if (inUse)
+        {
+            using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
+            messageBox.ShowDialog(string.Empty, LocalizationManager.Instance.CategoryRemoveErrorLabel, MessageBoxButtons.OK);
+            return false;
+        }
+
+        return ConfirmDelete(category.Name);
+    }
+
+    public bool CanDeleteAudioFile(AudioFileItem? audioFile)
+    {
+        if (audioFile is null)
+        {
+            return false;
+        }
+        return ConfirmDelete(audioFile.Name);
+    }
+
+    private static bool ConfirmDelete(string name)
+    {
+        using var confirmMessageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
+        var confirmResult = confirmMessageBox.ShowDialog(
+            string.Format(LocalizationManager.Instance.ConfirmDeleteLabel, name),
+            LocalizationManager.Instance.ConfirmDeleteWarningLabel,
+            MessageBoxButtons.YesNo);
+        return (confirmResult == DialogResult.Yes);
     }
 }

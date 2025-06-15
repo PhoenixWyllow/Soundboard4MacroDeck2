@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
 
 namespace Soundboard4MacroDeck.MimeSniffer;
@@ -27,10 +24,7 @@ public static class Extensions
             }
         }
         
-        var metadata = new Metadata()
-        {
-            Extensions = header.Extensions.Split(',', ' ').ToList()
-        };
+        var metadata = new Metadata(header.ExtensionsArray.ToList());
         var hex = header.Hex;
         if (header.Offset > 0)
         {
@@ -121,21 +115,16 @@ public static class Extensions
 
     private static Offset MakeOffset(string[] byteStringArray, int start, int count)
     {
-        return new()
-        {
-            Start = start,
-            Count = count,
-            Value = Encoding.ASCII.GetString(string.Join(",", byteStringArray, start, count).GetByte())
-        };
+        return new(count, start, Encoding.ASCII.GetString(string.Join(",", byteStringArray, start, count).GetByte()));
     }
 
     [DebuggerStepThrough]
-    private static string Repeat(string source, int count, char seprator)
+    private static string Repeat(string source, int count, char separator)
     {
         var sb = new StringBuilder(count);
         for (int i = 0; i < count; i++)
         {
-            sb.Append(source).Append(seprator);
+            sb.Append(source).Append(separator);
         }
 
         return sb.ToString();

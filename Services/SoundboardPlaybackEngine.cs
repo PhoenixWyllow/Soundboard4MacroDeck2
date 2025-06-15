@@ -1,9 +1,13 @@
-using System;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
+
 using Soundboard4MacroDeck.Models;
+
 using SuchByte.MacroDeck.Logging;
+
 using System.Timers;
+
+using Timer = System.Timers.Timer;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -14,7 +18,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     
     private IWavePlayer outputDevice;
     private AudioReader audioReader;
-    private Timer playbackTimer;
+    private Timer? playbackTimer;
 
     public string GetReaderId(string prefix) => $"sb_{_actionParameters.AudioFileId}{prefix}_{_internalId}";
     public TimeSpan CurrentTime => audioReader.CurrentTime;
@@ -29,40 +33,42 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         HasTimeOutput = hasTimeOutput;
 
         outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
-        Init(enableLoop);
-        outputDevice.Init(audioReader.WaveProvider);
 
-        if (hasTimeOutput)
+        audioReader = new AudioReader(actionParameters.FileName, actionParameters.FileData!, enableLoop)
         {
-            playbackTimer = new(400);
-            playbackTimer.Elapsed += PlaybackTimer_Elapsed;
-        }
+            Volume = Math.Min(actionParameters.Volume / 100f, 1f)
+        };
+
+        Init();
     }
 
-    private void PlaybackTimer_Elapsed(object sender, ElapsedEventArgs e)
+    private void PlaybackTimer_Elapsed(object? sender, ElapsedEventArgs e)
     {
         Elapsed?.Invoke(this, EventArgs.Empty);
     }
 
-    public event EventHandler<EventArgs> Elapsed;
+    public event EventHandler<EventArgs>? Elapsed;
 
-    private void OnOutputDevicePlaybackStopped(object _, StoppedEventArgs e)
+    private void OnOutputDevicePlaybackStopped(object? _, StoppedEventArgs e)
     {
         MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Stopped:"+_internalId);
         PlaybackStopped?.Invoke(this, e);
     }
 
-    public event EventHandler<StoppedEventArgs> PlaybackStopped;
+    public event EventHandler<StoppedEventArgs>? PlaybackStopped;
 
-    private void Init(bool enableLoop)
+    private void Init()
     {
-        audioReader = new AudioReader(_actionParameters.FileName, _actionParameters.FileData, enableLoop)
-        {
-            Volume = Math.Min(_actionParameters.Volume / 100f, 1f)
-        };
-
         outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
         //outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
+
+        outputDevice.Init(audioReader.WaveProvider);
+
+        if (HasTimeOutput)
+        {
+            playbackTimer = new(400);
+            playbackTimer.Elapsed += PlaybackTimer_Elapsed;
+        }
     }
 
     public void Play()
@@ -105,7 +111,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     }
 
     /// <inheritdoc />
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is null) return false;
         return ReferenceEquals(this, obj) || (obj is SoundboardPlaybackEngine engine && Equals(engine));
@@ -122,9 +128,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     {
         playbackTimer?.Dispose();
         playbackTimer = null;
-        outputDevice?.Dispose();
-        outputDevice = null;
-        audioReader?.Dispose();
-        audioReader = null;
+        outputDevice.Dispose();
+        audioReader.Dispose();
     }
 }

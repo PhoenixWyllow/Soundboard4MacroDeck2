@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Soundboard4MacroDeck.MimeSniffer;
+﻿namespace Soundboard4MacroDeck.MimeSniffer;
 
 /// <summary>
 /// sniffer
@@ -25,18 +21,18 @@ public class Sniffer
     }
 
     /// <summary>
-    /// Gets or sets ComplexMetadatas.
+    /// Gets or sets ComplexMetadata.
     /// </summary>
     public List<Metadata> ComplexMetadata { get; set; }
 
     /// <summary>
-    /// Add a header to matadata tree.
+    /// Add a header to metadata tree.
     /// </summary>
     /// <param name="data">file head.</param>
-    /// <param name="extentions">file extention list.</param>
-    public void Add(byte[] data, string[] extentions)
+    /// <param name="extensions">file extension list.</param>
+    public void Add(byte[] data, string[] extensions)
     {
-        Add(data, _root, extentions, 0);
+        Add(data, _root, extensions, 0);
     }
 
     /// <summary>
@@ -51,37 +47,37 @@ public class Sniffer
         }
         else
         {
-            Add(header.Hex.GetByte(), header.Extensions.Split(',', ' '));
+            Add(header.Hex.GetByte(), header.ExtensionsArray);
         }
     }
 
     /// <summary>
-    /// Find extentions that match the file hex head.
+    /// Find extensions that match the file hex head.
     /// </summary>
     /// <param name="data">file hex head</param>
     /// <param name="matchAll">match all result or only the first.</param>
     /// <returns>matched result</returns>
     public List<string> Match(byte[] data, bool matchAll = false)
     {
-        List<string> extentionStore = new(4);
-        Match(data, 0, _root, extentionStore, matchAll);
+        List<string> extensionStore = new(4);
+        Match(data, 0, _root, extensionStore, matchAll);
 
-        if (matchAll || !extentionStore.Any())
+        if (matchAll || extensionStore.Count == 0)
         {
             // Match data from complex metadata.
-            extentionStore.AddRange(ComplexMetadata.Match(data, matchAll));
+            extensionStore.AddRange(ComplexMetadata.Match(data, matchAll));
         }
 
-        // Remove repeated extentions.
-        if (matchAll && extentionStore.Any())
+        // Remove repeated extensions.
+        if (matchAll && extensionStore.Count != 0)
         {
-            extentionStore = extentionStore.Distinct().ToList();
+            extensionStore = extensionStore.Distinct().ToList();
         }
 
-        return extentionStore;
+        return extensionStore;
     }
 
-    private void Add(byte[] data, Node parent, string[] extentions, int depth)
+    private void Add(byte[] data, Node parent, string[] extensions, int depth)
     {
         if (parent.Children == null)
         {
@@ -108,22 +104,19 @@ public class Sniffer
 
         }
 
-        // last byte, put extentions into Extentions.
+        // last byte, put extensions into Extensions.
         if (depth == (data.Length - 1))
         {
-            if (current.Extentions == null)
-            {
-                current.Extentions = new(4);
-            }
+            current.Extensions ??= new(4);
 
-            current.Extentions.AddRange(extentions);
+            current.Extensions.AddRange(extensions);
             return;
         }
 
-        Add(data, current, extentions, depth + 1);
+        Add(data, current, extensions, depth + 1);
     }
 
-    private void Match(byte[] data, int depth, Node node, List<string> extentionStore, bool matchAll)
+    private void Match(byte[] data, int depth, Node node, List<string> extensionStore, bool matchAll)
     {
         // if depth out of data.Length's index then data end.
         if (data.Length == depth)
@@ -131,18 +124,18 @@ public class Sniffer
             return;
         }
 
-        node.Children.TryGetValue(data[depth], out Node current);
+        node.Children.TryGetValue(data[depth], out Node? current);
 
         // can't find matched node, match ended.
-        if (current == null)
+        if (current is null)
         {
             return;
         }
 
-        // now extentions not null, this node is a final node and this is a result.
-        if (current.Extentions != null)
+        // now extensions not null, this node is a final node and this is a result.
+        if (current.Extensions is not null)
         {
-            extentionStore.AddRange(current.Extentions);
+            extensionStore.AddRange(current.Extensions);
 
             // if only match first matched.
             if (!matchAll)
@@ -158,6 +151,6 @@ public class Sniffer
         }
 
         // children not null, keep match.
-        Match(data, depth + 1, current, extentionStore, matchAll);
+        Match(data, depth + 1, current, extensionStore, matchAll);
     }
 }

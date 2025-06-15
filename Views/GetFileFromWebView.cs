@@ -1,11 +1,9 @@
 ﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
+
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
-using System;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views;
 
@@ -29,7 +27,7 @@ public partial class GetFileFromWebView : DialogForm
     private async void ButtonOK_Click(object sender, EventArgs e)
     {
         Progress<float> progress = new(progress => buttonOK.Progress = (int)progress);
-        AudioFile audioFile = await _viewModel.GetFromUrlAsync(urlBox.Text, progress, new CancellationTokenSource().Token); //using Macro Deck PrimaryButton as numeric progress bar/indicator
+        AudioFile? audioFile = await _viewModel.GetFromUrlAsync(urlBox.Text, progress, new CancellationTokenSource().Token); //using Macro Deck PrimaryButton as numeric progress bar/indicator
         if (audioFile is null)
         {
             using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();

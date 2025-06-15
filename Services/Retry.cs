@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace Soundboard4MacroDeck.Services;
+﻿namespace Soundboard4MacroDeck.Services;
 
 public static class Retry
 {
@@ -23,7 +19,7 @@ public static class Retry
     /// <param name="maxAttemptCount">max number of times to try the action before returning an exception</param>
     public static void Do(Action action, TimeSpan retryInterval, int maxAttemptCount = 3)
     {
-        _ = Do<object>(() =>
+        _ = Do<object?>(() =>
         {
             action();
             return null;

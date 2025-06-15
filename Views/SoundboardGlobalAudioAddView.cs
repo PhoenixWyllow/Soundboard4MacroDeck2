@@ -1,9 +1,9 @@
 ﻿using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
+
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
-using System;
-using System.Windows.Forms;
+using SuchByte.MacroDeck.Logging;
 
 namespace Soundboard4MacroDeck.Views;
 public partial class SoundboardGlobalAudioAddView : DialogForm
@@ -20,6 +20,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
     }
     private void ApplyLocalization()
     {
+        Text = "Soundboard - " + LocalizationManager.Instance.GlobalConfigAddAudio;
         buttonGetFromURL.Text = LocalizationManager.Instance.ActionPlaySoundURLGet;
         fileBrowse.Text = LocalizationManager.Instance.ActionPlaySoundFileBrowse;
         filePath.PlaceHolderText = LocalizationManager.Instance.ActionPlaySoundFilePathPlaceholder;
@@ -31,7 +32,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
     private void SoundboardGlobalAudioAddView_Load(object sender, EventArgs e)
     {
         // openFileDialog
-        string types = $"{string.Join(";", Base.AudioFileTypes.Extensions)}";
+        string types = string.Join(';', Base.AudioFileTypes.Extensions);
         openFileDialog.Filter = @$"Audio File ({types})|{types}";
         openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     }
@@ -58,6 +59,11 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
         using var getFromUrlDialog = new GetFileFromWebView(_viewModel);
         if (getFromUrlDialog.ShowDialog(this) == DialogResult.OK)
         {
+            if (_viewModel.LastAudioFile is null)
+            {
+                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file cannot be added as there is no valid audio present.");
+                return;
+            }
             fromUrl = true;
             filePath.Text = _viewModel.LastAudioFile.Name;
         }
