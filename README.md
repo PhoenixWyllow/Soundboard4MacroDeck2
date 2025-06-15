@@ -1,5 +1,7 @@
 ![Header](soundboardSocial.png)
-<img alt="Macro Deck 2 Community Plugin" height="64px" align="center" href="https://macrodeck.org" src="https://macrodeck.org/images/macro_deck_2_community_plugin.png"/>
+<img alt="Macro Deck 2 Community Plugin" height="64px" align="center" href="https://macro-deck.app/" src="https://macro-deck.app/images/macro_deck_2_community_plugin.png"/> 
+
+[![Crowdin](https://badges.crowdin.net/soundboard4macrodeck2/localized.svg)](https://crowdin.com/project/soundboard4macrodeck2)
 
 ***
 *This is a plugin for Macro Deck 2, it does NOT function as a standalone app*
