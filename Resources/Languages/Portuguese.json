@@ -33,5 +33,12 @@
   "GlobalConfigAudioCategories": "Audio categories",
   "ActionCategoryRandomName": "Play random from category",
   "ActionCategoryRandomDescription": "Play a random audio file from a given category",
-  "ActionCategoryAudioCategory": "Category"
+  "ActionCategoryAudioCategory": "Category",
+  "GlobalConfigAddAudio": "Add audio",
+  "GlobalConfigIncorrectFileHeader": "Detected file type is not supported but may still work",
+  "AddLabel": "Add",
+  "DeleteLabel": "Delete",
+  "ConfirmDeleteLabel": "Are you sure you want to delete '{0}'?",
+  "ConfirmDeleteWarningLabel": "This may cause some buttons to stop working.",
+  "CategoryRemoveErrorLabel": "This category is in use by one or more audio files and cannot be deleted."
 }
