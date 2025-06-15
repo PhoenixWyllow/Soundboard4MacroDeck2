@@ -33,5 +33,12 @@
   "GlobalConfigAudioCategories": "Categorie audio",
   "ActionCategoryRandomName": "Riproduci casuale da categoria",
   "ActionCategoryRandomDescription": "Riproduci un file casuale da una determinata categoria",
-  "ActionCategoryAudioCategory": "Categoria"
+  "ActionCategoryAudioCategory": "Categoria",
+  "GlobalConfigAddAudio": "Aggiungi audio",
+  "GlobalConfigIncorrectFileHeader": "Detected file type is not supported but may still work",
+  "AddLabel": "Aggiungi",
+  "DeleteLabel": "Elimina",
+  "ConfirmDeleteLabel": "Sei sicuro di voler eliminare '{0}'?",
+  "ConfirmDeleteWarningLabel": "Questo potrebbe causare il malfunzionamento di alcuni pulsanti.",
+  "CategoryRemoveErrorLabel": "Questa categoria è in uso da uno o più file audio e non può essere eliminata."
 }

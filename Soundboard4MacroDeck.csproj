@@ -22,7 +22,7 @@
     <Authors>PhoenixWyllow</Authors>
     <Copyright>PhoenixWyllow aka PW.Dev (pw.dev@outlook.com)</Copyright>
     <AssemblyVersion>$(VersionMajor).$(VersionMinor).$(VersionRevision)</AssemblyVersion>
-    <Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)-beta</Version>
+    <Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
     <OutputType>Library</OutputType>
     <StartupObject />
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

@@ -1,5 +1,4 @@
-﻿
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Soundboard4MacroDeck.Views
 {
@@ -13,7 +12,7 @@ namespace Soundboard4MacroDeck.Views
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -25,8 +24,7 @@ namespace Soundboard4MacroDeck.Views
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -40,10 +38,12 @@ namespace Soundboard4MacroDeck.Views
             audioFilePage = new TabPage();
             toolStrip2 = new ToolStrip();
             audioFileAdd = new ToolStripButton();
+            audioFileRemove = new ToolStripButton();
             audioFilesTable = new DataGridView();
             categoryPage = new TabPage();
             toolStrip1 = new ToolStrip();
             categoriesAdd = new ToolStripButton();
+            categoriesRemove = new ToolStripButton();
             categoriesTable = new DataGridView();
             navigation = new SuchByte.MacroDeck.GUI.CustomControls.VerticalTabControl();
             outputPage.SuspendLayout();
@@ -147,7 +147,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             toolStrip2.BackColor = Color.Transparent;
             toolStrip2.ImageScalingSize = new Size(24, 24);
-            toolStrip2.Items.AddRange(new ToolStripItem[] { audioFileAdd });
+            toolStrip2.Items.AddRange(new ToolStripItem[] { audioFileAdd, audioFileRemove });
             toolStrip2.Location = new Point(3, 3);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.Size = new Size(682, 31);
@@ -157,11 +157,21 @@ namespace Soundboard4MacroDeck.Views
             // audioFileAdd
             // 
             audioFileAdd.Alignment = ToolStripItemAlignment.Right;
-            audioFileAdd.ForeColor = Color.Black;
+            audioFileAdd.ForeColor = Color.White;
             audioFileAdd.Image = (Image)resources.GetObject("audioFileAdd.Image");
             audioFileAdd.ImageTransparentColor = Color.Magenta;
             audioFileAdd.Name = "audioFileAdd";
             audioFileAdd.Size = new Size(28, 28);
+            // 
+            // audioFileRemove
+            // 
+            audioFileRemove.Alignment = ToolStripItemAlignment.Right;
+            audioFileRemove.ForeColor = Color.White;
+            audioFileRemove.Image = (Image)resources.GetObject("audioFileAdd.Image");
+            audioFileRemove.ImageTransparentColor = Color.Magenta;
+            audioFileRemove.Name = "audioFileRemove";
+            audioFileRemove.Size = new Size(28, 28);
+            audioFileRemove.Text = "Remove";
             // 
             // audioFilesTable
             // 
@@ -207,7 +217,7 @@ namespace Soundboard4MacroDeck.Views
             // 
             toolStrip1.BackColor = Color.Transparent;
             toolStrip1.ImageScalingSize = new Size(24, 24);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { categoriesAdd });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { categoriesAdd, categoriesRemove });
             toolStrip1.Location = new Point(3, 3);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(682, 31);
@@ -217,11 +227,21 @@ namespace Soundboard4MacroDeck.Views
             // categoriesAdd
             // 
             categoriesAdd.Alignment = ToolStripItemAlignment.Right;
-            categoriesAdd.ForeColor = Color.Black;
+            categoriesAdd.ForeColor = Color.White;
             categoriesAdd.Image = (Image)resources.GetObject("categoriesAdd.Image");
             categoriesAdd.ImageTransparentColor = Color.Magenta;
             categoriesAdd.Name = "categoriesAdd";
             categoriesAdd.Size = new Size(28, 28);
+            // 
+            // categoriesRemove
+            // 
+            categoriesRemove.Alignment = ToolStripItemAlignment.Right;
+            categoriesRemove.ForeColor = Color.White;
+            categoriesRemove.Image = (Image)resources.GetObject("categoriesAdd.Image");
+            categoriesRemove.ImageTransparentColor = Color.Magenta;
+            categoriesRemove.Name = "categoriesRemove";
+            categoriesRemove.Size = new Size(28, 28);
+            categoriesRemove.Text = "Remove";
             // 
             // categoriesTable
             // 
@@ -298,7 +318,9 @@ namespace Soundboard4MacroDeck.Views
         private DataGridView categoriesTable;
         private ToolStrip toolStrip1;
         private ToolStripButton categoriesAdd;
+        private ToolStripButton categoriesRemove;
         private ToolStrip toolStrip2;
         private ToolStripButton audioFileAdd;
+        private ToolStripButton audioFileRemove;
     }
 }

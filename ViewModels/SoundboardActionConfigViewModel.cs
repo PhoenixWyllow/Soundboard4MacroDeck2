@@ -39,7 +39,7 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
     private AudioFile? selectedAudioFile;
     public AudioFile SelectedAudioFile
     {
-        get => selectedAudioFile ??= PluginInstance.DbContext.FindAudioFile(Parameters.AudioFileId);
+        get => selectedAudioFile ??= PluginInstance.DbContext.FindAudioFile(Parameters.AudioFileId)!;
         set
         {
             selectedAudioFile = value;
@@ -52,7 +52,7 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
     private AudioCategory? selectedAudioCategory;
     public AudioCategory SelectedAudioCategory
     {
-        get => selectedAudioCategory ??= PluginInstance.DbContext.FindAudioCategory(Parameters.AudioCategoryId);
+        get => selectedAudioCategory ??= PluginInstance.DbContext.FindAudioCategory(Parameters.AudioCategoryId)!;
         set
         {
             selectedAudioCategory = value;

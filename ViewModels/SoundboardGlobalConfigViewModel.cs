@@ -44,7 +44,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     public void UpdateAudioFile(AudioFileItem editedItem)
     {
-        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id);
+        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id)!;
         file.Name = editedItem.Name;
         file.CategoryId = editedItem.CategoryId;
         PluginInstance.DbContext.UpdateAudioFile(file);
@@ -52,7 +52,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     internal void UpdateCategory(AudioCategory editedCategory)
     {
-        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id);
+        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id)!;
         audioCategory.Name = editedCategory.Name;
         PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
     }
@@ -117,5 +117,41 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return string.IsNullOrWhiteSpace(ext)
             ? Path.GetFileName(path)
             : Path.GetFileNameWithoutExtension(path) + ext[1..];
+    }
+
+    public bool CanDeleteAudioCategory(AudioCategory? category)
+    {
+        if (category is null)
+        {
+            return false;
+        }
+        bool inUse = AudioFiles.Any(f => f.CategoryId == category.Id);
+        if (inUse)
+        {
+            using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
+            messageBox.ShowDialog(string.Empty, LocalizationManager.Instance.CategoryRemoveErrorLabel, MessageBoxButtons.OK);
+            return false;
+        }
+
+        return ConfirmDelete(category.Name);
+    }
+
+    public bool CanDeleteAudioFile(AudioFileItem? audioFile)
+    {
+        if (audioFile is null)
+        {
+            return false;
+        }
+        return ConfirmDelete(audioFile.Name);
+    }
+
+    private static bool ConfirmDelete(string name)
+    {
+        using var confirmMessageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
+        var confirmResult = confirmMessageBox.ShowDialog(
+            string.Format(LocalizationManager.Instance.ConfirmDeleteLabel, name),
+            LocalizationManager.Instance.ConfirmDeleteWarningLabel,
+            MessageBoxButtons.YesNo);
+        return (confirmResult == DialogResult.Yes);
     }
 }

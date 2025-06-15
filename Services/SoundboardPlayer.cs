@@ -97,11 +97,16 @@ public static class SoundboardPlayer
 
     private static void ApplyRandom(ActionParametersV2 actionParameters)
     {
+        actionParameters.FileData = null;
         var files = PluginInstance.DbContext.GetAudioFileItems(actionParameters.AudioCategoryId);
+        if (files.Count == 0)
+        {
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
+            return;
+        }
         var audio = files[Random.Shared.Next(files.Count)];
         actionParameters.AudioFileId = audio.Id;
         actionParameters.FileName = audio.Name;
-        actionParameters.FileData = null;
     }
 
     private static void PlayOrStop(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
@@ -120,9 +125,13 @@ public static class SoundboardPlayer
 
     private static void PlayAudio(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
     {
-        actionParameters.FileData ??= PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId).Data;
+        actionParameters.FileData ??= PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId)?.Data;
         if (actionParameters.FileData is null)
         {
+            if (actionParameters.AudioCategoryId <= 0)
+            {
+                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Audio file not found. Cannot play sound.");
+            }
             return;
         }
         var playbackEngine = new SoundboardPlaybackEngine(actionParameters, actionButton.Guid, enableLoop, useVars);

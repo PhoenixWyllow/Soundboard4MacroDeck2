@@ -59,7 +59,7 @@ internal class SoundboardContext
 
     public SQLiteConnection Db { get; }
 
-    public AudioFile FindAudioFile(int id)
+    public AudioFile? FindAudioFile(int id)
     {
         return Db.Find<AudioFile>(id);
     }
@@ -90,7 +90,12 @@ internal class SoundboardContext
         return Db.Update(audioFile) > 0;
     }
 
-    public AudioCategory FindAudioCategory(int id)
+    public bool DeleteAudioFile(int id)
+    {
+        return Db.Delete<AudioFile>(id) > 0;
+    }
+
+    public AudioCategory? FindAudioCategory(int id)
     {
         return Db.Find<AudioCategory>(id);
     }
@@ -114,5 +119,10 @@ internal class SoundboardContext
     public bool UpdateAudioCategory(AudioCategory audioCategory)
     {
         return Db.Update(audioCategory) > 0;
+    }
+
+    public bool DeleteAudioCategory(int id)
+    {
+        return Db.Delete<AudioCategory>(id) > 0;
     }
 }

@@ -54,6 +54,12 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         buttonOK.Text = LanguageManager.Strings.Ok;
         categoriesAdd.Image = SuchByte.MacroDeck.Properties.Resources.Create_Normal;
         audioFileAdd.Image = SuchByte.MacroDeck.Properties.Resources.Create_Normal;
+        categoriesRemove.Image = SuchByte.MacroDeck.Properties.Resources.Delete_Normal;
+        audioFileRemove.Image = SuchByte.MacroDeck.Properties.Resources.Delete_Normal;
+        categoriesAdd.Text = LocalizationManager.Instance.AddLabel;
+        audioFileAdd.Text = LocalizationManager.Instance.AddLabel;
+        categoriesRemove.Text = LocalizationManager.Instance.DeleteLabel;
+        audioFileRemove.Text = LocalizationManager.Instance.DeleteLabel;
     }
 
     private void SoundboardGlobalConfigView_Load(object sender, EventArgs e)
@@ -68,6 +74,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     private void InitCategoriesPage()
     {
         categoriesAdd.Click += CategoriesAdd_Click;
+        categoriesRemove.Click += CategoriesRemove_Click;
         categoriesTable.Columns.Add(new DataGridViewTextBoxColumn
         {
             DataPropertyName = nameof(AudioCategory.Id),
@@ -95,6 +102,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     private void InitAudioFilesPage()
     {
         audioFileAdd.Click += AudioFileAdd_Click;
+        audioFileRemove.Click += AudioFileRemove_Click;
         audioFilesTable.Columns.Add(new DataGridViewTextBoxColumn
         {
             DataPropertyName = nameof(AudioFileItem.Id),
@@ -148,6 +156,42 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
             _viewModel.LastAudioFile = null;
 
             MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file added successfully.");
+        }
+    }
+
+    private void AudioFileRemove_Click(object? sender, EventArgs e)
+    {
+        if (audioFilesTable.SelectedRows.Count > 0 && audioFilesList is not null)
+        {
+            var row = audioFilesTable.SelectedRows[0];
+            if (row.DataBoundItem is AudioFileItem item)
+            {
+                bool canDelete = _viewModel.CanDeleteAudioFile(item);
+                if (canDelete)
+                {
+                    PluginInstance.DbContext.DeleteAudioFile(item.Id);
+                    audioFilesList.Remove(item);
+                    MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file removed successfully.");
+                }
+            }
+        }
+    }
+
+    private void CategoriesRemove_Click(object? sender, EventArgs e)
+    {
+        if (categoriesTable.SelectedRows.Count > 0)
+        {
+            var row = categoriesTable.SelectedRows[0];
+            if (row.DataBoundItem is AudioCategory cat)
+            {
+                bool canDelete = _viewModel.CanDeleteAudioCategory(cat);
+                if (canDelete)
+                {
+                    PluginInstance.DbContext.DeleteAudioCategory(cat.Id);
+                    categoriesTable.DataSource = _viewModel.AudioCategories;
+                    MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio category removed successfully.");
+                }
+            }
         }
     }
 
