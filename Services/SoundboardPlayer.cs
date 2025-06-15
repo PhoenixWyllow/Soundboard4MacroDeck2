@@ -1,9 +1,6 @@
 ﻿using Soundboard4MacroDeck.Models;
-using System;
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
-using System.Collections.Generic;
-using System.Linq;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Variables;
 
@@ -57,9 +54,9 @@ public static class SoundboardPlayer
     private static readonly object key = new();
     private static List<SoundboardPlaybackEngine> ActivePlaybackEngines { get; } = new();
 
-    private static void OnPlaybackStopped(object sender, EventArgs _)
+    private static void OnPlaybackStopped(object? sender, EventArgs _)
     {
-        var playbackEngine = (SoundboardPlaybackEngine)sender;
+        var playbackEngine = (SoundboardPlaybackEngine)sender!;
         ActivePlaybackEngines.Remove(playbackEngine);
         SetVariables(playbackEngine, true);
         playbackEngine?.Dispose();
@@ -100,11 +97,16 @@ public static class SoundboardPlayer
 
     private static void ApplyRandom(ActionParametersV2 actionParameters)
     {
+        actionParameters.FileData = null;
         var files = PluginInstance.DbContext.GetAudioFileItems(actionParameters.AudioCategoryId);
+        if (files.Count == 0)
+        {
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
+            return;
+        }
         var audio = files[Random.Shared.Next(files.Count)];
         actionParameters.AudioFileId = audio.Id;
         actionParameters.FileName = audio.Name;
-        actionParameters.FileData = null;
     }
 
     private static void PlayOrStop(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
@@ -123,9 +125,13 @@ public static class SoundboardPlayer
 
     private static void PlayAudio(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
     {
-        actionParameters.FileData ??= PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId).Data;
+        actionParameters.FileData ??= PluginInstance.DbContext.FindAudioFile(actionParameters.AudioFileId)?.Data;
         if (actionParameters.FileData is null)
         {
+            if (actionParameters.AudioCategoryId <= 0)
+            {
+                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Audio file not found. Cannot play sound.");
+            }
             return;
         }
         var playbackEngine = new SoundboardPlaybackEngine(actionParameters, actionButton.Guid, enableLoop, useVars);
@@ -143,7 +149,7 @@ public static class SoundboardPlayer
         playbackEngine.Play();
     }
 
-    private static void PlaybackEngine_Elapsed(object sender, EventArgs e)
+    private static void PlaybackEngine_Elapsed(object? sender, EventArgs e)
     {
         if (sender is not null and SoundboardPlaybackEngine playbackEngine)
         {

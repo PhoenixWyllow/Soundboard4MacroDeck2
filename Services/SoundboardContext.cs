@@ -1,13 +1,12 @@
 ﻿using Soundboard4MacroDeck.Models;
+
 using SQLite;
+
 using SuchByte.MacroDeck.Backups;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Startup;
-using System;
-using System.Collections.Generic;
-using System.IO;
+
 using System.IO.Compression;
-using System.Linq;
 
 namespace Soundboard4MacroDeck.Services;
 internal class SoundboardContext
@@ -36,14 +35,14 @@ internal class SoundboardContext
         BackupManager.BackupSaved -= BackupManager_BackupSaved;
     }
 
-    private static void BackupManager_BackupSaved(object sender, EventArgs e)
+    private static void BackupManager_BackupSaved(object? sender, EventArgs e)
     {
         try
         {
             PluginInstance.DbContext.Db.Close();
             var backup = new DirectoryInfo(ApplicationPaths.BackupsDirectoryPath).EnumerateFiles().OrderByDescending(f => f.CreationTimeUtc).First();
             using var archive = ZipFile.Open(backup.FullName, ZipArchiveMode.Update);
-            archive.CreateEntryFromFile(DbPath, Path.Combine(new DirectoryInfo(ApplicationPaths.PluginsDirectoryPath).Name, Directory.GetParent(PluginDir).Name, "DB", dbFileName));
+            archive.CreateEntryFromFile(DbPath, Path.Combine(new DirectoryInfo(ApplicationPaths.PluginsDirectoryPath).Name, Directory.GetParent(PluginDir)!.Name, "DB", dbFileName));
         }
         catch (Exception ex)
         {
@@ -60,7 +59,7 @@ internal class SoundboardContext
 
     public SQLiteConnection Db { get; }
 
-    public AudioFile FindAudioFile(int id)
+    public AudioFile? FindAudioFile(int id)
     {
         return Db.Find<AudioFile>(id);
     }
@@ -91,7 +90,12 @@ internal class SoundboardContext
         return Db.Update(audioFile) > 0;
     }
 
-    public AudioCategory FindAudioCategory(int id)
+    public bool DeleteAudioFile(int id)
+    {
+        return Db.Delete<AudioFile>(id) > 0;
+    }
+
+    public AudioCategory? FindAudioCategory(int id)
     {
         return Db.Find<AudioCategory>(id);
     }
@@ -115,5 +119,10 @@ internal class SoundboardContext
     public bool UpdateAudioCategory(AudioCategory audioCategory)
     {
         return Db.Update(audioCategory) > 0;
+    }
+
+    public bool DeleteAudioCategory(int id)
+    {
+        return Db.Delete<AudioCategory>(id) > 0;
     }
 }

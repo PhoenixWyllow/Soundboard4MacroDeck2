@@ -1,8 +1,6 @@
 using NAudio.Extras;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using System;
-using System.IO;
 
 namespace Soundboard4MacroDeck.Services;
 

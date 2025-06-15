@@ -9,7 +9,7 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
 
     public bool IsCategoryAction { get; }
 
-    private ActionParametersV2 Parameters => OutputConfiguration as ActionParametersV2;
+    private ActionParametersV2 Parameters => (ActionParametersV2)OutputConfiguration;
 
     public int PlayVolume
     {
@@ -36,10 +36,10 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
         _action.Configuration = Parameters.Serialize();
     }
 
-    private AudioFile selectedAudioFile;
+    private AudioFile? selectedAudioFile;
     public AudioFile SelectedAudioFile
     {
-        get => selectedAudioFile ??= PluginInstance.DbContext.FindAudioFile(Parameters.AudioFileId);
+        get => selectedAudioFile ??= PluginInstance.DbContext.FindAudioFile(Parameters.AudioFileId)!;
         set
         {
             selectedAudioFile = value;
@@ -49,10 +49,10 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
         }
     }
 
-    private AudioCategory selectedAudioCategory;
+    private AudioCategory? selectedAudioCategory;
     public AudioCategory SelectedAudioCategory
     {
-        get => selectedAudioCategory ??= PluginInstance.DbContext.FindAudioCategory(Parameters.AudioCategoryId);
+        get => selectedAudioCategory ??= PluginInstance.DbContext.FindAudioCategory(Parameters.AudioCategoryId)!;
         set
         {
             selectedAudioCategory = value;

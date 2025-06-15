@@ -2,7 +2,6 @@
 using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.Models;
-using System;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using Soundboard4MacroDeck.Properties;
 
@@ -21,18 +20,16 @@ public class Main : MacroDeckPlugin
     public override void Enable()
     {
         LocalizationManager.CreateInstance();
-        PluginInstance.Current = this;
-        PluginInstance.DbContext = new SoundboardContext();
+        PluginInstance.Initialize(new SoundboardContext(), this);
 
-        Actions = new()
-        {
+        Actions = [
             new SoundboardPlayAction(),
             new SoundboardPlayStopAction(),
             new SoundboardOverlapAction(),
             new SoundboardLoopAction(),
             new SoundboardStopAction(),
             new SoundboardCategoryRandomAction(),
-        };
+        ];
 
         if (PluginInstance.DbContext.IsInitialCreate)
         {
@@ -43,7 +40,7 @@ public class Main : MacroDeckPlugin
         SuchByte.MacroDeck.MacroDeck.OnMainWindowLoad += MacroDeck_OnMainWindowLoad;
     }
 
-    private void MacroDeck_OnMainWindowLoad(object sender, EventArgs e)
+    private void MacroDeck_OnMainWindowLoad(object? sender, EventArgs e)
     {
         if (sender is SuchByte.MacroDeck.GUI.MainWindow mainWindow)
         {
@@ -67,8 +64,13 @@ public class Main : MacroDeckPlugin
 }
 internal static class PluginInstance
 {
-    internal static SoundboardContext DbContext { get; set; }
-    internal static MacroDeckPlugin Current { get; set; }
+    internal static SoundboardContext DbContext { get; set; } = default!;
+    internal static MacroDeckPlugin Current { get; set; } = default!;
     internal static IOutputConfiguration Configuration => GlobalParameters.Deserialize(PluginConfiguration.GetValue(Current, nameof(ViewModels.SoundboardGlobalConfigViewModel)));
 
+    internal static void Initialize(SoundboardContext context, MacroDeckPlugin plugin)
+    {
+        DbContext = context;
+        Current = plugin;
+    }
 }
