@@ -13,6 +13,7 @@ public sealed class ActionParametersV2 : IOutputConfiguration
     public string? OutputDeviceId { get; set; }
     //public int Latency { get; set; } = 200;
     public bool SyncButtonState { get; set; } = true;
+    public bool UniqueRandomSound { get; set; } = false;
 
     public string Serialize() =>
         JsonSerializer.Serialize(this);

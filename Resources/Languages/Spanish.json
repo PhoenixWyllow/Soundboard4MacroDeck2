@@ -31,6 +31,7 @@
   "GlobalConfigOutputDevice": "Output device",
   "GlobalConfigAudioFiles": "Audio files",
   "GlobalConfigAudioCategories": "Audio categories",
+  "GlobalConfigMisc": "Miscellaneous",
   "ActionCategoryRandomName": "Play random from category",
   "ActionCategoryRandomDescription": "Play a random audio file from a given category",
   "ActionCategoryAudioCategory": "Category",
@@ -40,5 +41,6 @@
   "DeleteLabel": "Delete",
   "ConfirmDeleteLabel": "Are you sure you want to delete '{0}'?",
   "ConfirmDeleteWarningLabel": "This may cause some buttons to stop working.",
-  "CategoryRemoveErrorLabel": "This category is in use by one or more audio files and cannot be deleted."
+  "CategoryRemoveErrorLabel": "This category is in use by one or more audio files and cannot be deleted.",
+  "UniqueRandomSound": "Prevent sound repeat on random choose"
 }

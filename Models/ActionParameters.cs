@@ -13,11 +13,13 @@ public class ActionParameters : IOutputConfiguration
     public string? OutputDeviceId { get; set; }
     //public int Latency { get; set; } = 200;
     public bool SyncButtonState { get; set; } = true;
+    public bool UniqueRandomSound { get; set; } = false;
 
     public string FileName =>
         string.IsNullOrWhiteSpace(FileExt)
             ? Path.GetFileName(FilePath)
             : Path.GetFileNameWithoutExtension(FilePath) + FileExt[1..];
+
 
     public string Serialize() =>
         JsonSerializer.Serialize(this);

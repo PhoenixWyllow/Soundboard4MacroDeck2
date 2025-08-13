@@ -31,6 +31,7 @@
   "GlobalConfigOutputDevice": "Uscita audio",
   "GlobalConfigAudioFiles": "File audio",
   "GlobalConfigAudioCategories": "Categorie audio",
+  "GlobalConfigMisc": "Varie",
   "ActionCategoryRandomName": "Riproduci casuale da categoria",
   "ActionCategoryRandomDescription": "Riproduci un file casuale da una determinata categoria",
   "ActionCategoryAudioCategory": "Categoria",
@@ -40,5 +41,6 @@
   "DeleteLabel": "Elimina",
   "ConfirmDeleteLabel": "Sei sicuro di voler eliminare '{0}'?",
   "ConfirmDeleteWarningLabel": "Questo potrebbe causare il malfunzionamento di alcuni pulsanti.",
-  "CategoryRemoveErrorLabel": "Questa categoria è in uso da uno o più file audio e non può essere eliminata."
+  "CategoryRemoveErrorLabel": "Questa categoria è in uso da uno o più file audio e non può essere eliminata.",
+  "UniqueRandomSound": "Impedisci la ripetizione del suono in caso di scelta casuale"
 }

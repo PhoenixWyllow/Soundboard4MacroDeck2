@@ -1,4 +1,6 @@
 ﻿using System.Windows.Forms;
+using Soundboard4MacroDeck.Models;
+using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Views
 {
@@ -41,16 +43,19 @@ namespace Soundboard4MacroDeck.Views
             audioFileRemove = new ToolStripButton();
             audioFilesTable = new DataGridView();
             categoryPage = new TabPage();
+            miscPage = new TabPage();
             toolStrip1 = new ToolStrip();
             categoriesAdd = new ToolStripButton();
             categoriesRemove = new ToolStripButton();
             categoriesTable = new DataGridView();
+            uniqueRandomSoundsCheckbox = new CheckBox();
             navigation = new SuchByte.MacroDeck.GUI.CustomControls.VerticalTabControl();
             outputPage.SuspendLayout();
             audioFilePage.SuspendLayout();
             toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)audioFilesTable).BeginInit();
             categoryPage.SuspendLayout();
+            miscPage.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)categoriesTable).BeginInit();
             navigation.SuspendLayout();
@@ -223,6 +228,29 @@ namespace Soundboard4MacroDeck.Views
             toolStrip1.Size = new Size(682, 31);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
+            //
+            // miscPage
+            //
+            miscPage.BackColor = Color.FromArgb(45, 45, 45);
+            miscPage.Controls.Add(uniqueRandomSoundsCheckbox);
+            miscPage.Location = new Point(204, 4);
+            miscPage.Name = "miscPage";
+            miscPage.Padding = new Padding(3);
+            miscPage.Size = new Size(688, 423);
+            miscPage.TabIndex = 3;
+            miscPage.Text = "miscPage";
+            //
+            // uniqueRandomSoundsCheckbox
+            //
+            uniqueRandomSoundsCheckbox.AutoSize = true;
+            uniqueRandomSoundsCheckbox.Location = new System.Drawing.Point(3, 3);
+            uniqueRandomSoundsCheckbox.Name = "uniqueRandomSoundsCheckbox";
+            uniqueRandomSoundsCheckbox.Size = new System.Drawing.Size(133, 23);
+            uniqueRandomSoundsCheckbox.TabIndex = 1;
+            uniqueRandomSoundsCheckbox.Text = "uniqueRandomSoundsCheckbox";
+            uniqueRandomSoundsCheckbox.UseVisualStyleBackColor = false;
+            uniqueRandomSoundsCheckbox.Checked = PluginInstance.Configuration.MustGetUniqueRandomSound();
+            uniqueRandomSoundsCheckbox.CheckedChanged += CheckBoxUniqueRandomSound_Toggle;
             // 
             // categoriesAdd
             // 
@@ -267,6 +295,7 @@ namespace Soundboard4MacroDeck.Views
             navigation.Controls.Add(outputPage);
             navigation.Controls.Add(audioFilePage);
             navigation.Controls.Add(categoryPage);
+            navigation.Controls.Add(miscPage);
             navigation.ItemSize = new Size(44, 200);
             navigation.Location = new Point(3, 28);
             navigation.Multiline = true;
@@ -300,6 +329,10 @@ namespace Soundboard4MacroDeck.Views
             categoryPage.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            miscPage.ResumeLayout(false);
+            miscPage.PerformLayout();
+            uniqueRandomSoundsCheckbox.ResumeLayout(false);
+            uniqueRandomSoundsCheckbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)categoriesTable).EndInit();
             navigation.ResumeLayout(false);
             ResumeLayout(false);
@@ -314,6 +347,7 @@ namespace Soundboard4MacroDeck.Views
         private TabPage outputPage;
         private TabPage audioFilePage;
         private TabPage categoryPage;
+        private TabPage miscPage;
         private DataGridView audioFilesTable;
         private DataGridView categoriesTable;
         private ToolStrip toolStrip1;
@@ -322,5 +356,6 @@ namespace Soundboard4MacroDeck.Views
         private ToolStrip toolStrip2;
         private ToolStripButton audioFileAdd;
         private ToolStripButton audioFileRemove;
+        private CheckBox uniqueRandomSoundsCheckbox;
     }
 }

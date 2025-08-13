@@ -38,6 +38,7 @@ internal sealed class Localization
     public string GlobalConfigOutputDevice { get; set; } = "Output device";
     public string GlobalConfigAudioFiles { get; set; } = "Audio files";
     public string GlobalConfigAudioCategories { get; set; } = "Audio categories";
+    public string GlobalConfigMisc { get; set; } = "Miscellaneous";
     public string ActionCategoryRandomName { get; set; } = "Play random from category";
     public string ActionCategoryRandomDescription { get; set; } = "Play a random audio file from a given category";
     public string ActionCategoryAudioCategory { get; set; } = "Category";
@@ -48,4 +49,5 @@ internal sealed class Localization
     public string ConfirmDeleteLabel { get; set; } = "Are you sure you want to delete '{0}'?";
     public string ConfirmDeleteWarningLabel { get; set; } = "This may cause some buttons to stop working.";
     public string CategoryRemoveErrorLabel { get; set; } = "This category is in use by one or more audio files and cannot be deleted.";
+    public string UniqueRandomSound { get; set; } = "Prevent sound repeat on random choose";
 }
