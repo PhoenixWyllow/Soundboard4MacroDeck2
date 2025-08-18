@@ -3,6 +3,7 @@ using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Variables;
+using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -95,6 +96,7 @@ public static class SoundboardPlayer
 
     }
 
+    static int lastRandSoundID = -1;
     private static void ApplyRandom(ActionParametersV2 actionParameters)
     {
         actionParameters.FileData = null;
@@ -104,7 +106,16 @@ public static class SoundboardPlayer
             MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
             return;
         }
-        var audio = files[Random.Shared.Next(files.Count)];
+        MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardPlayer), "Last chosen ID: " + lastRandSoundID);
+        var chosen = Random.Shared.Next(files.Count);
+        if (PluginInstance.Configuration.MustGetUniqueRandomSound())
+        {
+            while (chosen == lastRandSoundID)
+                chosen = Random.Shared.Next(files.Count);
+        }
+        MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardPlayer), "New chosen ID: " + chosen);
+        lastRandSoundID = chosen;
+        var audio = files[chosen];
         actionParameters.AudioFileId = audio.Id;
         actionParameters.FileName = audio.Name;
     }
