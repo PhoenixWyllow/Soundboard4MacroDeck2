@@ -34,6 +34,7 @@
   "GlobalConfigMisc": "Miscellaneous",
   "ActionCategoryRandomName": "Play random from category",
   "ActionCategoryRandomDescription": "Play a random audio file from a given category",
+  "ActionCategoryRandomUnique": "Prevent repeating same sound",
   "ActionCategoryAudioCategory": "Категория",
   "GlobalConfigAddAudio": "Add audio",
   "GlobalConfigIncorrectFileHeader": "Detected file type is not supported but may still work",
