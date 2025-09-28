@@ -3,7 +3,6 @@ using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
 using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Variables;
-using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -44,7 +43,7 @@ public static class SoundboardPlayer
             {
                 return;
             }
-            foreach (var player in ActivePlaybackEngines.ToArray().Where(p => p.Equals(internalId)))
+            foreach (var player in ActivePlaybackEngines.ToArray().Where(p => p.MatchesInternalId(internalId)))
             {
                 player?.Stop();
             }
@@ -85,7 +84,7 @@ public static class SoundboardPlayer
                 break;
 
             case SoundboardActions.RandomFromCategory:
-                ApplyRandom(actionParameters);
+                ApplyRandom(actionParameters, actionButton);
                 StopAll();
                 PlayAudio(actionParameters, actionButton);
                 break;
@@ -96,8 +95,9 @@ public static class SoundboardPlayer
 
     }
 
-    static int lastRandSoundID = -1;
-    private static void ApplyRandom(ActionParametersV2 actionParameters)
+    private static readonly Dictionary<string, int> lastRandSoundIds = [];
+
+    private static void ApplyRandom(ActionParametersV2 actionParameters, ActionButton actionButton)
     {
         actionParameters.FileData = null;
         var files = PluginInstance.DbContext.GetAudioFileItems(actionParameters.AudioCategoryId);
@@ -106,15 +106,20 @@ public static class SoundboardPlayer
             MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
             return;
         }
-        MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardPlayer), "Last chosen ID: " + lastRandSoundID);
+
         var chosen = Random.Shared.Next(files.Count);
-        if (PluginInstance.Configuration.MustGetUniqueRandomSound())
+        if (actionParameters.EnsureUniqueRandomSound)
         {
-            while (chosen == lastRandSoundID)
+            if (!lastRandSoundIds.TryGetValue(actionButton.Guid, out var lastUsedId))
+            {
+                lastUsedId = -1;
+            }
+            while (chosen == lastUsedId)
+            {
                 chosen = Random.Shared.Next(files.Count);
+            }
+            lastRandSoundIds[actionButton.Guid] = chosen;
         }
-        MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardPlayer), "New chosen ID: " + chosen);
-        lastRandSoundID = chosen;
         var audio = files[chosen];
         actionParameters.AudioFileId = audio.Id;
         actionParameters.FileName = audio.Name;
@@ -122,7 +127,7 @@ public static class SoundboardPlayer
 
     private static void PlayOrStop(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
     {
-        bool currentlyPlaying = ActivePlaybackEngines.Any(p => p.Equals(actionButton.Guid));
+        bool currentlyPlaying = ActivePlaybackEngines.Any(p => p.MatchesInternalId(actionButton.Guid));
         if (currentlyPlaying)
         {
             StopCurrent(actionButton.Guid);

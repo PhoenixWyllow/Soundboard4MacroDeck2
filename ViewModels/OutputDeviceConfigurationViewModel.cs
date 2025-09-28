@@ -57,11 +57,6 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
         OutputConfiguration.UseDefaultDevice = true;
     }
 
-    public void SetUniqueRandomSound(bool value)
-    {
-        OutputConfiguration.UniqueRandomSound = value;
-    }
-
     private void SetDeviceIndex(bool getDefault, string deviceId)
     {
         if (getDefault)

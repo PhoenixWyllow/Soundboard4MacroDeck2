@@ -6,8 +6,4 @@ public static class OutputConfigurationExtensions
     {
         return configuration.UseDefaultDevice || string.IsNullOrWhiteSpace(configuration.OutputDeviceId);
     }
-    public static bool MustGetUniqueRandomSound(this IOutputConfiguration configuration)
-    {
-        return configuration.UniqueRandomSound;
-    }
 }

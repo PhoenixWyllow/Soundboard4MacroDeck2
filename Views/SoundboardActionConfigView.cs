@@ -24,6 +24,7 @@ public partial class SoundboardActionConfigView : ActionConfigControl
     {
         checkBoxOverrideDevice.Text = LocalizationManager.Instance.OverrideDefaultDevice;
         checkBoxSyncButtonState.Text = LocalizationManager.Instance.SyncButtonState;
+        checkBoxEnsureUniqueRandom.Text = LocalizationManager.Instance.ActionCategoryRandomUnique;
         labelDevices.Text = LocalizationManager.Instance.OutputDevicesAction;
         labelVolume.Text = LocalizationManager.Instance.ActionPlaySoundVolume;
         labelFile.Text = LocalizationManager.Instance.ActionPlaySoundFilePath;
@@ -49,6 +50,7 @@ public partial class SoundboardActionConfigView : ActionConfigControl
 
         comboBoxAudio.Visible = labelFile.Visible = !_viewModel.IsCategoryAction;
         comboBoxCategory.Visible = labelCategory.Visible = _viewModel.IsCategoryAction;
+        checkBoxEnsureUniqueRandom.Visible = _viewModel.IsCategoryAction;
         if (_viewModel.IsCategoryAction)
         {
             LoadAudioCategorySelection();
@@ -131,5 +133,10 @@ public partial class SoundboardActionConfigView : ActionConfigControl
         {
             LoadAudioFileSelection();
         }
+    }
+
+    private void UniqueRandomSoundsCheckbox_CheckedChanged(object sender, EventArgs e)
+    {
+        _viewModel.EnsureUniqueRandomSound = checkBoxEnsureUniqueRandom.Checked;
     }
 }

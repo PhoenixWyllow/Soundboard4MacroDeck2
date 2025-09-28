@@ -11,13 +11,13 @@ public sealed class ActionParametersV2 : IOutputConfiguration
     public int Volume { get; set; } = 50;
     public bool UseDefaultDevice { get; set; } = true;
     public string? OutputDeviceId { get; set; }
-    //public int Latency { get; set; } = 200;
     public bool SyncButtonState { get; set; } = true;
-    public bool UniqueRandomSound { get; set; } = false;
+    public bool EnsureUniqueRandomSound { get; set; } = false;
 
     public string Serialize() =>
         JsonSerializer.Serialize(this);
 
     public static ActionParametersV2 Deserialize(string configuration) =>
         ISerializableConfiguration.Deserialize<ActionParametersV2>(configuration);
+
 }

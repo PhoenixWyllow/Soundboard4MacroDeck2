@@ -49,8 +49,6 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         outputPage.Text = LocalizationManager.Instance.GlobalConfigOutputDevice;
         audioFilePage.Text = LocalizationManager.Instance.GlobalConfigAudioFiles;
         categoryPage.Text = LocalizationManager.Instance.GlobalConfigAudioCategories;
-        miscPage.Text = LocalizationManager.Instance.GlobalConfigMisc;
-        uniqueRandomSoundsCheckbox.Text = LocalizationManager.Instance.UniqueRandomSound;
         linkLabelResetDevice.Text = LocalizationManager.Instance.UseSystemDefaultDevice;
         labelDevices.Text = LocalizationManager.Instance.OutputDevicesGlobal;
         buttonOK.Text = LanguageManager.Strings.Ok;
@@ -267,9 +265,4 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         _viewModel.ResetDevice();
     }
 
-    private void CheckBoxUniqueRandomSound_Toggle(object sender, EventArgs e)
-    {
-        _viewModel.SetUniqueRandomSound(uniqueRandomSoundsCheckbox.Checked);
-        _viewModel.SaveConfig();
-    }
 }

@@ -47,6 +47,7 @@ namespace Soundboard4MacroDeck.Views
             buttonAddAudio = new PictureButton();
             comboBoxCategory = new RoundedComboBox();
             labelCategory = new Label();
+            checkBoxEnsureUniqueRandom = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)volumeBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)volumeNum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)buttonAddAudio).BeginInit();
@@ -54,10 +55,11 @@ namespace Soundboard4MacroDeck.Views
             // 
             // volumeBar
             // 
-            volumeBar.Location = new Point(74, 297);
+            volumeBar.Location = new Point(49, 198);
+            volumeBar.Margin = new Padding(2);
             volumeBar.Maximum = 100;
             volumeBar.Name = "volumeBar";
-            volumeBar.Size = new Size(510, 69);
+            volumeBar.Size = new Size(510, 45);
             volumeBar.TabIndex = 4;
             volumeBar.TickFrequency = 10;
             volumeBar.TickStyle = TickStyle.Both;
@@ -66,10 +68,11 @@ namespace Soundboard4MacroDeck.Views
             // labelFile
             // 
             labelFile.AutoSize = true;
-            labelFile.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            labelFile.Location = new Point(43, 53);
+            labelFile.Font = new Font("Tahoma", 11.25F);
+            labelFile.Location = new Point(29, 35);
+            labelFile.Margin = new Padding(2, 0, 2, 0);
             labelFile.Name = "labelFile";
-            labelFile.Size = new Size(46, 28);
+            labelFile.Size = new Size(28, 18);
             labelFile.TabIndex = 6;
             labelFile.Text = "File";
             labelFile.TextAlign = ContentAlignment.MiddleLeft;
@@ -77,10 +80,11 @@ namespace Soundboard4MacroDeck.Views
             // labelVolume
             // 
             labelVolume.AutoSize = true;
-            labelVolume.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            labelVolume.Location = new Point(43, 253);
+            labelVolume.Font = new Font("Tahoma", 11.25F);
+            labelVolume.Location = new Point(29, 169);
+            labelVolume.Margin = new Padding(2, 0, 2, 0);
             labelVolume.Name = "labelVolume";
-            labelVolume.Size = new Size(87, 28);
+            labelVolume.Size = new Size(56, 18);
             labelVolume.TabIndex = 7;
             labelVolume.Text = "Volume";
             labelVolume.TextAlign = ContentAlignment.MiddleLeft;
@@ -88,11 +92,12 @@ namespace Soundboard4MacroDeck.Views
             // volumeNum
             // 
             volumeNum.BackColor = Color.DimGray;
-            volumeNum.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            volumeNum.Font = new Font("Tahoma", 9.75F);
             volumeNum.ForeColor = Color.White;
-            volumeNum.Location = new Point(624, 316);
+            volumeNum.Location = new Point(625, 209);
+            volumeNum.Margin = new Padding(2);
             volumeNum.Name = "volumeNum";
-            volumeNum.Size = new Size(91, 31);
+            volumeNum.Size = new Size(56, 23);
             volumeNum.TabIndex = 8;
             volumeNum.TextAlign = HorizontalAlignment.Center;
             volumeNum.ValueChanged += VolumeNum_ValueChanged;
@@ -100,10 +105,11 @@ namespace Soundboard4MacroDeck.Views
             // labelDevices
             // 
             labelDevices.AutoSize = true;
-            labelDevices.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            labelDevices.Location = new Point(43, 403);
+            labelDevices.Font = new Font("Tahoma", 11.25F);
+            labelDevices.Location = new Point(29, 269);
+            labelDevices.Margin = new Padding(2, 0, 2, 0);
             labelDevices.Name = "labelDevices";
-            labelDevices.Size = new Size(230, 28);
+            labelDevices.Size = new Size(147, 18);
             labelDevices.TabIndex = 10;
             labelDevices.Text = "Default output device";
             labelDevices.TextAlign = ContentAlignment.MiddleLeft;
@@ -113,15 +119,16 @@ namespace Soundboard4MacroDeck.Views
             comboBoxDevices.BackColor = Color.DimGray;
             comboBoxDevices.Cursor = Cursors.Hand;
             comboBoxDevices.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxDevices.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxDevices.Font = new Font("Tahoma", 9.75F);
             comboBoxDevices.ForeColor = Color.White;
             comboBoxDevices.Icon = null;
-            comboBoxDevices.Location = new Point(74, 514);
+            comboBoxDevices.Location = new Point(49, 343);
+            comboBoxDevices.Margin = new Padding(2);
             comboBoxDevices.Name = "comboBoxDevices";
-            comboBoxDevices.Padding = new Padding(8, 2, 8, 2);
+            comboBoxDevices.Padding = new Padding(5, 1, 5, 1);
             comboBoxDevices.SelectedIndex = -1;
             comboBoxDevices.SelectedItem = null;
-            comboBoxDevices.Size = new Size(632, 36);
+            comboBoxDevices.Size = new Size(632, 26);
             comboBoxDevices.TabIndex = 9;
             comboBoxDevices.SelectedIndexChanged += ComboBoxDevices_SelectedIndexChanged;
             // 
@@ -131,10 +138,11 @@ namespace Soundboard4MacroDeck.Views
             checkBoxOverrideDevice.CheckAlign = ContentAlignment.MiddleRight;
             checkBoxOverrideDevice.Checked = true;
             checkBoxOverrideDevice.CheckState = CheckState.Checked;
-            checkBoxOverrideDevice.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBoxOverrideDevice.Location = new Point(65, 462);
+            checkBoxOverrideDevice.Font = new Font("Tahoma", 9.75F);
+            checkBoxOverrideDevice.Location = new Point(43, 308);
+            checkBoxOverrideDevice.Margin = new Padding(2);
             checkBoxOverrideDevice.Name = "checkBoxOverrideDevice";
-            checkBoxOverrideDevice.Size = new Size(307, 28);
+            checkBoxOverrideDevice.Size = new Size(198, 20);
             checkBoxOverrideDevice.TabIndex = 11;
             checkBoxOverrideDevice.Text = "Override default output device";
             checkBoxOverrideDevice.UseVisualStyleBackColor = true;
@@ -146,10 +154,11 @@ namespace Soundboard4MacroDeck.Views
             checkBoxSyncButtonState.CheckAlign = ContentAlignment.MiddleRight;
             checkBoxSyncButtonState.Checked = true;
             checkBoxSyncButtonState.CheckState = CheckState.Checked;
-            checkBoxSyncButtonState.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBoxSyncButtonState.Location = new Point(43, 171);
+            checkBoxSyncButtonState.Font = new Font("Tahoma", 11.25F);
+            checkBoxSyncButtonState.Location = new Point(29, 114);
+            checkBoxSyncButtonState.Margin = new Padding(2);
             checkBoxSyncButtonState.Name = "checkBoxSyncButtonState";
-            checkBoxSyncButtonState.Size = new Size(329, 32);
+            checkBoxSyncButtonState.Size = new Size(212, 22);
             checkBoxSyncButtonState.TabIndex = 12;
             checkBoxSyncButtonState.Text = "Sync button state with audio";
             checkBoxSyncButtonState.UseVisualStyleBackColor = true;
@@ -160,15 +169,16 @@ namespace Soundboard4MacroDeck.Views
             comboBoxAudio.BackColor = Color.DimGray;
             comboBoxAudio.Cursor = Cursors.Hand;
             comboBoxAudio.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxAudio.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxAudio.Font = new Font("Tahoma", 9.75F);
             comboBoxAudio.ForeColor = Color.White;
             comboBoxAudio.Icon = null;
-            comboBoxAudio.Location = new Point(74, 95);
+            comboBoxAudio.Location = new Point(49, 63);
+            comboBoxAudio.Margin = new Padding(2);
             comboBoxAudio.Name = "comboBoxAudio";
-            comboBoxAudio.Padding = new Padding(8, 2, 8, 2);
+            comboBoxAudio.Padding = new Padding(5, 1, 5, 1);
             comboBoxAudio.SelectedIndex = -1;
             comboBoxAudio.SelectedItem = null;
-            comboBoxAudio.Size = new Size(632, 36);
+            comboBoxAudio.Size = new Size(632, 26);
             comboBoxAudio.TabIndex = 13;
             comboBoxAudio.SelectedIndexChanged += ComboBoxAudio_SelectedIndexChanged;
             // 
@@ -177,50 +187,70 @@ namespace Soundboard4MacroDeck.Views
             buttonAddAudio.BackColor = Color.Transparent;
             buttonAddAudio.BackgroundImage = (Image)resources.GetObject("buttonAddAudio.BackgroundImage");
             buttonAddAudio.BackgroundImageLayout = ImageLayout.Stretch;
-            buttonAddAudio.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonAddAudio.Font = new Font("Tahoma", 9.75F);
             buttonAddAudio.ForeColor = Color.White;
             buttonAddAudio.HoverImage = (Image)resources.GetObject("buttonAddAudio.HoverImage");
-            buttonAddAudio.Location = new Point(729, 101);
+            buttonAddAudio.Location = new Point(717, 65);
             buttonAddAudio.Name = "buttonAddAudio";
             buttonAddAudio.Size = new Size(25, 25);
             buttonAddAudio.TabIndex = 14;
             buttonAddAudio.TabStop = false;
             buttonAddAudio.Click += ButtonAddAudio_Click;
             // 
-            // roundedComboBox1
+            // comboBoxCategory
             // 
             comboBoxCategory.BackColor = Color.DimGray;
             comboBoxCategory.Cursor = Cursors.Hand;
             comboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxCategory.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxCategory.Font = new Font("Tahoma", 9.75F);
             comboBoxCategory.ForeColor = Color.White;
             comboBoxCategory.Icon = null;
-            comboBoxCategory.Location = new Point(70, 96);
-            comboBoxCategory.Name = "roundedComboBox1";
-            comboBoxCategory.Padding = new Padding(8, 2, 8, 2);
+            comboBoxCategory.Location = new Point(47, 64);
+            comboBoxCategory.Margin = new Padding(2);
+            comboBoxCategory.Name = "comboBoxCategory";
+            comboBoxCategory.Padding = new Padding(5, 1, 5, 1);
             comboBoxCategory.SelectedIndex = -1;
             comboBoxCategory.SelectedItem = null;
-            comboBoxCategory.Size = new Size(632, 36);
+            comboBoxCategory.Size = new Size(632, 26);
             comboBoxCategory.TabIndex = 16;
             comboBoxCategory.Visible = false;
             comboBoxCategory.SelectedIndexChanged += ComboBoxCategory_SelectedIndexChanged;
             // 
-            // label1
+            // labelCategory
             // 
             labelCategory.AutoSize = true;
-            labelCategory.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            labelCategory.Location = new Point(39, 54);
-            labelCategory.Name = "label1";
-            labelCategory.Size = new Size(46, 28);
+            labelCategory.Font = new Font("Tahoma", 11.25F);
+            labelCategory.Location = new Point(26, 36);
+            labelCategory.Margin = new Padding(2, 0, 2, 0);
+            labelCategory.Name = "labelCategory";
+            labelCategory.Size = new Size(67, 18);
             labelCategory.TabIndex = 15;
             labelCategory.Text = "Category";
             labelCategory.TextAlign = ContentAlignment.MiddleLeft;
             labelCategory.Visible = false;
             // 
+            // checkBoxEnsureUniqueRandom
+            // 
+            checkBoxEnsureUniqueRandom.AutoSize = true;
+            checkBoxEnsureUniqueRandom.CheckAlign = ContentAlignment.MiddleRight;
+            checkBoxEnsureUniqueRandom.Checked = true;
+            checkBoxEnsureUniqueRandom.CheckState = CheckState.Checked;
+            checkBoxEnsureUniqueRandom.Font = new Font("Tahoma", 11.25F);
+            checkBoxEnsureUniqueRandom.Location = new Point(483, 114);
+            checkBoxEnsureUniqueRandom.Margin = new Padding(1);
+            checkBoxEnsureUniqueRandom.Name = "checkBoxEnsureUniqueRandom";
+            checkBoxEnsureUniqueRandom.Size = new Size(198, 22);
+            checkBoxEnsureUniqueRandom.TabIndex = 17;
+            checkBoxEnsureUniqueRandom.Text = "Use unique random sound";
+            checkBoxEnsureUniqueRandom.UseVisualStyleBackColor = true;
+            checkBoxEnsureUniqueRandom.Visible = false;
+            checkBoxEnsureUniqueRandom.CheckedChanged += UniqueRandomSoundsCheckbox_CheckedChanged;
+            // 
             // SoundboardActionConfigView
             // 
-            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
+            Controls.Add(checkBoxEnsureUniqueRandom);
             Controls.Add(comboBoxCategory);
             Controls.Add(labelCategory);
             Controls.Add(buttonAddAudio);
@@ -233,9 +263,9 @@ namespace Soundboard4MacroDeck.Views
             Controls.Add(labelVolume);
             Controls.Add(labelFile);
             Controls.Add(volumeBar);
-            Margin = new Padding(58, 31, 58, 31);
+            Margin = new Padding(39, 21, 39, 21);
             Name = "SoundboardActionConfigView";
-            Size = new Size(804, 639);
+            Size = new Size(800, 600);
             Load += SoundboardActionConfigView_Load;
             ((System.ComponentModel.ISupportInitialize)volumeBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)volumeNum).EndInit();
@@ -257,5 +287,6 @@ namespace Soundboard4MacroDeck.Views
         private PictureButton buttonAddAudio;
         private RoundedComboBox comboBoxCategory;
         private Label labelCategory;
+        private CheckBox checkBoxEnsureUniqueRandom;
     }
 }

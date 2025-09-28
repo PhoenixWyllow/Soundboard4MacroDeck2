@@ -60,7 +60,6 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     private void Init()
     {
         outputDevice.PlaybackStopped += OnOutputDevicePlaybackStopped;
-        //outputDevice.Volume = Math.Min(_actionParameters.Volume / 100f, 1f);
 
         outputDevice.Init(audioReader.WaveProvider);
 
@@ -85,29 +84,27 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         outputDevice?.Stop();
     }
 
-    private MMDevice GetDevice()//out int latency)
+    private MMDevice GetDevice()
     {
         using var devices = new MMDeviceEnumerator();
         if (!_actionParameters.MustGetDefaultDevice())
         {
-            //latency = actionParameters.Latency;
             return devices.GetDevice(_actionParameters.OutputDeviceId);
         }
         IOutputConfiguration globalParameters = PluginInstance.Configuration;
-        //latency = globalParameters.Latency;
         return !globalParameters.MustGetDefaultDevice() //if
             ? devices.GetDevice(globalParameters.OutputDeviceId)
             : devices.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); //else
     }
     
-    public bool Equals(string internalId)
+    public bool MatchesInternalId(string internalId)
     {
         return !string.IsNullOrWhiteSpace(internalId) && internalId == _internalId;
     }
 
     public bool Equals(SoundboardPlaybackEngine engine)
     {
-        return engine.Equals(_internalId);
+        return engine.MatchesInternalId(_internalId);
     }
 
     /// <inheritdoc />
