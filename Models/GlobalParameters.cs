@@ -6,7 +6,6 @@ internal class GlobalParameters : IOutputConfiguration
 {
     public string? OutputDeviceId { get; set; }
     public bool UseDefaultDevice { get; set; }
-    //public int Latency { get; set; } = 200;
 
     public string Serialize() =>
         JsonSerializer.Serialize(this);

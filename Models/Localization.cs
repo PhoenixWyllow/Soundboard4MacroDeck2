@@ -41,6 +41,7 @@ internal sealed class Localization
     public string ActionCategoryRandomName { get; set; } = "Play random from category";
     public string ActionCategoryRandomDescription { get; set; } = "Play a random audio file from a given category";
     public string ActionCategoryAudioCategory { get; set; } = "Category";
+    public string ActionCategoryRandomUnique { get; set; } = "Prevent repeating same sound";
     public string GlobalConfigAddAudio { get; set; } = "Add audio";
     public string GlobalConfigIncorrectFileHeader { get; set; } = "Detected file type is not supported but may still work";
     public string AddLabel { get; set; } = "Add";
