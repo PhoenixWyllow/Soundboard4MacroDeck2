@@ -3,6 +3,5 @@
 public interface IOutputConfiguration : ISerializableConfiguration
 {
     string? OutputDeviceId { get; set; }
-    //int Latency { get; set; }
     bool UseDefaultDevice { get; set; }
 }

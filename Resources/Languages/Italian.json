@@ -33,6 +33,7 @@
   "GlobalConfigAudioCategories": "Categorie audio",
   "ActionCategoryRandomName": "Riproduci casuale da categoria",
   "ActionCategoryRandomDescription": "Riproduci un file casuale da una determinata categoria",
+  "ActionCategoryRandomUnique": "Impedisci ripetizione audio",
   "ActionCategoryAudioCategory": "Categoria",
   "GlobalConfigAddAudio": "Aggiungi audio",
   "GlobalConfigIncorrectFileHeader": "Questo file non è supportato, ma potrebbe funzionare ugualmente",

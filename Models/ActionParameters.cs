@@ -19,6 +19,7 @@ public class ActionParameters : IOutputConfiguration
             ? Path.GetFileName(FilePath)
             : Path.GetFileNameWithoutExtension(FilePath) + FileExt[1..];
 
+
     public string Serialize() =>
         JsonSerializer.Serialize(this);
 

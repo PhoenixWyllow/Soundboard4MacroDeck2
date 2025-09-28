@@ -264,4 +264,5 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     {
         _viewModel.ResetDevice();
     }
+
 }

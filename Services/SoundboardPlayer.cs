@@ -43,7 +43,7 @@ public static class SoundboardPlayer
             {
                 return;
             }
-            foreach (var player in ActivePlaybackEngines.ToArray().Where(p => p.Equals(internalId)))
+            foreach (var player in ActivePlaybackEngines.ToArray().Where(p => p.MatchesInternalId(internalId)))
             {
                 player?.Stop();
             }
@@ -84,7 +84,7 @@ public static class SoundboardPlayer
                 break;
 
             case SoundboardActions.RandomFromCategory:
-                ApplyRandom(actionParameters);
+                ApplyRandom(actionParameters, actionButton);
                 StopAll();
                 PlayAudio(actionParameters, actionButton);
                 break;
@@ -95,7 +95,9 @@ public static class SoundboardPlayer
 
     }
 
-    private static void ApplyRandom(ActionParametersV2 actionParameters)
+    private static readonly Dictionary<string, int> lastRandSoundIds = [];
+
+    private static void ApplyRandom(ActionParametersV2 actionParameters, ActionButton actionButton)
     {
         actionParameters.FileData = null;
         var files = PluginInstance.DbContext.GetAudioFileItems(actionParameters.AudioCategoryId);
@@ -104,14 +106,28 @@ public static class SoundboardPlayer
             MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
             return;
         }
-        var audio = files[Random.Shared.Next(files.Count)];
+
+        var chosen = Random.Shared.Next(files.Count);
+        if (actionParameters.EnsureUniqueRandomSound)
+        {
+            if (!lastRandSoundIds.TryGetValue(actionButton.Guid, out var lastUsedId))
+            {
+                lastUsedId = -1;
+            }
+            while (chosen == lastUsedId)
+            {
+                chosen = Random.Shared.Next(files.Count);
+            }
+            lastRandSoundIds[actionButton.Guid] = chosen;
+        }
+        var audio = files[chosen];
         actionParameters.AudioFileId = audio.Id;
         actionParameters.FileName = audio.Name;
     }
 
     private static void PlayOrStop(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
     {
-        bool currentlyPlaying = ActivePlaybackEngines.Any(p => p.Equals(actionButton.Guid));
+        bool currentlyPlaying = ActivePlaybackEngines.Any(p => p.MatchesInternalId(actionButton.Guid));
         if (currentlyPlaying)
         {
             StopCurrent(actionButton.Guid);

@@ -22,6 +22,11 @@ public class SoundboardActionConfigViewModel : OutputDeviceConfigurationViewMode
         get => Parameters.SyncButtonState;
         set => Parameters.SyncButtonState = value;
     }
+    public bool EnsureUniqueRandomSound
+    {
+        get => Parameters.EnsureUniqueRandomSound;
+        set => Parameters.EnsureUniqueRandomSound = value;
+    }
 
     public SoundboardActionConfigViewModel(PluginAction action)
         : base(ActionParametersV2.Deserialize(action.Configuration))
