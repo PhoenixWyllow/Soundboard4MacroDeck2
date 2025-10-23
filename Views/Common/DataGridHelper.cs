@@ -24,6 +24,11 @@ internal sealed class DataGridHelper<T> where T : class
     public int Count => _dataSource.Count;
 
     /// <summary>
+    /// Gets the column builder for fluent column configuration.
+    /// </summary>
+    public DataGridColumnBuilder<T> Columns { get; }
+
+    /// <summary>
     /// Initializes a new instance of DataGridHelper.
     /// Data binding is deferred until BindData is called.
     /// </summary>
@@ -34,6 +39,7 @@ internal sealed class DataGridHelper<T> where T : class
         _grid = grid;
         _dataSource = new BindingList<T>();
         _isDataBound = false;
+        Columns = new DataGridColumnBuilder<T>(grid);
     }
 
     /// <summary>

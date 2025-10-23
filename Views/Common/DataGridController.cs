@@ -9,7 +9,7 @@ namespace Soundboard4MacroDeck.Views.Common;
 /// <typeparam name="T">The type of items in the grid.</typeparam>
 internal sealed class DataGridController<T> where T : class
 {
-    private readonly DataGridHelper<T> _dataHelper;
+    private readonly DataGridHelper<T> _gridHelper;
     private readonly DataGridToolbarHelper<T> _toolbarHelper;
     private OperationLogger? _toolbarLogger;
     private string? _itemName;
@@ -17,7 +17,7 @@ internal sealed class DataGridController<T> where T : class
     /// <summary>
     /// Gets the data helper for direct access to grid data operations.
     /// </summary>
-    public DataGridHelper<T> Data => _dataHelper;
+    public DataGridHelper<T> Grid => _gridHelper;
 
     /// <summary>
     /// Initializes a new instance of DataGridController.
@@ -27,8 +27,8 @@ internal sealed class DataGridController<T> where T : class
     {
         ArgumentNullException.ThrowIfNull(grid);
 
-        _dataHelper = new DataGridHelper<T>(grid);
-        _toolbarHelper = new DataGridToolbarHelper<T>(_dataHelper);
+        _gridHelper = new DataGridHelper<T>(grid);
+        _toolbarHelper = new DataGridToolbarHelper<T>(_gridHelper);
     }
 
     public void SetLogger(OperationLogger toolbarLogger, string itemName)
