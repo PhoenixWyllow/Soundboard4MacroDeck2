@@ -4,7 +4,7 @@
   "author": "PhoenixWyllow",
   "repository": "https://github.com/PhoenixWyllow/Soundboard4MacroDeck2",
   "packageId": "PhoenixWyllow.Soundboard4MacroDeck",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "target-plugin-api-version": 40,
   "target-macro-deck-version": "2.14.1",
   "dll": "Soundboard4MacroDeck.dll"

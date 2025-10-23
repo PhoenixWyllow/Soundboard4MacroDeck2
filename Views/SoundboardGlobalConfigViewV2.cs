@@ -125,12 +125,8 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
                     $"Fixed {fixedCount} audio file(s) with invalid category references.");
         }
 
-        // Create category list with "Uncategorized" option (Id = 0)
-        var categoriesWithNone = new List<AudioCategory>
-        {
-            new AudioCategory { Id = 0, Name = "(Uncategorized)" }
-        };
-        categoriesWithNone.AddRange(_viewModel.AudioCategories);
+        // Create category list with "Uncategorized" option
+        List<AudioCategory> categoriesWithNone = [AudioCategory.NoneOrUncategorized, .. _viewModel.AudioCategories];
         categoryComboBoxList = new BindingList<AudioCategory>(categoriesWithNone);
 
         DataGridViewComboBoxColumn categoryBox = new()
@@ -163,16 +159,16 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
                 var row = audioFilesTable.Rows[e.RowIndex];
                 if (row.DataBoundItem is AudioFileItem item)
                 {
-                    var category = _viewModel.AudioCategories.FirstOrDefault(c => c.Id == item.CategoryId);
-                    if (category != null)
+                    var category = _viewModel.AudioCategories.FirstOrDefault(c => c.Id == item.CategoryId, defaultValue: AudioCategory.NoneOrUncategorized);
+                    if (category is not null)
                     {
-                        e.Value = category.Id;
+                        e.Value = category.Name;
                         e.FormattingApplied = true;
                     }
                     else
                     {
                         // Invalid category - show placeholder
-                        e.Value = DBNull.Value;
+                        e.Value = AudioCategory.NoneOrUncategorized.Name;
                         e.FormattingApplied = true;
                     }
                 }

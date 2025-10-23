@@ -40,6 +40,8 @@ public sealed class AudioFile
 
 public sealed class AudioCategory
 {
+    public static readonly AudioCategory NoneOrUncategorized = new() { Id = 0, Name = "(Uncategorized)" };
+
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
