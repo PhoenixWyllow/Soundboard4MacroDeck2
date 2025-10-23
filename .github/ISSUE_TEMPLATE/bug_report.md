@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+Ensure you have read the [Troubleshooting Guide](/TROUBLESHOOTING.md), before adding a new issue.
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 

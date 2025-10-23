@@ -196,6 +196,7 @@ namespace Soundboard4MacroDeck.Views
             audioFilesTable.MultiSelect = false;
             audioFilesTable.Name = "audioFilesTable";
             audioFilesTable.RowHeadersWidth = 10;
+            audioFilesTable.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             audioFilesTable.RowTemplate.Height = 33;
             audioFilesTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             audioFilesTable.Size = new Size(682, 384);
@@ -245,6 +246,9 @@ namespace Soundboard4MacroDeck.Views
             // 
             // categoriesTable
             // 
+            categoriesTable.AllowUserToAddRows = false;
+            categoriesTable.AllowUserToDeleteRows = false;
+            categoriesTable.AllowUserToResizeRows = false;
             categoriesTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             categoriesTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             categoriesTable.BackgroundColor = Color.FromArgb(45, 45, 45);
@@ -253,6 +257,7 @@ namespace Soundboard4MacroDeck.Views
             categoriesTable.DefaultCellStyle = dataGridViewCellStyle1;
             categoriesTable.Dock = DockStyle.Bottom;
             categoriesTable.Location = new Point(3, 38);
+            categoriesTable.MultiSelect = false;
             categoriesTable.Name = "categoriesTable";
             categoriesTable.RowHeadersWidth = 10;
             categoriesTable.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;

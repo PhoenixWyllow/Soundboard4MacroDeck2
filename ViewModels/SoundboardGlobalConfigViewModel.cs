@@ -28,7 +28,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
     {
         get
         {
-            List<AudioFileItem> items = new();
+            List<AudioFileItem> items = [];
             var files = PluginInstance.DbContext.GetAudioFiles();
             foreach (var file in files)
             {
@@ -42,9 +42,109 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     public AudioFile? LastAudioFile { get; internal set; }
 
+    /// <summary>
+    /// Validates and fixes audio files with invalid category references.
+    /// Returns the number of files that were fixed.
+    /// </summary>
+    public int ValidateAndFixAudioFileCategories()
+    {
+        var audioFiles = PluginInstance.DbContext.GetAudioFiles();
+        var validCategoryIds = AudioCategories.Select(c => c.Id).ToHashSet();
+        int fixedCount = 0;
+
+        foreach (var file in audioFiles)
+        {
+            if (file.CategoryId != 0 && !validCategoryIds.Contains(file.CategoryId))
+            {
+                MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel), 
+                    $"Audio file '{file.Name}' (ID: {file.Id}) has invalid CategoryId: {file.CategoryId}. Resetting to 0 (uncategorized).");
+
+                file.CategoryId = 0;
+                PluginInstance.DbContext.UpdateAudioFile(file);
+                fixedCount++;
+            }
+        }
+
+        return fixedCount;
+    }
+
+    /// <summary>
+    /// Adds a new audio category to the database.
+    /// </summary>
+    /// <returns>True if the category was added successfully, false otherwise.</returns>
+    public bool AddAudioCategory(AudioCategory newCategory)
+    {
+        try
+        {
+            PluginInstance.DbContext.InsertAudioCategory(newCategory);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
+                $"Failed to add audio category: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Deletes an audio category from the database after validation.
+    /// </summary>
+    /// <param name="category">The category to delete.</param>
+    /// <returns>True if the category was deleted successfully, false otherwise.</returns>
+    public bool DeleteAudioCategory(AudioCategory category)
+    {
+        if (!CanDeleteAudioCategory(category))
+        {
+            return false;
+        }
+
+        try
+        {
+            return PluginInstance.DbContext.DeleteAudioCategory(category.Id);
+        }
+        catch (Exception ex)
+        {
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
+                $"Failed to delete audio category '{category.Name}': {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Deletes an audio file from the database after validation.
+    /// </summary>
+    /// <param name="audioFile">The audio file to delete.</param>
+    /// <returns>True if the file was deleted successfully, false otherwise.</returns>
+    public bool DeleteAudioFile(AudioFileItem audioFile)
+    {
+        if (!CanDeleteAudioFile(audioFile))
+        {
+            return false;
+        }
+
+        try
+        {
+            return PluginInstance.DbContext.DeleteAudioFile(audioFile.Id);
+        }
+        catch (Exception ex)
+        {
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
+                $"Failed to delete audio file '{audioFile.Name}': {ex.Message}");
+            return false;
+        }
+    }
+
     public void UpdateAudioFile(AudioFileItem editedItem)
     {
-        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id)!;
+        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id);
+        if (file is null)
+        {
+            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
+                $"Audio file with ID {editedItem.Id} not found in database.");
+            return;
+        }
+
         file.Name = editedItem.Name;
         file.CategoryId = editedItem.CategoryId;
         PluginInstance.DbContext.UpdateAudioFile(file);
@@ -52,7 +152,14 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
     internal void UpdateCategory(AudioCategory editedCategory)
     {
-        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id)!;
+        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id);
+        if (audioCategory is null)
+        {
+            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
+                $"Audio category with ID {editedCategory.Id} not found in database.");
+            return;
+        }
+
         audioCategory.Name = editedCategory.Name;
         PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
     }
@@ -153,5 +260,22 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
             LocalizationManager.Instance.ConfirmDeleteWarningLabel,
             MessageBoxButtons.YesNo);
         return (confirmResult == DialogResult.Yes);
+    }
+
+
+    /// <summary>
+    /// Determines whether an audio file can be added based on the current state of the view model.
+    /// </summary>
+    /// <remarks>This method checks the presence of a recently added audio file in the view model to validate
+    /// the addition. The parameter is ignored, and the method resets the last audio file state after
+    /// validation.</remarks>
+    /// <param name="item">The audio file item to validate for addition. This parameter is not used in the validation logic.</param>
+    /// <returns>true if an audio file was previously added and is present in the view model; otherwise, false.</returns>
+    public bool ValidateAudioFileAddition(AudioFileItem item)
+    {
+        // Audio file is already added to DB via the dialog, so we just return true
+        bool success = LastAudioFile is not null && LastAudioFile.Id == item.Id;
+        LastAudioFile = null;
+        return success;
     }
 }

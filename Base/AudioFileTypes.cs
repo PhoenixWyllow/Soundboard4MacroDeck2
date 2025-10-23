@@ -1,11 +1,7 @@
-﻿using Microsoft.VisualBasic.Devices;
-
-using Soundboard4MacroDeck.MimeSniffer;
+﻿using Soundboard4MacroDeck.MimeSniffer;
 using Soundboard4MacroDeck.Services;
 
 using SuchByte.MacroDeck.Logging;
-
-using System;
 
 namespace Soundboard4MacroDeck.Base;
 
@@ -15,9 +11,9 @@ internal class AudioFileTypes
     // For even more magic number details, you can use this link https://www.garykessler.net/library/file_sigs.html
 
 
-    public static string[] Extensions { get; } = {
+    public static string[] Extensions { get; } = [
         "*.aif", "*.aiff", "*.mid", "*.midi", "*.m4a", "*.mp3", "*.ogg", "*.oga", "*.aac", "*.flac", "*.wma", "*.wav", "*.weba",
-    };
+    ];
 
     public static List<Header> Headers => [
         new("aif aiff", "46 4F 52 4D ?? ?? ?? ?? 41 49 46 46"),
