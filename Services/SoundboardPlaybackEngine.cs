@@ -110,7 +110,11 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        if (obj is null) return false;
+        if (obj is null)
+        {
+            return false;
+        }
+
         return ReferenceEquals(this, obj) || (obj is SoundboardPlaybackEngine engine && Equals(engine));
     }
 

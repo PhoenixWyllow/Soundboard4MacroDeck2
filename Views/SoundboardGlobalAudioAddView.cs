@@ -1,4 +1,5 @@
-﻿using Soundboard4MacroDeck.Services;
+﻿using Soundboard4MacroDeck.Models;
+using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
 
 using SuchByte.MacroDeck.GUI.CustomControls;
@@ -80,7 +81,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
             return;
         }
 
-        _viewModel.LastAudioFile.CategoryId = 1;
+        _viewModel.LastAudioFile.CategoryId = AudioCategory.NoneOrUncategorized.Id;
         var id = PluginInstance.DbContext.InsertAudioFile(_viewModel.LastAudioFile);
         using AudioReader reader = new(_viewModel.LastAudioFile.Name, _viewModel.LastAudioFile.Data, false);
         SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{id}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);

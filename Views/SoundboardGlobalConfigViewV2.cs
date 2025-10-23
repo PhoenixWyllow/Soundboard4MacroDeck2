@@ -1,6 +1,7 @@
 ﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
 using Soundboard4MacroDeck.ViewModels;
+using Soundboard4MacroDeck.Views.Common;
 
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
@@ -15,19 +16,40 @@ internal enum SoundboardGlobalConfigViewV2Page { Output, Audio, Categories }
 
 public partial class SoundboardGlobalConfigViewV2 : DialogForm
 {
+    private static class ColumnNames
+    {
+        public const string Id = "Id";
+        public const string Name = "Name";
+        public const string Category = "Category";
+    }
+
     private readonly SoundboardGlobalConfigViewModel _viewModel;
+    private BindingList<AudioCategory>? _categoryComboBoxList;
+    private readonly DataGridController<AudioCategory> _categoriesController;
+    private readonly DataGridController<AudioFileItem> _audioFilesController;
+
     public SoundboardGlobalConfigViewV2(MacroDeckPlugin plugin)
     {
         _viewModel = new(plugin);
 
         InitializeComponent();
+
+        // Initialize logger for toolbar operations
+        OperationLogger logger = new(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2));
+
+        // Initialize grid controllers
+        _categoriesController = new DataGridController<AudioCategory>(categoriesTable);
+        _categoriesController.SetLogger(logger, "Audio category");
+        _audioFilesController = new DataGridController<AudioFileItem>(audioFilesTable);
+        _audioFilesController.SetLogger(logger, "Audio file");
+
         ApplyLocalization();
         SetCloseIconVisible(true);
 
         _viewModel.OnSetDeviceIndex += (_, _) => { comboBoxDevices.SelectedIndex = _viewModel.DevicesIndex; };
     }
 
-    internal static SoundboardGlobalConfigViewV2 NewAtPage(SoundboardGlobalConfigViewV2Page page)
+    internal static SoundboardGlobalConfigViewV2 CreateViewForPage(SoundboardGlobalConfigViewV2Page page)
     {
         SoundboardGlobalConfigViewV2 view = new(PluginInstance.Current);
         switch (page)
@@ -73,178 +95,126 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
 
     private void InitCategoriesPage()
     {
-        categoriesAdd.Click += CategoriesAdd_Click;
-        categoriesRemove.Click += CategoriesRemove_Click;
-        categoriesTable.Columns.Add(new DataGridViewTextBoxColumn
-        {
-            DataPropertyName = nameof(AudioCategory.Id),
-            HeaderText = nameof(AudioCategory.Id),
-            ReadOnly = true,
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-        });
+        // Configure columns using fluent builder
+        _categoriesController.Grid.Columns
+            .AddTextColumn(nameof(AudioCategory.Id), readOnly: true)
+            .AddTextColumn(nameof(AudioCategory.Name), minimumWidth: 200);
 
-        categoriesTable.Columns.Add(new DataGridViewTextBoxColumn
-        {
-            DataPropertyName = nameof(AudioCategory.Name),
-            HeaderText = nameof(AudioCategory.Name),
-            Resizable = DataGridViewTriState.True,
-            MinimumWidth = 200,
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        });
-        categoriesTable.DataSource = _viewModel.AudioCategories;
-        categoriesTable.CellEndEdit += CategoriesTable_CellEndEdit;
+        // Bind data to the grid controller (after columns are configured)
+        _categoriesController.Grid.BindData(_viewModel.AudioCategories);
+
+        // Attach add and remove buttons
+        _categoriesController.AttachAddButton(categoriesAdd, itemFactory: () => new AudioCategory(), addToViewModel: _viewModel.AddAudioCategory);
+
+        _categoriesController.AttachRemoveButton(categoriesRemove, removeFromViewModel: _viewModel.DeleteAudioCategory);
+
+        // Attach CellEndEdit handler with simple error handling
+        _categoriesController.Grid.OnCellEndEdit(_viewModel.UpdateCategory, ex => LogErrorAndTrace("Error updating category", ex));
     }
 
-    private BindingList<AudioCategory>? categoryComboBoxList;
-
-    private BindingList<AudioFileItem>? audioFilesList;
+    private static void LogErrorAndTrace(string message, Exception? ex)
+    {
+        MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), $"{message}: {ex?.Message ?? "No message"}");
+        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), ex?.StackTrace ?? "No stack trace");
+    }
 
     private void InitAudioFilesPage()
     {
-        audioFileAdd.Click += AudioFileAdd_Click;
-        audioFileRemove.Click += AudioFileRemove_Click;
-        audioFilesTable.Columns.Add(new DataGridViewTextBoxColumn
+        // Configure columns using fluent builder
+        _audioFilesController.Grid.Columns
+            .AddTextColumn(nameof(AudioFileItem.Id), readOnly: true)
+            .AddTextColumn(nameof(AudioFileItem.Name))
+            .AddColumn<DataGridViewComboBoxColumn>(column =>
+            {
+                column.Name = ColumnNames.Category;
+                column.DataPropertyName = nameof(AudioFileItem.CategoryId);
+                column.HeaderText = ColumnNames.Category;
+                column.DisplayMember = nameof(AudioCategory.Name);
+                column.ValueMember = nameof(AudioCategory.Id);
+                column.DataSource = CreateCategoryComboBoxDataSource();
+                column.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+            });
+
+        // Validate and fix any orphaned category references before creating UI
+        int fixedCount = _viewModel.ValidateAndFixAudioFileCategories();
+        if (fixedCount > 0)
         {
-            DataPropertyName = nameof(AudioFileItem.Id),
-            HeaderText = nameof(AudioFileItem.Id),
-            ReadOnly = true,
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+            MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), $"Fixed {fixedCount} audio file(s) with invalid category references.");
+        }
+
+        // Bind data to the grid after columns are configured
+        _audioFilesController.Grid.BindData(_viewModel.AudioFiles);
+
+        // Attach add button
+        _audioFilesController.AttachAddButton(audioFileAdd, itemFactory: CreateAudioFileItemFromDialog, addToViewModel: _viewModel.ValidateAudioFileAddition);
+
+        // Attach remove button
+        _audioFilesController.AttachRemoveButton(audioFileRemove, removeFromViewModel: _viewModel.DeleteAudioFile);
+
+        // Attach CellEndEdit handler with simple error handling
+        _audioFilesController.Grid.OnCellEndEdit(_viewModel.UpdateAudioFile, ex => LogErrorAndTrace("Error updating audio file", ex));
+
+        // Attach CellFormatting handler to format Category column
+        _audioFilesController.Grid.OnCellFormatting(ColumnNames.Category, item =>
+        {
+            var category = _viewModel.AudioCategories.FirstOrDefault(c => c.Id == item.CategoryId, defaultValue: AudioCategory.NoneOrUncategorized);
+            return category.Name;
         });
 
-        audioFilesTable.Columns.Add(new DataGridViewTextBoxColumn
+        // Attach DataError handler
+        _audioFilesController.Grid.OnDataError((columnName, rowIndex, ex) =>
         {
-            DataPropertyName = nameof(AudioFileItem.Name),
-            HeaderText = nameof(AudioFileItem.Name)
+            LogErrorAndTrace($"Grid error in column '{columnName}' at row {rowIndex}", ex);
         });
-
-        categoryComboBoxList = new(_viewModel.AudioCategories);
-        DataGridViewComboBoxColumn categoryBox = new()
-        {
-            DataPropertyName = nameof(AudioFileItem.CategoryId),
-            HeaderText = "Category",
-            DisplayMember = nameof(AudioCategory.Name),  // Display the 'Name' property of the AudioCategory
-            ValueMember = nameof(AudioCategory.Id),  // Use the 'Id' property of the AudioCategory as the actual value
-            DataSource = categoryComboBoxList
-        };
-        audioFilesTable.DataError += AudioFilesTable_DataError;
-        audioFilesTable.Columns.Add(categoryBox);
-
-        audioFilesList = new(_viewModel.AudioFiles);
-        audioFilesTable.DataSource = audioFilesList;
-        audioFilesTable.CellEndEdit += AudioFilesTable_CellEndEdit;
     }
 
-    private void AudioFilesTable_DataError(object? sender, DataGridViewDataErrorEventArgs e)
+    private BindingList<AudioCategory> CreateCategoryComboBoxDataSource()
     {
-        e.Cancel = true;
-        e.ThrowException = false;
-        MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception?.Message ?? "No message");
-        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), e.Exception?.StackTrace ?? "No message");
+        // Create category list with "Uncategorized" option
+        List<AudioCategory> categoriesWithNone = [AudioCategory.NoneOrUncategorized, .. _viewModel.AudioCategories];
+        _categoryComboBoxList = new BindingList<AudioCategory>(categoriesWithNone);
+        return _categoryComboBoxList;
     }
 
-    private void AudioFileAdd_Click(object? sender, EventArgs e)
+    private AudioFileItem? CreateAudioFileItemFromDialog()
     {
         using var audioAddDialog = new SoundboardGlobalAudioAddView(_viewModel);
-        if (audioAddDialog.ShowDialog(this) == DialogResult.OK)
+        if (audioAddDialog.ShowDialog(this) != DialogResult.OK)
         {
-            if (audioFilesList is null || _viewModel.LastAudioFile is null)
-            {
-                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file cannot be added as there is no valid audio present.");
-                return;
-            }
-            audioFilesList.Add(_viewModel.LastAudioFile.ToAudioFileItem());
-            _viewModel.LastAudioFile = null;
-
-            MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file added successfully.");
+            return null;
         }
-    }
-
-    private void AudioFileRemove_Click(object? sender, EventArgs e)
-    {
-        if (audioFilesTable.SelectedRows.Count > 0 && audioFilesList is not null)
-        {
-            var row = audioFilesTable.SelectedRows[0];
-            if (row.DataBoundItem is AudioFileItem item)
-            {
-                bool canDelete = _viewModel.CanDeleteAudioFile(item);
-                if (canDelete)
-                {
-                    PluginInstance.DbContext.DeleteAudioFile(item.Id);
-                    audioFilesList.Remove(item);
-                    MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio file removed successfully.");
-                }
-            }
-        }
-    }
-
-    private void CategoriesRemove_Click(object? sender, EventArgs e)
-    {
-        if (categoriesTable.SelectedRows.Count > 0)
-        {
-            var row = categoriesTable.SelectedRows[0];
-            if (row.DataBoundItem is AudioCategory cat)
-            {
-                bool canDelete = _viewModel.CanDeleteAudioCategory(cat);
-                if (canDelete)
-                {
-                    PluginInstance.DbContext.DeleteAudioCategory(cat.Id);
-                    categoriesTable.DataSource = _viewModel.AudioCategories;
-                    MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Audio category removed successfully.");
-                }
-            }
-        }
+        return _viewModel.LastAudioFile?.ToAudioFileItem();
     }
 
     private void Navigation_Selecting(object sender, TabControlCancelEventArgs e)
     {
         if (e.TabPage?.Name == audioFilePage.Name)
         {
-            if (categoryComboBoxList is null)
-            {
-                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Category list is null. Please reopen the config view.");
-                return;
-            }
-
-            // Refresh audioCategories
-            categoryComboBoxList.Clear();
-            foreach (var cat in _viewModel.AudioCategories)
-            {
-                categoryComboBoxList.Add(cat);
-            }
+            RefreshCategoryComboBox();
         }
     }
 
-    private void CategoriesAdd_Click(object? sender, EventArgs e)
+    private void RefreshCategoryComboBox()
     {
-        PluginInstance.DbContext.InsertAudioCategory(new());
-        categoriesTable.DataSource = _viewModel.AudioCategories;
-    }
+        if (_categoryComboBoxList is null)
+        {
+            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Category list is null. Please reopen the config view.");
+            return;
+        }
 
-    private void CategoriesTable_CellEndEdit(object? sender, DataGridViewCellEventArgs e)
-    {
-        try
-        {
-            var editedRow = categoriesTable.Rows[e.RowIndex];
-            AudioCategory editedCategory = (AudioCategory)editedRow.DataBoundItem;
-            _viewModel.UpdateCategory(editedCategory);
-        }
-        catch (Exception ex)
-        {
-            MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), ex.Message);
-        }
-    }
+        // Refresh audioCategories
+        _categoryComboBoxList.Clear();
+        _categoryComboBoxList.Add(AudioCategory.NoneOrUncategorized);
 
-    private void AudioFilesTable_CellEndEdit(object? sender, DataGridViewCellEventArgs e)
-    {
-        try
+        foreach (var cat in _viewModel.AudioCategories)
         {
-            var editedRow = audioFilesTable.Rows[e.RowIndex];
-            AudioFileItem editedItem = (AudioFileItem)editedRow.DataBoundItem;
-            _viewModel.UpdateAudioFile(editedItem);
+            _categoryComboBoxList.Add(cat);
         }
-        catch (Exception ex)
+
+        // Warn if no categories exist (only "Uncategorized" is present)
+        if (_categoryComboBoxList.Count == 1)
         {
-            MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), ex.Message);
+            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "No audio categories available. Please add at least one category before adding audio files.");
         }
     }
 
@@ -253,16 +223,15 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         _viewModel.SetDevice(comboBoxDevices.SelectedIndex);
     }
 
-    private void ButtonOK_Click(object sender, EventArgs e)
-    {
-        audioFilesTable.EndEdit();
-        categoriesTable.EndEdit();
-        _viewModel.SaveConfig();
-    }
-
     private void LinkLabelResetDevice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
         _viewModel.ResetDevice();
     }
 
+    private void ButtonOK_Click(object sender, EventArgs e)
+    {
+        _audioFilesController.Grid.EndEdit();
+        _categoriesController.Grid.EndEdit();
+        _viewModel.SaveConfig();
+    }
 }
