@@ -261,4 +261,21 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
             MessageBoxButtons.YesNo);
         return (confirmResult == DialogResult.Yes);
     }
+
+
+    /// <summary>
+    /// Determines whether an audio file can be added based on the current state of the view model.
+    /// </summary>
+    /// <remarks>This method checks the presence of a recently added audio file in the view model to validate
+    /// the addition. The parameter is ignored, and the method resets the last audio file state after
+    /// validation.</remarks>
+    /// <param name="item">The audio file item to validate for addition. This parameter is not used in the validation logic.</param>
+    /// <returns>true if an audio file was previously added and is present in the view model; otherwise, false.</returns>
+    public bool ValidateAudioFileAddition(AudioFileItem item)
+    {
+        // Audio file is already added to DB via the dialog, so we just return true
+        bool success = LastAudioFile is not null && LastAudioFile.Id == item.Id;
+        LastAudioFile = null;
+        return success;
+    }
 }
