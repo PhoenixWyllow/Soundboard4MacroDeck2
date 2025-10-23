@@ -1,11 +1,7 @@
-﻿using Microsoft.VisualBasic.Devices;
-
-using Soundboard4MacroDeck.MimeSniffer;
+﻿using Soundboard4MacroDeck.MimeSniffer;
 using Soundboard4MacroDeck.Services;
 
 using SuchByte.MacroDeck.Logging;
-
-using System;
 
 namespace Soundboard4MacroDeck.Base;
 

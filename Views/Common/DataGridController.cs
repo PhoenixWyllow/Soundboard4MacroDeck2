@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Soundboard4MacroDeck.Views.Common;
 
 /// <summary>
