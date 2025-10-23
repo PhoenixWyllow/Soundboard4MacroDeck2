@@ -128,7 +128,7 @@ public partial class SoundboardActionConfigView : ActionConfigControl
 
     private void ButtonAddAudio_Click(object sender, EventArgs e)
     {
-        using var audioAddDialog = SoundboardGlobalConfigViewV2.NewAtPage(SoundboardGlobalConfigViewV2Page.Audio);
+        using var audioAddDialog = SoundboardGlobalConfigViewV2.CreateViewForPage(SoundboardGlobalConfigViewV2Page.Audio);
         if (audioAddDialog.ShowDialog(ParentForm) == DialogResult.OK)
         {
             LoadAudioFileSelection();
