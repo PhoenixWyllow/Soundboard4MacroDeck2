@@ -28,7 +28,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
     {
         get
         {
-            List<AudioFileItem> items = new();
+            List<AudioFileItem> items = [];
             var files = PluginInstance.DbContext.GetAudioFiles();
             foreach (var file in files)
             {
@@ -41,6 +41,32 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
     public IList<AudioCategory> AudioCategories => PluginInstance.DbContext.GetAudioCategories();
 
     public AudioFile? LastAudioFile { get; internal set; }
+
+    /// <summary>
+    /// Validates and fixes audio files with invalid category references.
+    /// Returns the number of files that were fixed.
+    /// </summary>
+    public int ValidateAndFixAudioFileCategories()
+    {
+        var audioFiles = PluginInstance.DbContext.GetAudioFiles();
+        var validCategoryIds = AudioCategories.Select(c => c.Id).ToHashSet();
+        int fixedCount = 0;
+
+        foreach (var file in audioFiles)
+        {
+            if (file.CategoryId != 0 && !validCategoryIds.Contains(file.CategoryId))
+            {
+                MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel), 
+                    $"Audio file '{file.Name}' (ID: {file.Id}) has invalid CategoryId: {file.CategoryId}. Resetting to 0 (uncategorized).");
+
+                file.CategoryId = 0;
+                PluginInstance.DbContext.UpdateAudioFile(file);
+                fixedCount++;
+            }
+        }
+
+        return fixedCount;
+    }
 
     public void UpdateAudioFile(AudioFileItem editedItem)
     {
