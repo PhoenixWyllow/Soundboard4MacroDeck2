@@ -19,6 +19,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
         SetCloseIconVisible(true);
         ApplyLocalization();
     }
+
     private void ApplyLocalization()
     {
         Text = "Soundboard - " + LocalizationManager.Instance.GlobalConfigAddAudio;
@@ -40,10 +41,20 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
 
     private void FileBrowse_Click(object sender, EventArgs e)
     {
+        openFileDialog.Multiselect = true;
         if (openFileDialog.ShowDialog(this) == DialogResult.OK)
         {
             fromUrl = false;
-            filePath.Text = openFileDialog.FileName;
+            if (openFileDialog.FileNames.Length == 1)
+            {
+                filePath.Text = openFileDialog.FileName;
+                return;  // Single: OK_Click handles normally
+            }
+            else
+            {
+                filePath.Text = string.Join("█", openFileDialog.FileNames);  // PATH█PATH█PATH
+                return;  // Multi: OK_Click processes all
+            }
         }
     }
 
@@ -72,21 +83,32 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
 
     private void ButtonOK_Click(object sender, EventArgs e)
     {
-        if (_viewModel.LastAudioFile is null)
+        // Handle █ paths → populate LOCAL batch list
+        List<AudioFile> batchFiles = new();
+        string[] paths = filePath.Text.Split('█', StringSplitOptions.RemoveEmptyEntries);
+        foreach(string path in paths)
         {
-            using var messageBox = new SuchByte.MacroDeck.GUI.CustomControls.MessageBox();
-            messageBox.ShowDialog(LocalizationManager.Instance.ActionPlaySoundInvalidFile,
-                !fromUrl ? LocalizationManager.Instance.ActionPlaySoundFileCouldNotUseFile : LocalizationManager.Instance.ActionPlaySoundURLCouldNotUseFile,
-                MessageBoxButtons.OK);
-            return;
+            var file = _viewModel.GetBytesFromFile(path.Trim());
+            if (file != null) 
+            {
+                file.CategoryId = AudioCategory.NoneOrUncategorized.Id;
+                batchFiles.Add(file);
+            }
         }
-
-        _viewModel.LastAudioFile.CategoryId = AudioCategory.NoneOrUncategorized.Id;
-        var id = PluginInstance.DbContext.InsertAudioFile(_viewModel.LastAudioFile);
-        using AudioReader reader = new(_viewModel.LastAudioFile.Name, _viewModel.LastAudioFile.Data, false);
-        SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{id}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);
-        _viewModel.LastAudioFile.Id = id;
-
+        // Process ALL files in IMMEDIATELY
+        foreach(var audioFile in batchFiles)
+        {
+            if (audioFile is null) continue;
+            audioFile.CategoryId = AudioCategory.NoneOrUncategorized.Id;
+            var id = PluginInstance.DbContext.InsertAudioFile(audioFile);
+            using AudioReader reader = new(audioFile.Name, audioFile.Data, false);
+            SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{id}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);
+            audioFile.Id = id;
+        }
+        if (this.Owner is SoundboardGlobalConfigViewV2 parentView)
+        {
+            parentView.RefreshAudioFilesPage();  // Refresh UI from DB
+        }
         DialogResult = DialogResult.OK;
         Close();
     }

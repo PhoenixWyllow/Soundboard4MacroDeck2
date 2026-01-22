@@ -9,7 +9,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Soundboard4MacroDeck</RootNamespace>

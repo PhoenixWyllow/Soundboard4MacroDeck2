@@ -168,6 +168,11 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         });
     }
 
+    public void RefreshAudioFilesPage()
+    {
+        _audioFilesController.Grid.BindData(_viewModel.AudioFiles ?? new List<AudioFileItem>());
+    }
+
     private BindingList<AudioCategory> CreateCategoryComboBoxDataSource()
     {
         // Create category list with "Uncategorized" option
