@@ -61,7 +61,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
         {
             if (_viewModel.LastAudioFile is null)
             {
-                PluginLogger.Error(nameof(SoundboardGlobalAudioAddView), "{Message}", "Audio file cannot be added as there is no valid audio present.");
+                PluginLogger.Error(nameof(SoundboardGlobalAudioAddView), "Audio file cannot be added as there is no valid audio present.");
                 return;
             }
             fromUrl = true;
@@ -83,7 +83,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
         _viewModel.LastAudioFile.CategoryId = AudioCategory.NoneOrUncategorized.Id;
         var id = PluginInstance.DbContext.InsertAudioFile(_viewModel.LastAudioFile);
         using AudioReader reader = new(_viewModel.LastAudioFile.Name, _viewModel.LastAudioFile.Data, false);
-        SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{id}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, new[] { string.Empty });
+        SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{id}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, []);
         _viewModel.LastAudioFile.Id = id;
 
         DialogResult = DialogResult.OK;

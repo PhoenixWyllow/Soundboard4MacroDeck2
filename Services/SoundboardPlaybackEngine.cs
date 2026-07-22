@@ -49,7 +49,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     private void OnOutputDevicePlaybackStopped(object? _, StoppedEventArgs e)
     {
-        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "{Message}", "Stopped:" + _internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Stopped - {EngineId}", _internalId);
         PlaybackStopped?.Invoke(this, e);
     }
 
@@ -70,14 +70,14 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     public void Play()
     {
-        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "{Message}", "Play:" + _internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Play - {EngineId}", _internalId);
         playbackTimer?.Start();
         outputDevice.Play();
     }
 
     public void Stop()
     {
-        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "{Message}", "Stop:" + _internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Stop - {EngineId}", _internalId);
         playbackTimer?.Stop();
         outputDevice?.Stop();
     }

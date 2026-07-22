@@ -16,9 +16,9 @@ public static class SoundboardPlayer
         {
             Retry.Do(() => Play(action, actionParameters, actionButton));
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            PluginLogger.Error(nameof(SoundboardPlayer), "{Message}", e.Message);
+            PluginLogger.Error(nameof(SoundboardPlayer), "Failed to execute action '{Action}' - {ExceptionMessage}", action, ex.Message);
         }
     }
 
@@ -52,7 +52,7 @@ public static class SoundboardPlayer
     }
 
     private static readonly System.Threading.Lock key = new();
-    private static List<SoundboardPlaybackEngine> ActivePlaybackEngines { get; } = new();
+    private static List<SoundboardPlaybackEngine> ActivePlaybackEngines { get; } = [];
 
     private static void OnPlaybackStopped(object? sender, EventArgs _)
     {
@@ -106,7 +106,7 @@ public static class SoundboardPlayer
         var files = PluginInstance.DbContext.GetAudioFileItems(actionParameters.AudioCategoryId);
         if (files.Count == 0)
         {
-            PluginLogger.Error(nameof(SoundboardPlayer), "{Message}", "Category not found or no audio files found in the selected category.");
+            PluginLogger.Error(nameof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
             return;
         }
 
@@ -153,7 +153,7 @@ public static class SoundboardPlayer
         {
             if (actionParameters.AudioCategoryId <= 0)
             {
-                PluginLogger.Error(nameof(SoundboardPlayer), "{Message}", "Audio file not found. Cannot play sound.");
+                PluginLogger.Error(nameof(SoundboardPlayer), "Audio file not found. Cannot play sound.");
             }
             return;
         }
@@ -191,7 +191,7 @@ public static class SoundboardPlayer
         }
         TimeSpan time = reset ? TimeSpan.Zero : playbackEngine.CurrentTime;
         TimeSpan remain = reset ? TimeSpan.Zero : (playbackEngine.TotalTime - playbackEngine.CurrentTime);
-        VariableManager.SetValue(playbackEngine.GetReaderId("_elapsed"), time.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, new[] { string.Empty });
-        VariableManager.SetValue(playbackEngine.GetReaderId("_remains"), remain.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, new[] { string.Empty });
+        VariableManager.SetValue(playbackEngine.GetReaderId("_elapsed"), time.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, []);
+        VariableManager.SetValue(playbackEngine.GetReaderId("_remains"), remain.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, []);
     }
 }

@@ -92,12 +92,11 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
         try
         {
             SetConfig();
-            PluginLogger.Information(PluginInstance.Current, GetType().Name, "{Message}", "config saved");
+            PluginLogger.Information(GetType().Name, "config saved");
         }
         catch (Exception ex)
         {
-            PluginLogger.Error(GetType().Name, "{Message}", "config NOT saved");
-            PluginLogger.Error(GetType().Name, "{Message}", ex.Message);
+            PluginLogger.Error(GetType().Name, "config NOT saved - {ExceptionMessage}", ex.Message);
         }
     }
 }

@@ -44,7 +44,7 @@ internal static class LocalizationManager
         {
             //fallback - should never occur if things are done properly
             Instance = new();
-            PluginLogger.Warning(nameof(LocalizationManager), "{Message}", ex.Message);
+            PluginLogger.Warning(nameof(LocalizationManager), "{ExceptionMessage}", ex.Message);
         }
         finally
         {

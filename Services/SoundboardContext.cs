@@ -45,7 +45,7 @@ internal class SoundboardContext
         }
         catch (Exception ex)
         {
-            PluginLogger.Warning(nameof(SoundboardContext), "{Message}", "Soundboard database was NOT added to backup.");
+            PluginLogger.Warning(nameof(SoundboardContext), "Soundboard database was NOT added to backup.");
             PluginLogger.DebugException(ex);
         }
         finally

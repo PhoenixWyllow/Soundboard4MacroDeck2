@@ -59,7 +59,7 @@ internal class AudioFileTypes
         extension = string.Empty;
 
         PluginLogger.Warning(nameof(AudioFileTypes), "{Message}", LocalizationManager.Instance.ActionPlaySoundInvalidFile);
-        PluginLogger.Information(PluginInstance.Current, nameof(AudioFileTypes), "{Message}", BitConverter.ToString(fileHead[..20]) + "[...]");
+        PluginLogger.Information(nameof(AudioFileTypes), "{Message}", BitConverter.ToString(fileHead[..20]) + "[...]");
         return false;
     }
 }

@@ -53,7 +53,7 @@ public sealed class SoundboardPlayStopAction : PluginAction
         catch (Exception ex)
         {
             SoundboardPlayer.StopAll();
-            PluginLogger.Warning(nameof(SoundboardPlayStopAction), "{Message}", ex.Message);
+            PluginLogger.Warning(nameof(SoundboardPlayStopAction), "Failed - {ExceptionMessage}", ex.Message);
         }
     }
 }

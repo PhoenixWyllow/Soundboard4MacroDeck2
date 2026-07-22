@@ -53,7 +53,7 @@ public sealed class SoundboardCategoryRandomAction : PluginAction
         catch (Exception ex)
         {
             SoundboardPlayer.StopAll();
-            PluginLogger.Warning(nameof(SoundboardCategoryRandomAction), "{Message}", ex.Message);
+            PluginLogger.Warning(nameof(SoundboardCategoryRandomAction), "Failed - {ExceptionMessage}", ex.Message);
         }
     }
 }

@@ -55,7 +55,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         {
             if (file.CategoryId != 0 && !validCategoryIds.Contains(file.CategoryId))
             {
-                PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "{Message}", $"Audio file '{file.Name}' (ID: {file.Id}) has invalid CategoryId: {file.CategoryId}. Resetting to 0 (uncategorized).");
+                PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "Audio file '{FileName}' (ID: {FileId}) has invalid CategoryId: {CategoryId}. Resetting to 0 (uncategorized).", file.Name, file.Id, file.CategoryId);
 
                 file.CategoryId = 0;
                 PluginInstance.DbContext.UpdateAudioFile(file);
@@ -79,7 +79,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         }
         catch (Exception ex)
         {
-            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "{Message}", $"Failed to add audio category: {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to add audio category: {ExceptionMessage}", ex.Message);
             return false;
         }
     }
@@ -102,7 +102,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         }
         catch (Exception ex)
         {
-            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "{Message}", $"Failed to delete audio category '{category.Name}': {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to delete audio category '{CategoryName}': {ExceptionMessage}", category.Name, ex.Message);
             return false;
         }
     }
@@ -125,7 +125,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         }
         catch (Exception ex)
         {
-            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "{Message}", $"Failed to delete audio file '{audioFile.Name}': {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to delete audio file '{FileName}': {ExceptionMessage}", audioFile.Name, ex.Message);
             return false;
         }
     }
@@ -135,7 +135,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id);
         if (file is null)
         {
-            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "{Message}", $"Audio file with ID {editedItem.Id} not found in database.");
+            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "Audio file with ID {FileId} not found in database.", editedItem.Id);
             return;
         }
 
@@ -149,7 +149,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id);
         if (audioCategory is null)
         {
-            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "{Message}", $"Audio category with ID {editedCategory.Id} not found in database.");
+            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "Audio category with ID {CategoryId} not found in database.", editedCategory.Id);
             return;
         }
 
@@ -183,7 +183,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         catch (Exception ex)
         {
             //forbidden, proxy issues, file not found (404) etc
-            PluginLogger.Error($"{nameof(SoundboardGlobalConfigViewModel)}.{nameof(GetFromUrlAsync)}", "{Message}", ex.Message);
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to get audio file from URL '{UrlPath}' - {ExceptionMessage}", urlPath, ex.Message);
         }
 
         return null;

@@ -37,7 +37,7 @@ internal sealed class DataGridHelper<T> where T : class
     {
         ArgumentNullException.ThrowIfNull(grid);
         _grid = grid;
-        _dataSource = new BindingList<T>();
+        _dataSource = [];
         _isDataBound = false;
         Columns = new DataGridColumnBuilder<T>(grid);
     }
