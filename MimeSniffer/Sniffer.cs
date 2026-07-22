@@ -84,7 +84,7 @@ public class Sniffer
             parent.Children = new(Convert.ToInt32(128 / Math.Pow(2, depth)));
         }
 
-        Node current;
+        Node? current;
         // if not contains current byte index, create node and put it into children.
         if (!parent.Children.ContainsKey(data[depth]))
         {
@@ -102,18 +102,22 @@ public class Sniffer
                 throw new("Something really messed up...");
             }
 
+            if (current is null)
+            {
+                throw new("Something really messed up...");
+            }
         }
 
         // last byte, put extensions into Extensions.
         if (depth == (data.Length - 1))
         {
-            current.Extensions ??= new(4);
+            current!.Extensions ??= new(4);
 
-            current.Extensions.AddRange(extensions);
+            current!.Extensions.AddRange(extensions);
             return;
         }
 
-        Add(data, current, extensions, depth + 1);
+        Add(data, current!, extensions, depth + 1);
     }
 
     private void Match(byte[] data, int depth, Node node, List<string> extensionStore, bool matchAll)

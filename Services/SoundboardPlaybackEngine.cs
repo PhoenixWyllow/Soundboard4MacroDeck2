@@ -3,8 +3,6 @@ using NAudio.Wave;
 
 using Soundboard4MacroDeck.Models;
 
-using SuchByte.MacroDeck.Logging;
-
 using System.Timers;
 
 using Timer = System.Timers.Timer;
@@ -51,7 +49,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     private void OnOutputDevicePlaybackStopped(object? _, StoppedEventArgs e)
     {
-        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Stopped:"+_internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "{Message}", "Stopped:" + _internalId);
         PlaybackStopped?.Invoke(this, e);
     }
 
@@ -72,14 +70,14 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     public void Play()
     {
-        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Play:"+_internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "{Message}", "Play:" + _internalId);
         playbackTimer?.Start();
         outputDevice.Play();
     }
 
     public void Stop()
     {
-        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardPlaybackEngine), "Stop:"+_internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "{Message}", "Stop:" + _internalId);
         playbackTimer?.Stop();
         outputDevice?.Stop();
     }

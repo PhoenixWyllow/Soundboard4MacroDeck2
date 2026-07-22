@@ -5,7 +5,6 @@ using Soundboard4MacroDeck.Views.Common;
 
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.Language;
-using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 
 using System.ComponentModel;
@@ -35,7 +34,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         InitializeComponent();
 
         // Initialize logger for toolbar operations
-        OperationLogger logger = new(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2));
+        OperationLogger logger = new(PluginInstance.Current, nameof(SoundboardGlobalConfigViewV2));
 
         // Initialize grid controllers
         _categoriesController = new DataGridController<AudioCategory>(categoriesTable);
@@ -114,8 +113,8 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
 
     private static void LogErrorAndTrace(string message, Exception? ex)
     {
-        MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), $"{message}: {ex?.Message ?? "No message"}");
-        MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), ex?.StackTrace ?? "No stack trace");
+        PluginLogger.Error(nameof(SoundboardGlobalConfigViewV2), "{Message}", $"{message}: {ex?.Message ?? "No message"}");
+        PluginLogger.Debug(nameof(SoundboardGlobalConfigViewV2), "{Message}", ex?.StackTrace ?? "No stack trace");
     }
 
     private void InitAudioFilesPage()
@@ -139,7 +138,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         int fixedCount = _viewModel.ValidateAndFixAudioFileCategories();
         if (fixedCount > 0)
         {
-            MacroDeckLogger.Info(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), $"Fixed {fixedCount} audio file(s) with invalid category references.");
+            PluginLogger.Information(nameof(SoundboardGlobalConfigViewV2), "{Message}", $"Fixed {fixedCount} audio file(s) with invalid category references.");
         }
 
         // Bind data to the grid after columns are configured
@@ -198,7 +197,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     {
         if (_categoryComboBoxList is null)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "Category list is null. Please reopen the config view.");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewV2), "{Message}", "Category list is null. Please reopen the config view.");
             return;
         }
 
@@ -214,7 +213,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
         // Warn if no categories exist (only "Uncategorized" is present)
         if (_categoryComboBoxList.Count == 1)
         {
-            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewV2), "No audio categories available. Please add at least one category before adding audio files.");
+            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewV2), "{Message}", "No audio categories available. Please add at least one category before adding audio files.");
         }
     }
 

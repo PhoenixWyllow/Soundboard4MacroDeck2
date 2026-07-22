@@ -1,7 +1,7 @@
 ﻿using Soundboard4MacroDeck.Actions;
 using Soundboard4MacroDeck.Models;
 
-using SuchByte.MacroDeck.Backups;
+using SuchByte.MacroDeck.Backup;
 using SuchByte.MacroDeck.Notifications;
 using SuchByte.MacroDeck.Plugins;
 using SuchByte.MacroDeck.Profiles;
@@ -89,7 +89,7 @@ internal class ConfigUpdater
 
             using (AudioReader reader = new(actionParametersLegacy.FileName, actionParametersLegacy.FileData!, false))
             {
-                SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{entryId}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, null);
+                SuchByte.MacroDeck.Variables.VariableManager.SetValue($"sb_{entryId}", reader.TotalTime.ToString(@"mm\:ss"), SuchByte.MacroDeck.Variables.VariableType.String, PluginInstance.Current, new[] { string.Empty });
             }
 
             var actionParameters = new ActionParametersV2

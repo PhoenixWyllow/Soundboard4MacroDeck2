@@ -8,7 +8,6 @@
 using Soundboard4MacroDeck.Models;
 
 using SuchByte.MacroDeck.Language;
-using SuchByte.MacroDeck.Logging;
 
 using System.Text.Json;
 
@@ -45,7 +44,7 @@ internal static class LocalizationManager
             {
                 //fallback - should never occur if things are done properly
                 Instance = new();
-                MacroDeckLogger.Warning(PluginInstance.Current, $"{nameof(LocalizationManager)}.{nameof(GetLocalization)}: {ex.Message}");
+                PluginLogger.Warning(nameof(LocalizationManager), "{Message}", ex.Message);
             }
             finally
             {

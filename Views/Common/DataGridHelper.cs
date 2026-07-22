@@ -157,7 +157,12 @@ internal sealed class DataGridHelper<T> where T : class
             try
             {
                 var editedRow = _grid.Rows[e.RowIndex];
-                T editedItem = (T)editedRow.DataBoundItem;
+                if (editedRow.DataBoundItem is not T editedItem)
+                {
+                    onError?.Invoke(new InvalidOperationException("The edited row does not contain a valid data item."));
+                    return;
+                }
+
                 updateAction(editedItem);
             }
             catch (Exception ex)

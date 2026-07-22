@@ -1,7 +1,7 @@
 ﻿using Soundboard4MacroDeck.Models;
+
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.Server;
-using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Variables;
 
 namespace Soundboard4MacroDeck.Services;
@@ -18,7 +18,7 @@ public static class SoundboardPlayer
         }
         catch (Exception e)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), e.Message);
+            PluginLogger.Error(nameof(SoundboardPlayer), "{Message}", e.Message);
         }
     }
 
@@ -103,7 +103,7 @@ public static class SoundboardPlayer
         var files = PluginInstance.DbContext.GetAudioFileItems(actionParameters.AudioCategoryId);
         if (files.Count == 0)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Category not found or no audio files found in the selected category.");
+            PluginLogger.Error(nameof(SoundboardPlayer), "{Message}", "Category not found or no audio files found in the selected category.");
             return;
         }
 
@@ -146,7 +146,7 @@ public static class SoundboardPlayer
         {
             if (actionParameters.AudioCategoryId <= 0)
             {
-                MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardPlayer), "Audio file not found. Cannot play sound.");
+                PluginLogger.Error(nameof(SoundboardPlayer), "{Message}", "Audio file not found. Cannot play sound.");
             }
             return;
         }
@@ -181,7 +181,7 @@ public static class SoundboardPlayer
         }
         TimeSpan time = reset ? TimeSpan.Zero : playbackEngine.CurrentTime;
         TimeSpan remain = reset ? TimeSpan.Zero : (playbackEngine.TotalTime - playbackEngine.CurrentTime);
-        VariableManager.SetValue(playbackEngine.GetReaderId("_elapsed"), time.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, null);
-        VariableManager.SetValue(playbackEngine.GetReaderId("_remains"), remain.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, null);
+        VariableManager.SetValue(playbackEngine.GetReaderId("_elapsed"), time.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, new[] { string.Empty });
+        VariableManager.SetValue(playbackEngine.GetReaderId("_remains"), remain.ToString(@"mm\:ss"), VariableType.String, PluginInstance.Current, new[] { string.Empty });
     }
 }

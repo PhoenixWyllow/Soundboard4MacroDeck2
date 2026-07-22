@@ -1,8 +1,6 @@
 ﻿using Soundboard4MacroDeck.MimeSniffer;
 using Soundboard4MacroDeck.Services;
 
-using SuchByte.MacroDeck.Logging;
-
 namespace Soundboard4MacroDeck.Base;
 
 internal class AudioFileTypes
@@ -60,8 +58,8 @@ internal class AudioFileTypes
         }
         extension = string.Empty;
 
-        MacroDeckLogger.Warning(PluginInstance.Current, typeof(AudioFileTypes), LocalizationManager.Instance.ActionPlaySoundInvalidFile);
-        MacroDeckLogger.Info(PluginInstance.Current, typeof(AudioFileTypes), BitConverter.ToString(fileHead[..20])+"[...]");
+        PluginLogger.Warning(nameof(AudioFileTypes), "{Message}", LocalizationManager.Instance.ActionPlaySoundInvalidFile);
+        PluginLogger.Information(PluginInstance.Current, nameof(AudioFileTypes), "{Message}", BitConverter.ToString(fileHead[..20]) + "[...]");
         return false;
     }
 }

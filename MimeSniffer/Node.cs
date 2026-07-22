@@ -8,7 +8,7 @@ public class Node
     /// <summary>
     /// Gets or sets children.
     /// </summary>
-    public SortedList<byte, Node> Children { get; set; }
+    public SortedList<byte, Node> Children { get; set; } = new();
 
     /// <summary>
     /// Gets or sets depth.
@@ -18,10 +18,10 @@ public class Node
     /// <summary>
     /// Gets or sets extentions.
     /// </summary>
-    public List<string> Extensions { get; set; }
+    public List<string> Extensions { get; set; } = new();
 
     /// <summary>
     /// Gets or sets parent node.
     /// </summary>
-    public Node Parent { get; set; }
+    public Node? Parent { get; set; }
 }

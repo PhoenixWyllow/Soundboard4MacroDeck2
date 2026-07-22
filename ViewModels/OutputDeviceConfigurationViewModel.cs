@@ -2,8 +2,6 @@
 
 using Soundboard4MacroDeck.Models;
 
-using SuchByte.MacroDeck.Logging;
-
 namespace Soundboard4MacroDeck.ViewModels;
 
 public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfigViewModel
@@ -94,12 +92,12 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
         try
         {
             SetConfig();
-            MacroDeckLogger.Info(PluginInstance.Current, $"{GetType().Name}: config saved");
+            PluginLogger.Information(PluginInstance.Current, GetType().Name, "{Message}", "config saved");
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, $"{GetType().Name}: config NOT saved");
-            MacroDeckLogger.Error(PluginInstance.Current, $"{GetType().Name}: {ex.Message}");
+            PluginLogger.Error(GetType().Name, "{Message}", "config NOT saved");
+            PluginLogger.Error(GetType().Name, "{Message}", ex.Message);
         }
     }
 }
