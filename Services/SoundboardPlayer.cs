@@ -24,7 +24,7 @@ public static class SoundboardPlayer
 
     public static void StopAll()
     {
-        lock (key)
+        using (key.EnterScope())
         {
             if (ActivePlaybackEngines.Count != 0)
             {
@@ -37,7 +37,7 @@ public static class SoundboardPlayer
     }
     private static void StopCurrent(string internalId)
     {
-        lock (key)
+        using (key.EnterScope())
         {
             if (ActivePlaybackEngines.Count == 0)
             {
@@ -47,17 +47,20 @@ public static class SoundboardPlayer
             {
                 player?.Stop();
             }
-            
+
         }
     }
 
-    private static readonly object key = new();
+    private static readonly System.Threading.Lock key = new();
     private static List<SoundboardPlaybackEngine> ActivePlaybackEngines { get; } = new();
 
     private static void OnPlaybackStopped(object? sender, EventArgs _)
     {
         var playbackEngine = (SoundboardPlaybackEngine)sender!;
-        ActivePlaybackEngines.Remove(playbackEngine);
+        using (key.EnterScope())
+        {
+            ActivePlaybackEngines.Remove(playbackEngine);
+        }
         SetVariables(playbackEngine, true);
         playbackEngine?.Dispose();
     }
@@ -127,7 +130,11 @@ public static class SoundboardPlayer
 
     private static void PlayOrStop(ActionParametersV2 actionParameters, ActionButton actionButton, bool enableLoop = false, bool useVars = false)
     {
-        bool currentlyPlaying = ActivePlaybackEngines.Any(p => p.MatchesInternalId(actionButton.Guid));
+        bool currentlyPlaying;
+        using (key.EnterScope())
+        {
+            currentlyPlaying = ActivePlaybackEngines.Any(p => p.MatchesInternalId(actionButton.Guid));
+        }
         if (currentlyPlaying)
         {
             StopCurrent(actionButton.Guid);
@@ -160,7 +167,10 @@ public static class SoundboardPlayer
         playbackEngine.Elapsed += PlaybackEngine_Elapsed;
         playbackEngine.PlaybackStopped += OnPlaybackStopped;
 
-        ActivePlaybackEngines.Add(playbackEngine);
+        using (key.EnterScope())
+        {
+            ActivePlaybackEngines.Add(playbackEngine);
+        }
 
         playbackEngine.Play();
     }

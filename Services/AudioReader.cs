@@ -136,16 +136,10 @@ public class AudioReader : WaveStream, ISampleProvider, IDisposable
         {
             if (disposing)
             {
-                if (readerStream is not null)
-                {
-                    readerStream.Dispose();
-                    readerStream = null;
-                }
-                if (sourceStream is not null)
-                {
-                    sourceStream.Dispose();
-                    sourceStream = null;
-                }
+                readerStream?.Dispose();
+                readerStream = null;
+                sourceStream?.Dispose();
+                sourceStream = null;
             }
 
             isDisposed = true;

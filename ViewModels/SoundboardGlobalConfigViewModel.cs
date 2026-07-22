@@ -157,7 +157,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
     }
 
-    public AudioFile? GetBytesFromFile(string filePath)
+    public static AudioFile? GetBytesFromFile(string filePath)
     {
         byte[]? data = null;
         if (SystemIOFile.Exists(filePath))

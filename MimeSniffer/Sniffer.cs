@@ -77,12 +77,9 @@ public class Sniffer
         return extensionStore;
     }
 
-    private void Add(byte[] data, Node parent, string[] extensions, int depth)
+    private static void Add(byte[] data, Node parent, string[] extensions, int depth)
     {
-        if (parent.Children == null)
-        {
-            parent.Children = new(Convert.ToInt32(128 / Math.Pow(2, depth)));
-        }
+        parent.Children ??= new(Convert.ToInt32(128 / Math.Pow(2, depth)));
 
         Node? current;
         // if not contains current byte index, create node and put it into children.
@@ -120,7 +117,7 @@ public class Sniffer
         Add(data, current!, extensions, depth + 1);
     }
 
-    private void Match(byte[] data, int depth, Node node, List<string> extensionStore, bool matchAll)
+    private static void Match(byte[] data, int depth, Node node, List<string> extensionStore, bool matchAll)
     {
         // if depth out of data.Length's index then data end.
         if (data.Length == depth)

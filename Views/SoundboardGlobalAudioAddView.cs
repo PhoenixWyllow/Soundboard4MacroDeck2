@@ -50,7 +50,7 @@ public partial class SoundboardGlobalAudioAddView : DialogForm
     {
         if (!fromUrl)
         {
-            _viewModel.LastAudioFile = _viewModel.GetBytesFromFile(filePath.Text);
+            _viewModel.LastAudioFile = SoundboardGlobalConfigViewModel.GetBytesFromFile(filePath.Text);
         }
     }
 
