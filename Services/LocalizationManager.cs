@@ -1,4 +1,5 @@
-﻿/* Created on 2021/10/03 by @PhoenixWyllow (pw.dev@outlook.com) https://github.com/PhoenixWyllow/Soundboard4MacroDeck2
+﻿/* Created on 2021-10-03 by @PhoenixWyllow (pw.dev@outlook.com) https://github.com/PhoenixWyllow/Soundboard4MacroDeck2
+ * Last update on 2026-07-22 by @PhoenixWyllow 
  * 
  * This file is provided "AS-IS".
  * You may reuse this file as you wish, but please keep this attribution notice as long as the code is substantially the same. 
@@ -8,7 +9,6 @@
 using Soundboard4MacroDeck.Models;
 
 using SuchByte.MacroDeck.Language;
-using SuchByte.MacroDeck.Logging;
 
 using System.Text.Json;
 
@@ -16,7 +16,7 @@ namespace Soundboard4MacroDeck.Services;
 
 internal static class LocalizationManager
 {
-    private static readonly object key = new();
+    private static readonly Lock key = new();
 
     internal static Localization Instance { get; private set; } = default!;
 
@@ -30,27 +30,25 @@ internal static class LocalizationManager
 
     private static void GetLocalization()
     {
-        lock (key)
+        using var scope = key.EnterScope();
+        string languageName = LanguageManager.GetLanguageName();
+        if (Instance is not null)
         {
-            string languageName = LanguageManager.GetLanguageName();
-            if (Instance is not null)
-            {
-                LanguageManager.LanguageChanged -= (_, _) => GetLocalization();
-            }
-            try
-            {
-                Instance = JsonSerializer.Deserialize<Localization>(GetJsonLanguageResource(languageName))!;
-            }
-            catch (Exception ex)
-            {
-                //fallback - should never occur if things are done properly
-                Instance = new();
-                MacroDeckLogger.Warning(PluginInstance.Current, $"{nameof(LocalizationManager)}.{nameof(GetLocalization)}: {ex.Message}");
-            }
-            finally
-            {
-                LanguageManager.LanguageChanged += (_, _) => GetLocalization();
-            }
+            LanguageManager.LanguageChanged -= (_, _) => GetLocalization();
+        }
+        try
+        {
+            Instance = JsonSerializer.Deserialize<Localization>(GetJsonLanguageResource(languageName))!;
+        }
+        catch (Exception ex)
+        {
+            //fallback - should never occur if things are done properly
+            Instance = new();
+            PluginLogger.Warning(nameof(LocalizationManager), "{ExceptionMessage}", ex.Message);
+        }
+        finally
+        {
+            LanguageManager.LanguageChanged += (_, _) => GetLocalization();
         }
     }
 

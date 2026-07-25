@@ -1,9 +1,9 @@
 ﻿using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
+
 using SuchByte.MacroDeck.ActionButton;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using SuchByte.MacroDeck.GUI;
-using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 
 namespace Soundboard4MacroDeck.Actions;
@@ -53,7 +53,7 @@ public sealed class SoundboardCategoryRandomAction : PluginAction
         catch (Exception ex)
         {
             SoundboardPlayer.StopAll();
-            MacroDeckLogger.Warning(PluginInstance.Current, $"{GetType().Name}: {ex.Message}");
+            PluginLogger.Warning(nameof(SoundboardCategoryRandomAction), "Failed - {ExceptionMessage}", ex.Message);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
-    <VersionMinor>3</VersionMinor>
+    <VersionMinor>4</VersionMinor>
     <VersionPatch>0</VersionPatch>
     <VersionRevision Condition="'$(VersionRevision)' == ''">$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</VersionRevision>
     <!--<PluginFolder>E:\Code\source\repos\MD\Macro-Deck\MacroDeck\bin\Debug\net7.0-windows10.0.22000.0\win-x64\Data\plugins</PluginFolder>-->
@@ -9,7 +9,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Soundboard4MacroDeck</RootNamespace>
@@ -42,16 +42,10 @@
     <EmbeddedResource Include="Resources\Languages\*.json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Include="NAudio.Extras" Version="2.2.1" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Macro Deck 2">
-      <HintPath>C:\Program Files\Macro Deck\Macro Deck 2.dll</HintPath>
-      <!--<HintPath>E:\Code\source\repos\MD\Macro-Deck\bin\Release\netcoreapp3.1\publish\Macro Deck 2.dll</HintPath>-->
-      <!--<Private>false</Private>-->
-    </Reference>
+    <PackageReference Include="NAudio" Version="2.3.0" />
+    <PackageReference Include="NAudio.Extras" Version="2.3.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
+    <PackageReference Include="SuchByte.MacroDeck" Version="2.15.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

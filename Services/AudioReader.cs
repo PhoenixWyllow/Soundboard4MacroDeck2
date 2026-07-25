@@ -12,8 +12,8 @@ namespace Soundboard4MacroDeck.Services;
 /// </summary>
 public class AudioReader : WaveStream, ISampleProvider, IDisposable
 {
-    private Stream sourceStream; // take the byte array and hold it here
-    private WaveStream readerStream; // the waveStream which we will use for all positioning
+    private Stream? sourceStream; // take the byte array and hold it here
+    private WaveStream? readerStream; // the waveStream which we will use for all positioning
     private readonly IWaveProvider waveProvider;
     private bool isDisposed;
     private readonly SampleChannel _sampleChannel; // sample provider that gives us most stuff we need
@@ -59,27 +59,27 @@ public class AudioReader : WaveStream, ISampleProvider, IDisposable
     /// </summary>
     public override long Position
     {
-        get => readerStream.Position;
-        set => readerStream.Position = value;
+        get => readerStream!.Position;
+        set => readerStream!.Position = value;
     }
 
     public override TimeSpan CurrentTime 
     {
-        get => readerStream.CurrentTime;
-        set => readerStream.CurrentTime = value;
+        get => readerStream!.CurrentTime;
+        set => readerStream!.CurrentTime = value;
     }
 
     /// <summary>
     /// Length of this stream (in bytes)
     /// </summary>
-    public override long Length => readerStream.Length;
+    public override long Length => readerStream!.Length;
 
     /// <summary>
     /// WaveFormat of this stream
     /// </summary>
-    public override WaveFormat WaveFormat => readerStream.WaveFormat;
+    public override WaveFormat WaveFormat => readerStream!.WaveFormat;
 
-    public override TimeSpan TotalTime => readerStream.TotalTime;
+    public override TimeSpan TotalTime => readerStream!.TotalTime;
 
     public override int Read(byte[] buffer, int offset, int count)
     {
@@ -136,16 +136,10 @@ public class AudioReader : WaveStream, ISampleProvider, IDisposable
         {
             if (disposing)
             {
-                if (readerStream is not null)
-                {
-                    readerStream.Dispose();
-                    readerStream = null;
-                }
-                if (sourceStream is not null)
-                {
-                    sourceStream.Dispose();
-                    sourceStream = null;
-                }
+                readerStream?.Dispose();
+                readerStream = null;
+                sourceStream?.Dispose();
+                sourceStream = null;
             }
 
             isDisposed = true;

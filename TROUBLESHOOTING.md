@@ -279,7 +279,7 @@ This guide helps you resolve common issues with the Soundboard plugin for Macro 
    - When editing table cells, changes must be committed first
    - **What to check:**
      - Press Enter or click outside the cell before clicking OK
-     - Logs may show: "config saved" or "config NOT saved"
+     - Logs may show: "config NOT saved"
 
 **When to report:**
 - If changes are confirmed but still don't persist
