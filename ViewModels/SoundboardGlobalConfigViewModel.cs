@@ -2,7 +2,6 @@
 using Soundboard4MacroDeck.Models;
 using Soundboard4MacroDeck.Services;
 
-using SuchByte.MacroDeck.Logging;
 using SuchByte.MacroDeck.Plugins;
 
 using SystemIOFile = System.IO.File;
@@ -12,10 +11,13 @@ namespace Soundboard4MacroDeck.ViewModels;
 public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewModel
 {
     private readonly MacroDeckPlugin _plugin;
+    private readonly SoundboardContext _dbContext;
+
     public SoundboardGlobalConfigViewModel(MacroDeckPlugin plugin)
         : base(GlobalParameters.Deserialize(PluginConfiguration.GetValue(plugin, nameof(SoundboardGlobalConfigViewModel))))
     {
         _plugin = plugin;
+        _dbContext = PluginInstance.DbContext;
     }
 
 
@@ -29,7 +31,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         get
         {
             List<AudioFileItem> items = [];
-            var files = PluginInstance.DbContext.GetAudioFiles();
+            var files = _dbContext.GetAudioFiles();
             foreach (var file in files)
             {
                 items.Add(file.ToAudioFileItem());
@@ -38,7 +40,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         }
     }
 
-    public IList<AudioCategory> AudioCategories => PluginInstance.DbContext.GetAudioCategories();
+    public IList<AudioCategory> AudioCategories => _dbContext.GetAudioCategories();
 
     public AudioFile? LastAudioFile { get; internal set; }
 
@@ -48,7 +50,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
     /// </summary>
     public int ValidateAndFixAudioFileCategories()
     {
-        var audioFiles = PluginInstance.DbContext.GetAudioFiles();
+        var audioFiles = _dbContext.GetAudioFiles();
         var validCategoryIds = AudioCategories.Select(c => c.Id).ToHashSet();
         int fixedCount = 0;
 
@@ -56,11 +58,10 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         {
             if (file.CategoryId != 0 && !validCategoryIds.Contains(file.CategoryId))
             {
-                MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel), 
-                    $"Audio file '{file.Name}' (ID: {file.Id}) has invalid CategoryId: {file.CategoryId}. Resetting to 0 (uncategorized).");
+                PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "Audio file '{FileName}' (ID: {FileId}) has invalid CategoryId: {CategoryId}. Resetting to 0 (uncategorized).", file.Name, file.Id, file.CategoryId);
 
                 file.CategoryId = 0;
-                PluginInstance.DbContext.UpdateAudioFile(file);
+                _dbContext.UpdateAudioFile(file);
                 fixedCount++;
             }
         }
@@ -76,13 +77,12 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
     {
         try
         {
-            PluginInstance.DbContext.InsertAudioCategory(newCategory);
+            _dbContext.InsertAudioCategory(newCategory);
             return true;
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
-                $"Failed to add audio category: {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to add audio category: {ExceptionMessage}", ex.Message);
             return false;
         }
     }
@@ -101,12 +101,11 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
         try
         {
-            return PluginInstance.DbContext.DeleteAudioCategory(category.Id);
+            return _dbContext.DeleteAudioCategory(category.Id);
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
-                $"Failed to delete audio category '{category.Name}': {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to delete audio category '{CategoryName}': {ExceptionMessage}", category.Name, ex.Message);
             return false;
         }
     }
@@ -125,46 +124,43 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
 
         try
         {
-            return PluginInstance.DbContext.DeleteAudioFile(audioFile.Id);
+            return _dbContext.DeleteAudioFile(audioFile.Id);
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
-                $"Failed to delete audio file '{audioFile.Name}': {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to delete audio file '{FileName}': {ExceptionMessage}", audioFile.Name, ex.Message);
             return false;
         }
     }
 
     public void UpdateAudioFile(AudioFileItem editedItem)
     {
-        var file = PluginInstance.DbContext.FindAudioFile(editedItem.Id);
+        var file = _dbContext.FindAudioFile(editedItem.Id);
         if (file is null)
         {
-            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
-                $"Audio file with ID {editedItem.Id} not found in database.");
+            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "Audio file with ID {FileId} not found in database.", editedItem.Id);
             return;
         }
 
         file.Name = editedItem.Name;
         file.CategoryId = editedItem.CategoryId;
-        PluginInstance.DbContext.UpdateAudioFile(file);
+        _dbContext.UpdateAudioFile(file);
     }
 
     internal void UpdateCategory(AudioCategory editedCategory)
     {
-        var audioCategory = PluginInstance.DbContext.FindAudioCategory(editedCategory.Id);
+        var audioCategory = _dbContext.FindAudioCategory(editedCategory.Id);
         if (audioCategory is null)
         {
-            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel),
-                $"Audio category with ID {editedCategory.Id} not found in database.");
+            PluginLogger.Warning(nameof(SoundboardGlobalConfigViewModel), "Audio category with ID {CategoryId} not found in database.", editedCategory.Id);
             return;
         }
 
         audioCategory.Name = editedCategory.Name;
-        PluginInstance.DbContext.UpdateAudioCategory(audioCategory);
+        _dbContext.UpdateAudioCategory(audioCategory);
     }
 
-    public AudioFile? GetBytesFromFile(string filePath)
+    public static AudioFile? GetBytesFromFile(string filePath)
     {
         byte[]? data = null;
         if (SystemIOFile.Exists(filePath))
@@ -190,7 +186,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         catch (Exception ex)
         {
             //forbidden, proxy issues, file not found (404) etc
-            MacroDeckLogger.Error(PluginInstance.Current, typeof(SoundboardGlobalConfigViewModel), $"{nameof(GetFromUrlAsync)}: {ex.Message}");
+            PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to get audio file from URL '{UrlPath}' - {ExceptionMessage}", urlPath, ex.Message);
         }
 
         return null;
@@ -243,7 +239,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         return ConfirmDelete(category.Name);
     }
 
-    public bool CanDeleteAudioFile(AudioFileItem? audioFile)
+    public static bool CanDeleteAudioFile(AudioFileItem? audioFile)
     {
         if (audioFile is null)
         {

@@ -2,9 +2,8 @@
 
 using SQLite;
 
-using SuchByte.MacroDeck.Backups;
-using SuchByte.MacroDeck.Logging;
-using SuchByte.MacroDeck.Startup;
+using SuchByte.MacroDeck.Backup;
+using SuchByte.MacroDeck.StartupConfig;
 
 using System.IO.Compression;
 
@@ -46,8 +45,8 @@ internal class SoundboardContext
         }
         catch (Exception ex)
         {
-            MacroDeckLogger.Warning(PluginInstance.Current, typeof(SoundboardContext), "Soundboard database was NOT added to backup.");
-            MacroDeckLogger.Trace(PluginInstance.Current, typeof(SoundboardContext), ex.Message);
+            PluginLogger.Warning(nameof(SoundboardContext), "Soundboard database was NOT added to backup.");
+            PluginLogger.DebugException(ex);
         }
         finally
         {
