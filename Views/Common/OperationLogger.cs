@@ -1,5 +1,3 @@
-using SuchByte.MacroDeck.Plugins;
-
 namespace Soundboard4MacroDeck.Views.Common;
 
 /// <summary>
