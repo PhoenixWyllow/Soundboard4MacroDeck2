@@ -14,7 +14,7 @@ public static class SoundboardPlayer
 
         try
         {
-            Retry.Do(() => Play(action, actionParameters, actionButton));
+            Play(action, actionParameters, actionButton);
         }
         catch (Exception ex)
         {
