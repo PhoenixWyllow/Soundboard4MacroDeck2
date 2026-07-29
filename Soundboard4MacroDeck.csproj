@@ -43,7 +43,7 @@
   <ItemGroup>
     <PackageReference Include="NAudio" Version="3.0.0-preview.19" />
     <PackageReference Include="NAudio.Extras" Version="3.0.0-preview.19" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageReference Include="SuchByte.MacroDeck" Version="2.15.0" />
   </ItemGroup>
 	
