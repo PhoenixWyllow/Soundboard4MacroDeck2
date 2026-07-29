@@ -14,11 +14,11 @@ public static class SoundboardPlayer
 
         try
         {
-            Retry.Do(() => Play(action, actionParameters, actionButton));
+            Play(action, actionParameters, actionButton);
         }
         catch (Exception ex)
         {
-            PluginLogger.Error(nameof(SoundboardPlayer), "Failed to execute action '{Action}' - {ExceptionMessage}", action, ex.Message);
+            PluginLogger.Error(nameof(SoundboardPlayer), ex, "Failed to execute action '{Action}' - {ExceptionMessage}", action, ex.Message);
         }
     }
 

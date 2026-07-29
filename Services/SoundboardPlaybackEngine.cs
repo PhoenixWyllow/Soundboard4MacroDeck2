@@ -3,9 +3,8 @@ using NAudio.Wave;
 
 using Soundboard4MacroDeck.Models;
 
-using System.Timers;
-
 using Timer = System.Timers.Timer;
+using ElapsedEventArgs = System.Timers.ElapsedEventArgs;
 
 namespace Soundboard4MacroDeck.Services;
 
@@ -13,12 +12,14 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 {
     private readonly ActionParametersV2 _actionParameters;
     private readonly string _internalId;
+    private readonly string _engineId;
     
-    private IWavePlayer outputDevice;
+    private WasapiPlayer outputDevice;
     private AudioReader audioReader;
     private Timer? playbackTimer;
 
     public string GetReaderId(string prefix) => $"sb_{_actionParameters.AudioFileId}{prefix}_{_internalId}";
+
     public TimeSpan CurrentTime => audioReader.CurrentTime;
     public TimeSpan TotalTime => audioReader.TotalTime;
 
@@ -30,8 +31,17 @@ public sealed class SoundboardPlaybackEngine : IDisposable
         _internalId = internalId;
         HasTimeOutput = hasTimeOutput;
 
-        outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
+        _engineId = GetReaderId(string.Empty);
 
+        outputDevice = new WasapiPlayerBuilder()
+            .WithDevice(GetDevice())
+            .WithSharedMode()
+            .WithEventSync()
+            .WithLatency(200)
+            .Build();
+
+
+        //outputDevice = new WasapiOut(GetDevice(), AudioClientShareMode.Shared, true, 200);
         audioReader = new AudioReader(actionParameters.FileName, actionParameters.FileData!, enableLoop)
         {
             Volume = Math.Min(actionParameters.Volume / 100f, 1f)
@@ -49,7 +59,7 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     private void OnOutputDevicePlaybackStopped(object? _, StoppedEventArgs e)
     {
-        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Stopped - {EngineId}", _internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), e.Exception, "Stopped - {EngineId}", _engineId);
         PlaybackStopped?.Invoke(this, e);
     }
 
@@ -70,14 +80,14 @@ public sealed class SoundboardPlaybackEngine : IDisposable
 
     public void Play()
     {
-        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Play - {EngineId}", _internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Play - {EngineId}", _engineId);
         playbackTimer?.Start();
         outputDevice.Play();
     }
 
     public void Stop()
     {
-        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Stop - {EngineId}", _internalId);
+        PluginLogger.Debug(nameof(SoundboardPlaybackEngine), "Stop - {EngineId}", _engineId);
         playbackTimer?.Stop();
         outputDevice?.Stop();
     }

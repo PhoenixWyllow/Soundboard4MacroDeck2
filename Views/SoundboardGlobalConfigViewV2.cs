@@ -114,7 +114,7 @@ public partial class SoundboardGlobalConfigViewV2 : DialogForm
     private static void LogErrorAndTrace(string message, Exception? ex)
     {
         PluginLogger.Error(nameof(SoundboardGlobalConfigViewV2), "{Message} - {ExceptionMessage}", message, ex?.Message ?? "No message");
-        PluginLogger.Debug(nameof(SoundboardGlobalConfigViewV2), "{StackTrace}", ex?.StackTrace ?? "No stack trace");
+        PluginLogger.Debug(nameof(SoundboardGlobalConfigViewV2), ex!, "{StackTrace}", ex?.StackTrace ?? "No stack trace");
     }
 
     private void InitAudioFilesPage()

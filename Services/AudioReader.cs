@@ -49,9 +49,9 @@ public class AudioReader : WaveStream, ISampleProvider, IDisposable
     }
 
     /// <inheritdoc />
-    public int Read(float[] buffer, int offset, int count)
+    public int Read(Span<float> buffer)
     {
-        return _sampleChannel.Read(buffer, offset, count);
+        return _sampleChannel.Read(buffer);
     }
 
     /// <summary>
@@ -79,11 +79,17 @@ public class AudioReader : WaveStream, ISampleProvider, IDisposable
     /// </summary>
     public override WaveFormat WaveFormat => readerStream!.WaveFormat;
 
+    /// <inheritdoc />
     public override TimeSpan TotalTime => readerStream!.TotalTime;
 
-    public override int Read(byte[] buffer, int offset, int count)
+    /// <inheritdoc />
+    public override int Read(byte[] array, int offset, int count) 
+        => Read(array.AsSpan(offset, count));
+
+    /// <inheritdoc />
+    public override int Read(Span<byte> buffer)
     {
-        return waveProvider.Read(buffer, offset, count);
+        return waveProvider.Read(buffer);
     }
 
     /// <summary>
