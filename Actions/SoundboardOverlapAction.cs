@@ -54,6 +54,7 @@ public sealed class SoundboardOverlapAction : PluginAction
         {
             SoundboardPlayer.StopAll();
             PluginLogger.Warning(nameof(SoundboardOverlapAction), "Failed - {ExceptionMessage}", ex.Message);
+            PluginLogger.Debug(nameof(SoundboardOverlapAction), ex, "Failed - {ExceptionMessage}", ex.Message);
         }
     }
 }

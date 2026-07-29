@@ -83,6 +83,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         catch (Exception ex)
         {
             PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to add audio category: {ExceptionMessage}", ex.Message);
+            PluginLogger.Debug(nameof(SoundboardGlobalConfigViewModel), ex, "Exception details for failed audio category addition.");
             return false;
         }
     }
@@ -106,6 +107,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         catch (Exception ex)
         {
             PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to delete audio category '{CategoryName}': {ExceptionMessage}", category.Name, ex.Message);
+            PluginLogger.Debug(nameof(SoundboardGlobalConfigViewModel), ex, "Exception details for failed audio category deletion.");
             return false;
         }
     }
@@ -129,6 +131,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         catch (Exception ex)
         {
             PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to delete audio file '{FileName}': {ExceptionMessage}", audioFile.Name, ex.Message);
+            PluginLogger.Debug(nameof(SoundboardGlobalConfigViewModel), ex, "Exception details for failed audio file deletion.");
             return false;
         }
     }
@@ -187,6 +190,7 @@ public class SoundboardGlobalConfigViewModel : OutputDeviceConfigurationViewMode
         {
             //forbidden, proxy issues, file not found (404) etc
             PluginLogger.Error(nameof(SoundboardGlobalConfigViewModel), "Failed to get audio file from URL '{UrlPath}' - {ExceptionMessage}", urlPath, ex.Message);
+            PluginLogger.Debug(nameof(SoundboardGlobalConfigViewModel), ex, "Exception details for failed audio file download from URL '{UrlPath}'", urlPath);
         }
 
         return null;

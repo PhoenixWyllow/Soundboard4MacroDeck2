@@ -95,8 +95,7 @@ public abstract class OutputDeviceConfigurationViewModel : ISoundboardBaseConfig
         }
         catch (Exception ex)
         {
-            PluginLogger.Warning(GetType().Name, "config NOT saved - {ExceptionMessage}", ex.Message);
-            PluginLogger.DebugException(ex);
+            PluginLogger.Warning(GetType().Name, ex, "config NOT saved - {ExceptionMessage}", ex.Message);
         }
     }
 }

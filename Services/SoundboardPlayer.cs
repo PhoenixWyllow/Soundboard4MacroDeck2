@@ -18,7 +18,7 @@ public static class SoundboardPlayer
         }
         catch (Exception ex)
         {
-            PluginLogger.Error(nameof(SoundboardPlayer), "Failed to execute action '{Action}' - {ExceptionMessage}", action, ex.Message);
+            PluginLogger.Error(nameof(SoundboardPlayer), ex, "Failed to execute action '{Action}' - {ExceptionMessage}", action, ex.Message);
         }
     }
 
