@@ -125,7 +125,8 @@ public class Sniffer
             return;
         }
 
-        node.Children.TryGetValue(data[depth], out Node? current);
+        Node? current = null;
+        node.Children?.TryGetValue(data[depth], out current);
 
         // can't find matched node, match ended.
         if (current is null)
