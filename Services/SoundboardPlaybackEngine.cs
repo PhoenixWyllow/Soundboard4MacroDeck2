@@ -14,8 +14,8 @@ public sealed class SoundboardPlaybackEngine : IDisposable
     private readonly string _internalId;
     private readonly string _engineId;
     
-    private WasapiPlayer outputDevice;
-    private AudioReader audioReader;
+    private readonly WasapiPlayer outputDevice;
+    private readonly AudioReader audioReader;
     private Timer? playbackTimer;
 
     public string GetReaderId(string prefix) => $"sb_{_actionParameters.AudioFileId}{prefix}_{_internalId}";
