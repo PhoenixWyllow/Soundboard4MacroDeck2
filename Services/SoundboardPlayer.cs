@@ -24,30 +24,45 @@ public static class SoundboardPlayer
 
     public static void StopAll()
     {
+        SoundboardPlaybackEngine[] players;
         using (key.EnterScope())
         {
-            if (ActivePlaybackEngines.Count != 0)
-            {
-                foreach (var player in ActivePlaybackEngines.ToArray()) //ToArray is required to create a separate object to enumerate over
-                {
-                    player?.Stop();
-                }
-            }
+            players = ActivePlaybackEngines.ToArray();
+        }
+
+        foreach (var player in players)
+        {
+            StopPlayerSafe(player);
         }
     }
+
     private static void StopCurrent(string internalId)
     {
+        SoundboardPlaybackEngine[] players;
         using (key.EnterScope())
         {
-            if (ActivePlaybackEngines.Count == 0)
-            {
-                return;
-            }
-            foreach (var player in ActivePlaybackEngines.ToArray().Where(p => p.MatchesInternalId(internalId)))
-            {
-                player?.Stop();
-            }
+            players = ActivePlaybackEngines
+                .Where(p => p.MatchesInternalId(internalId))
+                .ToArray();
+        }
 
+        foreach (var player in players)
+        {
+            StopPlayerSafe(player);
+        }
+    }
+
+    private static void StopPlayerSafe(SoundboardPlaybackEngine? player)
+    {
+        try
+        {
+            player?.Stop();
+        }
+        catch (ObjectDisposedException ex)
+        {
+            // Playback completed and cleanup disposed this engine after the snapshot.
+            var playerId = player?.GetReaderId(string.Empty) ?? "null player";
+            PluginLogger.Debug(nameof(SoundboardPlayer), ex, "Playback engine '{PlayerId}' was already disposed while stopping, skipping stop.", playerId);
         }
     }
 
@@ -61,7 +76,7 @@ public static class SoundboardPlayer
         {
             ActivePlaybackEngines.Remove(playbackEngine);
         }
-        SetVariables(playbackEngine, true);
+        SetVariables(playbackEngine, reset: true);
         playbackEngine?.Dispose();
     }
 
